@@ -14,8 +14,7 @@ concurrency:
 
 jobs:
   content-and-browser-tests:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: [self-hosted, linux, debian]
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check out source
@@ -40,8 +39,7 @@ jobs:
         run: npm run test:browser
 
   rebuild-and-verify-apk:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: [self-hosted, linux, debian]
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check out source
@@ -77,8 +75,7 @@ jobs:
         run: test -s build/Toki-Pona-Drills-v1.0.1.apk
 
   build-play-bundle:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: [self-hosted, linux, debian]
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check out source
