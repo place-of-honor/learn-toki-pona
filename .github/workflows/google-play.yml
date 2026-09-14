@@ -37,7 +37,7 @@ concurrency:
 
 jobs:
   publish:
-    runs-on: [self-hosted, linux, debian]
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     environment: google-play
     steps:
