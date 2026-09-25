@@ -149,6 +149,7 @@ jobs:
           bundle=app/build/outputs/bundle/release/app-release.aab
           test -s "$bundle"
           unzip -l "$bundle" > /tmp/aab-files.txt
+          cat /tmp/aab-files.txt
           grep -Fq 'base/assets/quizzes.txt' /tmp/aab-files.txt
           grep -Fq 'base/lib/armeabi-v7a/libtokipona_drills.so' /tmp/aab-files.txt
           grep -Fq 'base/lib/arm64-v8a/libtokipona_drills.so' /tmp/aab-files.txt
