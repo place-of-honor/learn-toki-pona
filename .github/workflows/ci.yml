@@ -140,24 +140,44 @@ jobs:
         with:
           packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018 cmake;3.22.1'
 
-      - name: Build unsigned native app bundle
-        run: ./gradlew --no-daemon :app:bundleRelease
+      - name: Build DEX-free native app bundle
+        run: sh scripts/build_aab.sh
 
-      - name: Verify native app bundle
+      - name: Verify native app bundle and generated universal APK
         run: |
           set -eu
-          bundle=app/build/outputs/bundle/release/app-release.aab
+          bundle=build/Toki-Pona-Drills-native-v1.1.0.aab
+          bundletool=build/bundletool-all-1.18.3.jar
           test -s "$bundle"
+
           unzip -l "$bundle" > /tmp/aab-files.txt
-          cat /tmp/aab-files.txt
-          if grep -Fq 'base/dex/classes.dex' /tmp/aab-files.txt
-          then
-            unzip -p "$bundle" base/dex/classes.dex > /tmp/classes.dex
-            "$ANDROID_SDK_ROOT/build-tools/36.0.0/dexdump" -d /tmp/classes.dex || true
-          fi
           grep -Fq 'base/assets/quizzes.txt' /tmp/aab-files.txt
           grep -Fq 'base/lib/armeabi-v7a/libtokipona_drills.so' /tmp/aab-files.txt
           grep -Fq 'base/lib/arm64-v8a/libtokipona_drills.so' /tmp/aab-files.txt
           grep -Fq 'base/lib/x86_64/libtokipona_drills.so' /tmp/aab-files.txt
-          ! grep -Fq 'classes.dex' /tmp/aab-files.txt
           ! grep -Fq 'base/dex/' /tmp/aab-files.txt
+          ! grep -Fq 'classes.dex' /tmp/aab-files.txt
+
+          java -jar "$bundletool" validate --bundle="$bundle"
+          java -jar "$bundletool" build-apks \
+            --bundle="$bundle" \
+            --output=/tmp/toki-pona.apks \
+            --mode=universal \
+            --overwrite
+
+          unzip -p /tmp/toki-pona.apks universal.apk > /tmp/universal.apk
+          unzip -l /tmp/universal.apk > /tmp/universal-files.txt
+          grep -Fq 'assets/quizzes.txt' /tmp/universal-files.txt
+          grep -Fq 'lib/' /tmp/universal-files.txt
+          ! grep -Fq 'classes.dex' /tmp/universal-files.txt
+
+          badging="$("$ANDROID_SDK_ROOT/build-tools/36.0.0/aapt2" dump badging /tmp/universal.apk)"
+          printf '%s\n' "$badging" | grep -F "package: name='org.tokipona.drills'" >/dev/null
+          printf '%s\n' "$badging" | grep -F "launchable-activity: name='android.app.NativeActivity'" >/dev/null
+
+      - name: Upload DEX-free app bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: toki-pona-native-aab
+          path: build/Toki-Pona-Drills-native-v1.1.0.aab
+          if-no-files-found: error
