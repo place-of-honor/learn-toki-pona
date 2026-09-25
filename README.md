@@ -1,58 +1,77 @@
 # Toki Pona drills
 
-A small corpus of Toki Pona drills with a terminal-first reference
-implementation.
+A small corpus of Toki Pona drills with two executable front ends:
 
-## Current structure
+- `grease/toki-pona.ysh` — terminal reference implementation;
+- Android NDK `NativeActivity` — DEX-free touch UI using the same
+  `quizzes.txt` data.
 
-- `quizzes.txt` — the seven lessons and 56 exercises as ordinary text.
+## Data
+
+- `quizzes.txt` — seven lessons and 56 exercises as ordinary text.
 - `tokipona/` — one newline-terminated definition file per current Linku word.
 - `dictionaries/` — attributed dictionary snapshots and source registry.
-- `grease/toki-pona.ysh` — current executable reference, written from scratch
-  in Grease/YSH.
-- `fieldmouse/` — complete semantic translation/accounting of the retired
-  browser source. It is migration material, not the reference implementation.
-- `TokiPonaQuizTypes.idric` — today's Idriç type sketch for the quiz domain.
+- `TokiPonaQuizTypes.idric` — the current Idriç type sketch.
 
-There is no JavaScript or Node package surface in the working tree.
+## Language history
 
-## Run the terminal quiz
+`fieldmouse/` accounts for every retired JavaScript source/test file and keeps
+the old browser architecture as Fieldmouse migration material. There is no
+JavaScript or Node package surface in the current tree.
 
-With the current Grease/YSH runtime:
+Grease was then written from scratch over the ordinary quiz data rather than
+treating the Fieldmouse port as the product design.
 
-```text
-grease/toki-pona.ysh daily
-grease/toki-pona.ysh lesson 2
-grease/toki-pona.ysh all
-grease/toki-pona.ysh list
-grease/toki-pona.ysh word pona
+## Native Android
+
+The phone app now uses Android's platform `NativeActivity`:
+
+- no Java or Kotlin application source;
+- no Smali application class;
+- no WebView;
+- no `classes.dex`;
+- C17 quiz parser and mutable quiz state;
+- `AAssetManager` reads `quizzes.txt`;
+- `AInputEvent` handles taps;
+- Android `Canvas` and `Paint`, reached from C through JNI, draw the UI;
+- `armeabi-v7a`, `arm64-v8a`, and `x86_64` builds.
+
+The first native slice starts a 12-question daily drill immediately. It supports
+both four-choice and four-pair matching exercises, shows the existing
+explanations, and reports a session score. Persistence, calendar/history,
+sitelen pona glyph rendering, and richer lesson selection are deliberately
+later slices rather than inherited WebView architecture.
+
+Build a sideloadable APK with:
+
+```sh
+scripts/build_apk.sh
 ```
 
-The first Grease reference intentionally stays close to the original request:
-drill the material in a terminal. It does not copy the abandoned browser
-application's localStorage, calendar, streak, or spaced-review design.
+The script needs Android SDK/build-tools 36 and NDK 27.2.12479018. It preserves
+the existing `TOKI_PONA_SIGNING_KEY_*` signing boundary so a retained signing
+key can continue updating an installed copy.
 
-## Fieldmouse migration
+The Gradle path builds the same native program as an Android App Bundle:
 
-Every removed browser source and test file has an exact blob ID and a
-Fieldmouse translation path in `fieldmouse/README.txt`. The current Fieldmouse
-interpreter does not yet provide all of the collection/function/browser host
-surfaces required to execute that old UI, so the translation is preserved as a
-language-development target rather than treated as a runtime dependency.
+```sh
+./gradlew :app:bundleRelease
+```
 
-## Android / Google Play
+See `docs/google-play-release.md`.
 
-The Android wrapper, signing continuity, and manual Google Play workflow remain
-in the repository because that deployment work was real. The old WebView
-application logic is no longer the product reference. The bundled HTML page is
-now only a static notice/design placeholder until a native phone UI is chosen.
+## Fieldmouse
 
-See `docs/google-play-release.md` for the existing Play signing notes.
+Every removed browser source and test file has an exact blob ID and a Fieldmouse
+translation path in `fieldmouse/README.txt`. Current Fieldmouse does not yet
+provide all collection/function/browser-host surfaces needed to execute that old
+UI, so those files remain migration targets rather than runtime dependencies.
 
 ## Font
 
-The Android assets still include **sitelen seli kiwen asuki** by KreativeKorp /
-jan Lepeka under the SIL Open Font License 1.1.
+The repository retains **sitelen seli kiwen asuki** by KreativeKorp / jan
+Lepeka under the SIL Open Font License 1.1 for the later native glyph-rendering
+slice.
 
 The repository's own source is MIT-licensed; vendored dictionary data retains
 the licenses recorded beside each snapshot.
