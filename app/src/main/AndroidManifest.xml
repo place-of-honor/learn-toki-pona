@@ -3,7 +3,7 @@
     package="org.tokipona.drills">
 
     <uses-sdk
-        android:minSdkVersion="23"
+        android:minSdkVersion="26"
         android:targetSdkVersion="36" />
 
     <application
