@@ -10,7 +10,7 @@ add_library(native_app_glue STATIC
     ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c
 )
 
-target_include_directories(native_app_glue PUBLIC
+target_include_directories(native_app_glue SYSTEM PUBLIC
     ${ANDROID_NDK}/sources/android/native_app_glue
 )
 
@@ -19,7 +19,7 @@ add_library(tokipona_drills SHARED
     quiz_model.c
 )
 
-target_include_directories(tokipona_drills PRIVATE
+target_include_directories(tokipona_drills SYSTEM PRIVATE
     ${ANDROID_NDK}/sources/android/native_app_glue
 )
 
