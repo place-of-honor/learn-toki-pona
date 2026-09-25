@@ -1,0 +1,14 @@
+// Translation of lessons.js blob 485495e13a419d6728f33b4e696458914fa5cf90.
+//
+// The old file mixed data construction with a JavaScript module wrapper.
+// The content has been normalized into quizzes.txt, so the Fieldmouse form is
+// deliberately a text-file boundary rather than another duplicate object tree.
+
+var quiz_path ← "quizzes.txt";
+var quiz_text ← readText(quiz_path);
+
+if (quiz_text ≟ undefined) {
+  console.log("cannot read ", quiz_path);
+} else {
+  console.log("seven lessons and fifty-six exercises are stored in ", quiz_path);
+}

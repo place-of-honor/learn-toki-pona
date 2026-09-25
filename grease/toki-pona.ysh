@@ -1,0 +1,152 @@
+#!/usr/bin/env ysh
+
+# Toki Pona drills: terminal-first Grease reference.
+#
+# This is a from-scratch program over quizzes.txt.  It does not import or lower
+# the retired browser implementation.
+
+var program_dir = $(dirname -- "$0")
+var repo_root = $(cd "$program_dir/.." && pwd)
+var quiz_file = "$repo_root/quizzes.txt"
+
+if (not test -f "$quiz_file") {
+  echo "missing quiz file: $quiz_file"
+  exit 2
+}
+
+var command = 'daily'
+if (len(ARGV) > 0) {
+  setvar command = ARGV[0]
+}
+
+if (command === 'help') {
+  echo 'usage: toki-pona.ysh [daily | lesson NUMBER | all | list | word WORD]'
+  exit 0
+}
+
+if (command === 'list') {
+  grep -E '^[0-9]+\. [A-Z]' "$quiz_file"
+  exit 0
+}
+
+if (command === 'word') {
+  if (len(ARGV) !== 2) {
+    echo 'usage: toki-pona.ysh word WORD'
+    exit 2
+  }
+  var word = ARGV[1]
+  var word_file = repo_root ++ '/tokipona/' ++ word
+  if (not test -f "$word_file") {
+    echo "unknown Toki Pona word: $word"
+    exit 3
+  }
+  cat "$word_file"
+  exit 0
+}
+
+var all_headers = $(grep -E '^[0-9]+\.[0-9]+ [A-Za-z0-9_-]+$' "$quiz_file")
+var selected_headers = ''
+
+if (command === 'daily') {
+  setvar selected_headers = $(printf '%s\n' "$all_headers" | head -n 12)
+} elif (command === 'all') {
+  setvar selected_headers = all_headers
+} elif (command === 'lesson') {
+  if (len(ARGV) !== 2) {
+    echo 'usage: toki-pona.ysh lesson NUMBER'
+    exit 2
+  }
+  var lesson_number = ARGV[1]
+  setvar selected_headers = $(printf '%s\n' "$all_headers" |
+    grep -E "^$lesson_number\\.")
+} else {
+  echo "unknown command: $command"
+  echo 'usage: toki-pona.ysh [daily | lesson NUMBER | all | list | word WORD]'
+  exit 2
+}
+
+if (selected_headers === '') {
+  echo 'no exercises selected'
+  exit 4
+}
+
+var temporary_directory = $(mktemp -d)
+trap 'rm -rf "$temporary_directory"' EXIT
+
+var answered = 0
+var correct = 0
+
+write -- "$selected_headers" | while read --raw-line (&exercise_header) {
+  var exercise_id = $(printf '%s\n' "$exercise_header" | cut -d ' ' -f 2)
+  var start_line = $(grep -n -F -m 1 -- "$exercise_header" "$quiz_file" |
+    cut -d ':' -f 1)
+
+  var block = $(tail -n +"$start_line" "$quiz_file" | sed -n '1,/^$/p')
+  var prompt = $(printf '%s\n' "$block" | sed -n 's/^prompt: //p')
+  var note = $(printf '%s\n' "$block" | sed -n 's/^note: //p')
+  var first_choice = $(printf '%s\n' "$block" | sed -n 's/^A\. //p')
+
+  echo
+  echo "[$exercise_id]"
+  echo "$prompt"
+
+  if (first_choice !== '') {
+    printf '%s\n' "$block" | grep -E '^[A-D]\. '
+    var correct_letter = $(printf '%s\n' "$block" |
+      sed -n 's/^answer: \([A-D]\)\..*/\1/p')
+
+    write --end '' -- 'answer [A-D]: '
+    read --raw-line (&answer)
+    var normalized_answer = $(printf '%s' "$answer" |
+      tr '[:lower:]' '[:upper:]')
+
+    setvar answered = answered + 1
+    if (normalized_answer === correct_letter) {
+      echo 'Correct'
+      setvar correct = correct + 1
+    } else {
+      echo "Not quite. Correct answer: $correct_letter"
+    }
+    echo "$note"
+  } else {
+    echo 'Match the pairs.'
+
+    var right_file = temporary_directory ++ '/rights-' ++ exercise_id
+    printf '%s\n' "$block" |
+      grep ' = ' |
+      sed 's/^[^=]*= //' |
+      tac > "$right_file"
+
+    var pair_misses = 0
+    printf '%s\n' "$block" | grep ' = ' | while read --raw-line (&pair_line) {
+      var left = $(printf '%s\n' "$pair_line" | sed 's/ = .*//')
+      var right = $(printf '%s\n' "$pair_line" | sed 's/^[^=]*= //')
+
+      echo
+      echo "$left"
+      nl -ba -w1 -s'. ' "$right_file"
+
+      var expected_number = $(grep -n -F -x -- "$right" "$right_file" |
+        head -n 1 | cut -d ':' -f 1)
+
+      write --end '' -- 'match number: '
+      read --raw-line (&pair_answer)
+
+      if (pair_answer === expected_number) {
+        echo 'Correct'
+      } else {
+        echo "Not quite. Correct match: $expected_number"
+        setvar pair_misses = pair_misses + 1
+      }
+    }
+
+    setvar answered = answered + 1
+    if (pair_misses === 0) {
+      setvar correct = correct + 1
+    }
+    echo "$note"
+  }
+}
+
+echo
+echo "Score: $correct / $answered"

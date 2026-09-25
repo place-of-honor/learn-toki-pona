@@ -1,0 +1,34 @@
+// Translation of sitelen_pona.js blob a20fd8317447d858624516326e9863f72e73a2d0.
+//
+// The retired browser rendering layer had four semantic operations:
+//
+// func escape_html(untrusted_text)
+// func unicode_sentence_for_toki_pona(latin_sentence)
+// func render_word_with_adjacent_glyph(word)
+// func render_latin_with_every_adjacent_glyph(latin_sentence)
+// func render_content_by_language(content)
+//
+// The plain terminal reference does not need HTML.  The translation therefore
+// keeps the boundary explicit rather than making browser markup part of the
+// language model.
+//
+// Intended later host-independent Fieldmouse operations:
+//
+// func escape_html(text) {
+//   // &, <, >, double quote, single quote -> HTML entities
+// }
+//
+// func unicode_sentence_for_toki_pona(text) {
+//   // Replace known Latin word tokens with their UCSUR characters.
+// }
+//
+// func render_word_with_adjacent_glyph(word) {
+//   // Produce Latin word plus glyph when a glyph exists.
+// }
+//
+// func render_content_by_language(content) {
+//   // Toki Pona receives adjacent glyph rendering; other text is escaped.
+// }
+
+var sample ← "mi moku e kili.";
+console.log(sample);

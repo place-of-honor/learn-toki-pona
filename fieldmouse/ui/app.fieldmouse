@@ -1,0 +1,85 @@
+// Translation of app.js blob 691dd2898cde091ab11f231dacb39140160e6e02.
+//
+// This file preserves the retired browser application's state-machine and view
+// boundaries in Fieldmouse-oriented notation.  Browser DOM access is a host
+// concern that current Fieldmouse does not implement.
+//
+// State:
+//   current_view = home | practice | finished | mistakes | history
+//   progress_state
+//   exercise_by_id
+//   lesson_by_exercise_id
+//   selected_matching_left
+//   selected_matching_right
+//
+// Formatting:
+//   persist_progress_state
+//   render_toki
+//   render_content
+//   pluralized
+//   format_minutes
+//   formatted_date
+//   formatted_date_and_time
+//
+// Shell/navigation:
+//   page_shell
+//   attach_navigation_handlers
+//   attach_navigation
+//   change_view
+//
+// Home/history:
+//   calendar_html
+//   render_weekday
+//   statistics_grid_html
+//   lesson_cards_html
+//   render_lesson_card
+//   exercise_was_seen
+//   lesson_exercise_is_due
+//   render_home_view
+//   render_history_view
+//   render_history_entry
+//   session_mode_label
+//
+// Session start/resume:
+//   start_daily
+//   resume_session
+//   attach_lesson_start
+//   start_lesson
+//   prepare_to_replace_active_session
+//   begin_session_with_question_ids
+//   start_daily_session
+//   start_lesson_session
+//   start_mistake_session
+//
+// Practice:
+//   practice_header_html
+//   render_multiple_choice_question
+//   render_matching_question
+//   correct_answer_html
+//   show_answer_feedback
+//   next_question
+//   record_answer
+//   attach_multiple_choice_handlers
+//   choose_answer
+//   reveal_answers
+//   attach_matching_handlers
+//   choose_matching_item
+//   finish_current_session
+//   render_practice_view
+//   close_practice
+//   render_finished_view
+//   return_home
+//
+// Mistakes:
+//   correct_answer_for_mistake_card
+//   render_mistakes_view
+//
+// Dispatch:
+//   render_current_view
+//
+// The from-scratch Grease implementation intentionally does not preserve this
+// browser architecture.  It reads quizzes.txt and presents the exercises in a
+// terminal.
+
+var current_view ← "home";
+console.log(current_view);

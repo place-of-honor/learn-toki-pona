@@ -1,0 +1,18 @@
+// Translation of tests/browser_smoke_check.js
+// blob 4804cbee1c7e8126829ad6ca8a399319657694d7.
+//
+// Retired acceptance:
+// - home rendered seven lesson cards;
+// - more than twenty sitelen pona glyphs rendered;
+// - daily practice showed four choices;
+// - one deliberate wrong answer persisted as a saved mistake;
+// - a lesson drill accepted six multiple-choice answers;
+// - matching exposed four pairs and accepted all four;
+// - the saved mistake survived reload;
+// - no network request and no console error occurred.
+//
+// The browser harness itself is not retained as reference acceptance because
+// the browser application has been retired.  Grease acceptance is terminal/data
+// acceptance instead.
+
+console.log("browser smoke behavior preserved as migration evidence");

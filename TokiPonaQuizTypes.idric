@@ -1,0 +1,88 @@
+module TokiPonaQuizTypes
+
+import Data.Text
+
+public export
+choice language one_of
+  toki_pona
+  english
+
+public export
+record Phrase (in_language : language) where
+  constructor Words
+  text : Text
+
+public export
+record MultipleChoice
+    (prompt_language : language)
+    (answer_language : language) where
+  constructor ChooseOne
+  question : Phrase prompt_language
+  correct_answer : Phrase answer_language
+  wrong_answers : List (Phrase answer_language)
+  explanation : Text
+
+public export
+record MatchPair
+    (left_language : language)
+    (right_language : language) where
+  constructor GoesWith
+  left : Phrase left_language
+  right : Phrase right_language
+
+public export
+record Matching
+    (left_language : language)
+    (right_language : language) where
+  constructor MatchThese
+  instruction : Phrase english
+  pairs : List (MatchPair left_language right_language)
+  explanation : Text
+
+public export
+choice Exercise one_of
+  multiple_choice
+    (prompt_language : language)
+    (answer_language : language)
+    (MultipleChoice prompt_language answer_language)
+  matching
+    (left_language : language)
+    (right_language : language)
+    (Matching left_language right_language)
+
+public export
+record Lesson where
+  constructor LessonNamed
+  lesson_id : Text
+  lesson_number : Number
+  title : Text
+  focus : Phrase toki_pona
+  summary : Text
+  exercises : List Exercise
+
+public export
+record Course where
+  constructor CourseNamed
+  title : Text
+  lessons : List Lesson
+
+public export
+choice answer_result one_of
+  correct
+  incorrect
+
+public export
+record Attempt where
+  constructor Tried
+  exercise_id : Text
+  result : answer_result
+
+public export
+record QuizSession where
+  constructor DuringQuiz
+  remaining : List Exercise
+  attempts : List Attempt
+
+-- Presentation keys such as A/B/C/D are UI facts, not part of the quiz data.
+-- The correct answer is stored separately from distractors so an invalid
+-- correct-choice index cannot exist.

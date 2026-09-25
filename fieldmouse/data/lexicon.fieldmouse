@@ -1,0 +1,26 @@
+// Translation of lexicon.js blob b4cf8ab0cc24a24dcca8ab9a1bfee5c4089e23bf.
+//
+// Definitions are now ordinary one-line files under tokipona/.  The UCSUR
+// ordering data formerly embedded in the browser module is preserved beside
+// this file as ucsur-core-order.txt and ucsur-additional.tsv.
+
+var example_word ← "pona";
+var definition_path ← "tokipona/" + example_word;
+var definition ← readText(definition_path);
+
+if (definition ≟ undefined) {
+  console.log("unknown Toki Pona word: ", example_word);
+} else {
+  console.log(definition);
+}
+
+// Intended later Fieldmouse callable surface:
+//
+// func definition_for(word) {
+//   return readText("tokipona/" + word)
+// }
+//
+// func unicode_character_for_word(word) {
+//   // Look up word in ucsur-core-order.txt or ucsur-additional.tsv,
+//   // then construct the corresponding Unicode scalar.
+// }

@@ -1,0 +1,90 @@
+// Translation of drill_queue.js blob 2fde00b77cb133c9ef4ac099ea5f4b0d9b906253.
+//
+// This preserves the old queue policy as a Fieldmouse migration target.
+// Lists, objects, user functions, and property access are explicit requirements
+// not yet supplied by today's Fieldmouse interpreter.
+
+// Intended Fieldmouse surface:
+//
+// func flatten_lessons(lessons) {
+//   var flattened ← []
+//   for lesson in lessons {
+//     for exercise_index, exercise in lesson.exercises {
+//       flattened.append({
+//         exercise: exercise,
+//         lesson: lesson,
+//         lesson_index: lesson.number - 1,
+//         exercise_index: exercise_index
+//       })
+//     }
+//   }
+//   return flattened
+// }
+//
+// func review_priority(flattened_exercise, item_progress_by_id, now) {
+//   var progress ← item_progress_by_id[flattened_exercise.exercise.id]
+//   if (progress ≟ undefined) {
+//     return {bucket: 2, weakness: 0,
+//             time: flattened_exercise.lesson_index * 1000 +
+//                   flattened_exercise.exercise_index}
+//   }
+//
+//   var attempts ← progress.attempts
+//   var correct_answers ← progress.correct_answers
+//   var error_rate ← 0
+//   if (attempts > 0) {
+//     error_rate ← (attempts - correct_answers) / attempts
+//   }
+//   var weakness ← progress.mistake_count * 10 + error_rate
+//
+//   if (progress.is_due && progress.last_was_correct ≟ false) {
+//     return {bucket: 0, weakness: weakness, time: progress.due_time}
+//   }
+//   if (progress.is_due) {
+//     return {bucket: 1, weakness: weakness, time: progress.due_time}
+//   }
+//   return {bucket: 3, weakness: weakness, time: progress.last_seen_time}
+// }
+//
+// func compare_review_candidates(left, right) {
+//   // bucket ascending; weakness descending for buckets 0 and 3;
+//   // then time, lesson index, exercise index ascending.
+// }
+//
+// func build_daily_question_ids(lessons, progress, now, maximum_questions) {
+//   return flatten_lessons(lessons)
+//     .map(add_priority)
+//     .sort(compare_review_candidates)
+//     .take(maximum_questions)
+//     .map(select_exercise_id)
+// }
+//
+// func build_lesson_question_ids(lesson, progress, now) {
+//   // Same priority rule, constrained to one lesson.
+// }
+//
+// func exercise_lookup_by_id(lessons) { /* id -> exercise */ }
+// func lesson_lookup_by_exercise_id(lessons) { /* id -> lesson */ }
+//
+// func stable_string_hash(text) {
+//   // FNV-1a style 32-bit hash, initial state 2166136261,
+//   // multiplied by 16777619 after xor with each character.
+// }
+//
+// func deterministic_shuffle(items, seed_text) {
+//   // xorshift32 Fisher-Yates shuffle seeded by stable_string_hash.
+// }
+//
+// func correct_answer_content(exercise) {
+//   // multiple choice -> one correct choice
+//   // matching -> all left/right pairs
+// }
+//
+// func count_due_items(lessons, progress, now) {
+//   // Count exercises whose stored due time is at or before now.
+// }
+
+// Scalar smoke retained in syntax today's Fieldmouse can already execute.
+var unseen_bucket ← 2;
+var mistake_bucket ← 0;
+console.log(mistake_bucket < unseen_bucket);

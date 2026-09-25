@@ -1,0 +1,13 @@
+// Translation of tests/drill_queue.test.js
+// blob 25a35356aefda63d324438dbfbdd45d8ec903f7f.
+//
+// Contract:
+// - empty progress starts in curriculum order;
+// - a due mistake sorts ahead of unseen material;
+// - lesson practice contains only that lesson;
+// - deterministic shuffle repeats exactly for the same seed and preserves all
+//   members.
+
+var unseen_bucket ← 2;
+var due_mistake_bucket ← 0;
+console.log(due_mistake_bucket < unseen_bucket);

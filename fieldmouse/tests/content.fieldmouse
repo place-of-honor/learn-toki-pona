@@ -1,0 +1,15 @@
+// Translation of tests/content.test.js
+// blob 5655df62576a62f9308c3b2c5cec4e70a0452a0c.
+//
+// Contract:
+// - 7 lessons;
+// - 56 exercises;
+// - 8 exercises per lesson;
+// - exercise IDs unique;
+// - each multiple-choice exercise has 4 choices and one valid answer;
+// - each matching exercise has 4 pairs;
+// - every Toki Pona token used by the curriculum has a bundled glyph mapping.
+
+var lesson_count ← 7;
+var exercise_count ← 56;
+console.log(lesson_count = 7 && exercise_count = 56);

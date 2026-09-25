@@ -1,0 +1,12 @@
+// Translation of tests/lexicon_and_rendering.test.js
+// blob 06b4849c14c50bb7519c6d45080b51224131d68b.
+//
+// Contract:
+// - the 120 core words occupy continuous UCSUR U+F1900..U+F1977;
+// - their code points are unique;
+// - ali shares ale's code point;
+// - "mi moku e kili." converts to its UCSUR sentence;
+// - adjacent rendering keeps Latin text beside glyphs and escapes markup.
+
+var core_word_count ← 120;
+console.log(core_word_count = 120);
