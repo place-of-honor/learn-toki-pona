@@ -9,10 +9,10 @@ var program_dir = $(dirname -- "$0")
 var repo_root = $(cd "$program_dir/.." && pwd)
 var quiz_file = "$repo_root/quizzes.txt"
 
-if (not test -f "$quiz_file") {
+if ! test -f "$quiz_file"; then
   echo "missing quiz file: $quiz_file"
   exit 2
-}
+fi
 
 var command = 'daily'
 if (len(ARGV) > 0) {
@@ -36,10 +36,10 @@ if (command === 'word') {
   }
   var word = ARGV[1]
   var word_file = repo_root ++ '/tokipona/' ++ word
-  if (not test -f "$word_file") {
+  if ! test -f "$word_file"; then
     echo "unknown Toki Pona word: $word"
     exit 3
-  }
+  fi
   cat "$word_file"
   exit 0
 }
