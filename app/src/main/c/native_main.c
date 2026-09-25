@@ -1111,8 +1111,6 @@ static void handle_app_command(
 }
 
 void android_main(struct android_app *app) {
-    app_dummy();
-
     AppContext context;
     memset(&context, 0, sizeof(context));
 
