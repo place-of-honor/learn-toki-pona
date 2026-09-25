@@ -15,9 +15,9 @@ build_tools="$sdk_root/build-tools/36.0.0"
 platform_jar="$sdk_root/platforms/android-36/android.jar"
 
 for required in \
-    "$toolchain/bin/aarch64-linux-android23-clang" \
+    "$toolchain/bin/aarch64-linux-android26-clang" \
     "$toolchain/bin/armv7a-linux-androideabi23-clang" \
-    "$toolchain/bin/x86_64-linux-android23-clang" \
+    "$toolchain/bin/x86_64-linux-android26-clang" \
     "$glue_dir/android_native_app_glue.c" \
     "$build_tools/aapt2" \
     "$build_tools/zipalign" \
@@ -82,9 +82,9 @@ compile_abi() {
         -o "$library_dir/libtokipona_drills.so"
 }
 
-compile_abi arm64-v8a aarch64-linux-android23-clang
+compile_abi arm64-v8a aarch64-linux-android26-clang
 compile_abi armeabi-v7a armv7a-linux-androideabi23-clang
-compile_abi x86_64 x86_64-linux-android23-clang
+compile_abi x86_64 x86_64-linux-android26-clang
 
 base_apk="$work_dir/base.apk"
 unsigned_apk="$work_dir/unsigned.apk"
@@ -94,7 +94,7 @@ final_apk="$output_dir/Toki-Pona-Drills-native-v1.1.0.apk"
 "$build_tools/aapt2" link \
     -I "$platform_jar" \
     --manifest "$project_root/app/src/main/AndroidManifest.xml" \
-    --min-sdk-version 23 \
+    --min-sdk-version 26 \
     --target-sdk-version 36 \
     --version-code 4 \
     --version-name 1.1.0 \
