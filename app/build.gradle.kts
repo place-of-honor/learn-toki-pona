@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId = "org.tokipona.drills"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
