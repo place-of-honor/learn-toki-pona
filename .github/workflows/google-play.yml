@@ -68,12 +68,12 @@ jobs:
           ANDROID_UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_PASSWORD }}
           ANDROID_UPLOAD_KEY_ALIAS: ${{ secrets.ANDROID_UPLOAD_KEY_ALIAS }}
           ANDROID_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEY_PASSWORD }}
-        run: ./gradlew --no-daemon :app:bundleRelease
+        run: sh scripts/build_aab.sh
 
       - name: Reject DEX from native bundle
         run: |
           set -eu
-          unzip -l app/build/outputs/bundle/release/app-release.aab > /tmp/aab-files.txt
+          unzip -l build/Toki-Pona-Drills-native-v${{ inputs.version_name }}.aab > /tmp/aab-files.txt
           ! grep -Fq 'classes.dex' /tmp/aab-files.txt
           ! grep -Fq 'base/dex/' /tmp/aab-files.txt
           grep -Fq 'base/assets/quizzes.txt' /tmp/aab-files.txt
@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: toki-pona-drills-${{ inputs.version_name }}-aab
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: build/Toki-Pona-Drills-native-v${{ inputs.version_name }}.aab
           if-no-files-found: error
 
       - name: Require Google Play credential
@@ -97,7 +97,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: org.tokipona.drills
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          releaseFiles: build/Toki-Pona-Drills-native-v${{ inputs.version_name }}.aab
           tracks: internal
           status: ${{ inputs.release_status }}
           releaseName: ${{ inputs.version_name }}
