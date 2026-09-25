@@ -1,0 +1,533 @@
+TOKI PONA DRILLS
+================
+
+Plain-text copy of the drill corpus already used by this repository.
+The JavaScript lesson data remains the executable copy.
+
+1. Core sentence pattern
+------------------------
+focus: mi moku. soweli li lape.
+Make complete statements with a subject and predicate; use the predicate marker except after the two special pronouns.
+
+1.1 core-01
+prompt: mi moku.
+A. I eat.
+B. You eat.
+C. The food is good.
+D. They sleep.
+answer: A. I eat.
+note: The speaker is the subject, and eating is the predicate.
+
+1.2 core-02
+prompt: Choose the complete sentence: You sleep.
+A. sina lape.
+B. sina li lape.
+C. mi lape.
+D. ona lape.
+answer: A. sina lape.
+note: The second-person pronoun takes its predicate directly, without the usual marker.
+
+1.3 core-03
+prompt: Choose: The animal is big.
+A. soweli li suli.
+B. soweli suli.
+C. soweli e suli.
+D. mi li suli.
+answer: A. soweli li suli.
+note: An ordinary noun subject needs the predicate marker before its description.
+
+1.4 core-04
+prompt: ona li pali.
+A. They are working.
+B. You are working.
+C. It is a tool.
+D. They want work.
+answer: A. They are working.
+note: The third-person pronoun can mean he, she, it, or they; context decides.
+
+1.5 core-05
+prompt: Choose: I know.
+A. mi sona.
+B. mi li sona.
+C. sina sona.
+D. jan sona.
+answer: A. mi sona.
+note: The first-person pronoun takes its predicate directly.
+
+1.6 core-06
+prompt: Which is a complete sentence meaning “The person is good” rather than merely a noun phrase?
+A. jan li pona.
+B. jan pona.
+C. jan e pona.
+D. mi li pona.
+answer: A. jan li pona.
+note: The marker separates the ordinary noun subject from the predicate.
+
+1.7 core-07
+prompt: Match each subject word to its usual English role.
+mi = I, me, or we
+sina = you
+ona = he, she, it, or they
+jan = person
+note: These four subjects appear throughout the first lessons.
+
+1.8 core-08
+prompt: Match each common predicate to its broad meaning.
+moku = eat or food
+lape = sleep or rest
+pali = do, make, or work
+pona = good, simple, or improve
+note: A Toki Pona word can fill several related grammatical roles; the sentence supplies the role.
+
+2. Direct objects
+-----------------
+focus: mi moku e kili.
+Put the direct-object marker between an action and the thing directly affected by it.
+
+2.1 object-01
+prompt: mi moku e kili.
+A. I eat fruit.
+B. The fruit eats me.
+C. My food is fruit.
+D. I am a fruit.
+answer: A. I eat fruit.
+note: The object marker identifies the fruit as what the speaker eats.
+
+2.2 object-02
+prompt: Choose: You look at the book.
+A. sina lukin e lipu.
+B. sina lukin li lipu.
+C. sina e lukin lipu.
+D. lipu li lukin e sina.
+answer: A. sina lukin e lipu.
+note: The book is the thing directly seen, so it follows the object marker.
+
+2.3 object-03
+prompt: ona li pana e telo.
+A. They give or put water.
+B. The water gives them.
+C. They are in the water.
+D. They want water.
+answer: A. They give or put water.
+note: The water is what is given, sent, or placed.
+
+2.4 object-04
+prompt: Which sentence says “The person builds a house”?
+A. jan li pali e tomo.
+B. jan pali li tomo.
+C. jan li pali li tomo.
+D. tomo li pali e jan.
+answer: A. jan li pali e tomo.
+note: The house is the thing produced or worked on.
+
+2.5 object-05
+prompt: mi kute e kalama.
+A. I hear a sound.
+B. I make a sound.
+C. The sound hears me.
+D. I am sound.
+answer: A. I hear a sound.
+note: The sound is the direct object of hearing.
+
+2.6 object-06
+prompt: Choose: The child wants food.
+A. jan lili li wile e moku.
+B. jan lili e wile moku.
+C. jan li lili e moku.
+D. moku li wile e jan lili.
+answer: A. jan lili li wile e moku.
+note: Wanting can take a direct object: the wanted thing follows the object marker.
+
+2.7 object-07
+prompt: Match each action to a typical object.
+moku e kili = eat fruit
+lukin e lipu = look at or read a document
+kute e kalama = hear a sound
+pali e tomo = make or work on a building
+note: Each right-hand noun is directly affected by the action.
+
+2.8 object-08
+prompt: Match the short sentence to its practical meaning.
+mi pana e telo = I give or put water
+sina jo e ilo = you have a tool
+ona li open e poki = they open a container
+jan li sona e nasin = the person knows the way
+note: The same object structure works with physical actions, possession, and knowledge.
+
+3. Noun phrases
+---------------
+focus: jan pona. tomo mi. telo lete.
+Put the head noun first, then let later words narrow or describe it.
+
+3.1 noun-01
+prompt: jan pona
+A. a good person or friend
+B. a person's goodness
+C. a simple house
+D. to improve a person
+answer: A. a good person or friend
+note: The first word names the kind of thing; the second describes it.
+
+3.2 noun-02
+prompt: Choose the noun phrase: my house.
+A. tomo mi
+B. mi tomo
+C. tomo li mi
+D. mi li tomo
+answer: A. tomo mi
+note: The building comes first, and the speaker narrows which building it is.
+
+3.3 noun-03
+prompt: telo lete
+A. cold water or liquid
+B. watery cold
+C. hot water
+D. to cool water
+answer: A. cold water or liquid
+note: The phrase names a liquid and then describes it as cold.
+
+3.4 noun-04
+prompt: Which phrase can mean “an important book or large document”?
+A. lipu suli
+B. suli lipu
+C. lipu li suli
+D. lipu e suli
+answer: A. lipu suli
+note: The document is the head; size or importance modifies it.
+
+3.5 noun-05
+prompt: ilo suno
+A. a light-producing tool or lamp
+B. the sun's machine
+C. a broken tool
+D. to illuminate a tool
+answer: A. a light-producing tool or lamp
+note: The head is a tool; the following word says what kind of tool.
+
+3.6 noun-06
+prompt: Choose: a small red fruit.
+A. kili lili loje
+B. loje lili kili
+C. kili li lili e loje
+D. lili kili loje
+answer: A. kili lili loje
+note: The fruit comes first, followed by both descriptions.
+
+3.7 noun-07
+prompt: Match each noun phrase to its likely meaning.
+soweli lili = small animal
+tomo pali = work building or workplace
+tomo tawa = moving building or vehicle
+ilo toki = communication device
+note: Start with the broad head noun, then read each modifier as narrowing it.
+
+3.8 noun-08
+prompt: Match each phrase while keeping the head-first order in view.
+mani mi = my money
+moku pona = good or healthy food
+jan pali = worker
+nasin sin = new method or route
+note: The final word does not replace the head; it tells you which kind of head is meant.
+
+4. Negation
+-----------
+focus: mi sona ala. ilo li pali ala.
+Negate the relevant word or predicate by placing the negator immediately after it.
+
+4.1 negation-01
+prompt: mi sona ala.
+A. I do not know.
+B. I know nothing exists.
+C. Nobody knows me.
+D. I know.
+answer: A. I do not know.
+note: The negator follows knowing and denies it.
+
+4.2 negation-02
+prompt: Choose: They are not working.
+A. ona li pali ala.
+B. ona ala li pali.
+C. ona li ala pali.
+D. ona pali li ala.
+answer: A. ona li pali ala.
+note: The negator goes directly after the denied predicate.
+
+4.3 negation-03
+prompt: mi ken ala lape.
+A. I cannot rest.
+B. I can avoid sleep.
+C. I do not want rest.
+D. Nobody lets me rest.
+answer: A. I cannot rest.
+note: The denied idea is ability, so the negator follows the ability word.
+
+4.4 negation-04
+prompt: Choose: I do not want this.
+A. mi wile ala e ni.
+B. mi ala wile e ni.
+C. mi wile e ala ni.
+D. ni li wile ala e mi.
+answer: A. mi wile ala e ni.
+note: The negator denies wanting; the object structure remains intact.
+
+4.5 negation-05
+prompt: jan li pona ala.
+A. The person is not good.
+B. There is no person.
+C. The good person leaves.
+D. The person fixes nothing.
+answer: A. The person is not good.
+note: The description of the person is what gets negated.
+
+4.6 negation-06
+prompt: Which sentence says the tool is not broken?
+A. ilo li pakala ala.
+B. ilo ala li pakala.
+C. ilo li ala pakala.
+D. pakala li ilo ala.
+answer: A. ilo li pakala ala.
+note: Place the negator after the broken predicate.
+
+4.7 negation-07
+prompt: Match each negative sentence to what it denies.
+mi moku ala = I do not eat
+sina lape ala = you do not sleep
+ona li kama ala = they do not come
+jan li toki ala = the person does not speak
+note: The negator follows the action in each sentence.
+
+4.8 negation-08
+prompt: Match the scope of each negation.
+mi ken ala pali = I cannot work
+mi wile ala pali = I do not want to work
+mi sona ala e nasin = I do not know the method
+mi jo ala e mani = I do not have money
+note: Its position tells you whether ability, desire, knowledge, or possession is denied.
+
+5. Questions
+------------
+focus: sina moku ala moku? ni li seme?
+Ask yes-or-no questions by repeating the uncertain predicate around negation; replace unknown information with the question word.
+
+5.1 question-01
+prompt: sina moku ala moku?
+A. Are you eating?
+B. What are you eating?
+C. You are not eating.
+D. Why are you eating?
+answer: A. Are you eating?
+note: The repeated positive-or-negative predicate asks for a yes-or-no answer.
+
+5.2 question-02
+prompt: Choose the yes-or-no question: Do they want to sleep?
+A. ona li wile ala wile lape?
+B. ona li wile ala lape.
+C. ona seme li lape?
+D. seme li wile e ona?
+answer: A. ona li wile ala wile lape?
+note: Repeat the uncertain desire predicate around negation.
+
+5.3 question-03
+prompt: ni li seme?
+A. What is this?
+B. Is this good?
+C. Where is this?
+D. This is nothing.
+answer: A. What is this?
+note: The unknown predicate is replaced by the question word.
+
+5.4 question-04
+prompt: Choose: What are you looking at?
+A. sina lukin e seme?
+B. seme li lukin e sina?
+C. sina lukin ala lukin?
+D. sina seme e lukin?
+answer: A. sina lukin e seme?
+note: The unknown direct object occupies the ordinary object position.
+
+5.5 question-05
+prompt: jan seme li kama?
+A. Which person is coming?
+B. Why is the person coming?
+C. Is anyone coming?
+D. What does the person bring?
+answer: A. Which person is coming?
+note: The question word modifies person, asking which person.
+
+5.6 question-06
+prompt: Choose: Where are you going?
+A. sina tawa ma seme?
+B. ma li tawa e sina seme?
+C. sina tawa ala tawa?
+D. seme li ma tawa?
+answer: A. sina tawa ma seme?
+note: An unknown place is expressed as which place in the normal destination position.
+
+5.7 question-07
+prompt: Match each question to the information it requests.
+seme li lon poki? = what is in the container
+sina wile e seme? = what you want
+jan seme li toki? = which person is speaking
+sina pali e seme? = what you are making or doing
+note: The question word stays where the missing answer would normally appear.
+
+5.8 question-08
+prompt: Match each yes-or-no question to its plain-English reading.
+sina pona ala pona? = Are you okay or good?
+ilo li pali ala pali? = Does the device work?
+ona li kama ala kama? = Are they coming?
+telo li lete ala lete? = Is the water cold?
+note: The repeated predicate presents its positive and negative possibilities.
+
+6. Adult-life translation
+-------------------------
+focus: mi pali lon tomo pali. ilo mi li pakala.
+Use the existing small vocabulary to say practical things about work, money, rest, tools, travel, and family.
+
+6.1 adult-01
+prompt: mi pali lon tomo pali.
+A. I work at a workplace.
+B. I build my house.
+C. My workplace is broken.
+D. I travel for work.
+answer: A. I work at a workplace.
+note: The context places the speaker's work inside a work building.
+
+6.2 adult-02
+prompt: Choose: My tool is broken.
+A. ilo mi li pakala.
+B. mi pakala e ilo.
+C. ilo li pakala e mi.
+D. ilo pakala li mi.
+answer: A. ilo mi li pakala.
+note: The possessive modifier identifies the tool, and the predicate describes its condition.
+
+6.3 adult-03
+prompt: tenpo ni la mi wile lape.
+A. Right now I want to rest.
+B. I rested before this.
+C. I never have time to rest.
+D. This rest will take time.
+answer: A. Right now I want to rest.
+note: The opening context sets the time as now.
+
+6.4 adult-04
+prompt: Choose: I do not have much money.
+A. mi jo ala e mani mute.
+B. mani mute li jo ala e mi.
+C. mi mani ala e jo mute.
+D. mi wile ala e mani.
+answer: A. mi jo ala e mani mute.
+note: Possession is negated, while much modifies money.
+
+6.5 adult-05
+prompt: mi tawa tomo kepeken tomo tawa.
+A. I go home using a vehicle.
+B. My vehicle becomes a house.
+C. I build a vehicle at home.
+D. The house moves toward me.
+answer: A. I go home using a vehicle.
+note: The means phrase says that a moving structure—a vehicle—is used for the trip.
+
+6.6 adult-06
+prompt: Choose: I want to repair or improve the device.
+A. mi wile pona e ilo.
+B. ilo li wile pona e mi.
+C. mi wile e ilo pona.
+D. mi pona li wile e ilo.
+answer: A. mi wile pona e ilo.
+note: Improving is the action applied to the device; wanting modifies that action.
+
+6.7 adult-07
+prompt: Match each practical sentence to its likely use.
+mi wile moku = I need or want food
+mi ken ala pali = I cannot work
+o pana e ilo tawa mi = Please give or send me the tool
+mi sona ala e nasin = I do not know the method or route
+note: Small general words can carry the practical point without specialized vocabulary.
+
+6.8 adult-08
+prompt: Choose: I want to talk to my parent.
+A. mi wile toki tawa mama mi.
+B. mama mi li wile e toki mi.
+C. mi wile e mama toki.
+D. mi toki e mama mi.
+answer: A. mi wile toki tawa mama mi.
+note: The direction word marks the person toward whom the speaking is directed.
+
+7. Rewrite the idea simply
+--------------------------
+focus: pali mute li lon. mi ken ala pali e ale.
+Preserve the useful point of a complicated English thought instead of hunting for a one-word substitution.
+
+7.1 simple-01
+prompt: Your phone battery died. Which paraphrase keeps the useful point?
+A. ilo toki mi li jo ala e wawa.
+B. ilo toki mi li moli e suno.
+C. mi wile ala toki.
+D. wawa li toki e ilo mi.
+answer: A. ilo toki mi li jo ala e wawa.
+note: Describe the communication device as lacking power rather than inventing a special battery word.
+
+7.2 simple-02
+prompt: The machine malfunctions intermittently. Choose the clearest decomposition.
+A. tenpo ante la ilo li pali. tenpo ante la ona li pali ala.
+B. ilo li pakala tenpo.
+C. tenpo li pali e ilo ante.
+D. ilo ala li pali e tenpo.
+answer: A. tenpo ante la ilo li pali. tenpo ante la ona li pali ala.
+note: State the two observable conditions at different times.
+
+7.3 simple-03
+prompt: I am overwhelmed by too many tasks. Which version states the practical problem?
+A. pali mute li lon. mi ken ala pali e ale.
+B. mi li pali mute ale.
+C. ale li ken ala e mi.
+D. pali li pilin e mi mute.
+answer: A. pali mute li lon. mi ken ala pali e ale.
+note: Break the idea into much work existing and the speaker being unable to do all of it.
+
+7.4 simple-04
+prompt: We should reschedule. Choose the compact practical request.
+A. o ante e tenpo.
+B. tenpo li ante e mi.
+C. o weka e tenpo ale.
+D. mi ante ala ante?
+answer: A. o ante e tenpo.
+note: A command to change the time carries the action that matters.
+
+7.5 simple-05
+prompt: I need a break before continuing. Choose the two-step paraphrase.
+A. mi wile lape. ni la mi ken awen pali.
+B. mi awen lape li pini pali.
+C. pali li lape e mi.
+D. mi ken ala lape tan pali.
+answer: A. mi wile lape. ni la mi ken awen pali.
+note: First state the need for rest; then state that continuing work becomes possible.
+
+7.6 simple-06
+prompt: Please explain it more simply. Choose a concrete request.
+A. o toki e ni kepeken nimi lili.
+B. o lili e ni kepeken toki.
+C. nimi li pona e toki mi.
+D. o toki ala e nimi.
+answer: A. o toki e ni kepeken nimi lili.
+note: Asking for few or small words makes the desired simplification concrete.
+
+7.7 simple-07
+prompt: The plan depends on money we do not have. Which paraphrase exposes the dependency?
+A. mi jo ala e mani. tan ni la mi ken ala kepeken nasin ni.
+B. nasin ni li mani ala.
+C. mani li jo e nasin mi.
+D. mi wile ala e nasin tan mani.
+answer: A. mi jo ala e mani. tan ni la mi ken ala kepeken nasin ni.
+note: State the missing resource, then make the resulting inability explicit.
+
+7.8 simple-08
+prompt: Match each simple message to the more elaborate English idea it can carry.
+mi sona ala. o toki sin. = I did not understand; please explain again
+ilo li pali ala. = the equipment is not functioning
+mi wile ante e nasin. = I want to change the approach
+tenpo li lili. = we are short on time
+note: The goal is a useful paraphrase, not a word-for-word cipher.
+
