@@ -265,7 +265,7 @@ static void draw_feedback(
         canvas,
         rectangle_make(0, layout->height * 74 / 100, layout->width, layout->height * 82 / 100),
         layout->text_scale,
-        state->progress.had_mistake ? "SAVED FOR REVIEW" : "CORRECT",
+        state->progress.had_mistake ? "MARKED FOR REVIEW" : "CORRECT",
         rgb565(31, 45, 38)
     );
     draw_button(

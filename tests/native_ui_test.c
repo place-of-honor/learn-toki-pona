@@ -32,7 +32,7 @@ int main(void) {
     tap(&state, 540.0f, 1700.0f);
     assert(state.exercise_index == 2);
 
-    /* Matching: deliberately miss once, then match MI -> I / WE. */
+    /* Matching: deliberately miss once, then match MOKU E KILI -> EAT FRUIT. */
     tap(&state, 100.0f, 850.0f);
     tap(&state, 700.0f, 850.0f);
     assert(state.match_error);

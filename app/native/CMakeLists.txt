@@ -20,7 +20,7 @@ add_library(
     native_ui.c
     $<TARGET_OBJECTS:native_app_glue>
 )
-target_include_directories(toki_pona_native PRIVATE "${native_app_glue_directory}")
+target_include_directories(toki_pona_native SYSTEM PRIVATE "${native_app_glue_directory}")
 target_compile_features(toki_pona_native PRIVATE c_std_17)
 target_compile_options(
     toki_pona_native
