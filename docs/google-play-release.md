@@ -1,9 +1,15 @@
 # Google Play release
 
-Toki Pona Drills keeps its existing package ID, `org.tokipona.drills`. The new
-Gradle build compiles the same offline WebView shell and assets as a Play-ready
-Android App Bundle targeting API 36. The Apktool path remains available for
-reproducing the already released APK.
+Toki Pona Drills keeps its existing package ID, `org.tokipona.drills`.
+
+The Gradle path now builds the NDK `NativeActivity` replacement candidate. Its
+default AAB contains both `armeabi-v7a` and `arm64-v8a`; CI checks that both
+native libraries are present while application DEX and the retired browser
+payload are absent.
+
+The Apktool path remains historical release material. A successful native AAB
+build proves packaging only; it does not prove installation, launch, touch
+behavior, typography, persistence, or full course parity on a physical device.
 
 ## Signing continuity
 
@@ -29,6 +35,8 @@ Create a protected environment named `google-play` with:
 The first four values describe the private upload key used by CI.
 
 ## First and later uploads
+
+Keep replacement builds on artifact-only or internal testing until physical-device acceptance and course/progress migration are complete.
 
 Create the Play app with the exact package ID above and complete its store and
 policy declarations. Run `Google Play app bundle` with

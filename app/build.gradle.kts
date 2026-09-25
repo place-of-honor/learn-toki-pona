@@ -11,6 +11,16 @@ val appVersionCode = when {
 }
 val appVersionName = System.getenv("PLAY_VERSION_NAME") ?: "1.0.2"
 
+val allowedNativeAbis = setOf("armeabi-v7a", "arm64-v8a")
+val requestedNativeAbis = (System.getenv("TOKI_PONA_ABIS") ?: "armeabi-v7a,arm64-v8a")
+    .split(",")
+    .map { it.trim() }
+    .filter { it.isNotEmpty() }
+require(requestedNativeAbis.isNotEmpty()) { "TOKI_PONA_ABIS must name at least one ABI" }
+require(requestedNativeAbis.all { it in allowedNativeAbis }) {
+    "TOKI_PONA_ABIS may contain only armeabi-v7a and arm64-v8a"
+}
+
 val uploadKeystorePath = System.getenv("ANDROID_UPLOAD_KEYSTORE_PATH")
 val uploadKeystorePassword = System.getenv("ANDROID_UPLOAD_KEYSTORE_PASSWORD")
 val uploadKeyAlias = System.getenv("ANDROID_UPLOAD_KEY_ALIAS")
@@ -25,6 +35,7 @@ val uploadSigningConfigured = listOf(
 android {
     namespace = "org.tokipona.drills"
     compileSdk = 36
+    ndkVersion = "30.0.16248370"
 
     defaultConfig {
         applicationId = "org.tokipona.drills"
@@ -32,12 +43,24 @@ android {
         targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
+
+        ndk {
+            abiFilters += requestedNativeAbis
+        }
     }
 
     sourceSets {
         getByName("main") {
             manifest.srcFile("src/gradle/AndroidManifest.xml")
-            java.setSrcDirs(listOf("src/gradle/java"))
+            java.setSrcDirs(emptyList<String>())
+            assets.setSrcDirs(emptyList<String>())
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("native/CMakeLists.txt")
+            version = "3.22.1"
         }
     }
 
@@ -61,8 +84,9 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
     }
 }
