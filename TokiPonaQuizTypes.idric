@@ -40,11 +40,23 @@ record Matching
   explanation : Text
 
 public export
+record WordBank (sentence_language : language) where
+  constructor FillBlank
+  before_blank : Phrase sentence_language
+  correct_word : Phrase sentence_language
+  after_blank : Phrase sentence_language
+  wrong_words : List (Phrase sentence_language)
+  explanation : Text
+
+public export
 choice Exercise one_of
   multiple_choice
     (prompt_language : language)
     (answer_language : language)
     (MultipleChoice prompt_language answer_language)
+  word_bank
+    (sentence_language : language)
+    (WordBank sentence_language)
   matching
     (left_language : language)
     (right_language : language)

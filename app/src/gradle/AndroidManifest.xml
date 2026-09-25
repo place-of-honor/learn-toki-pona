@@ -3,14 +3,19 @@
     <application
         android:allowBackup="false"
         android:hardwareAccelerated="true"
+        android:hasCode="false"
         android:icon="@drawable/ic_launcher"
         android:label="Toki Pona Drills"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false">
         <activity
-            android:name=".MainActivity"
+            android:name="android.app.NativeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="toki_pona_native" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
