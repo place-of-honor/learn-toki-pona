@@ -52,11 +52,13 @@ The script needs Android SDK/build-tools 36 and NDK 27.2.12479018. It preserves
 the existing `TOKI_PONA_SIGNING_KEY_*` signing boundary so a retained signing
 key can continue updating an installed copy.
 
-The Gradle path builds the same native program as an Android App Bundle:
+The Play/App-Bundle path is:
 
 ```sh
-./gradlew :app:bundleRelease
+sh scripts/build_aab.sh
 ```
+
+Gradle is used only to compile the native module and produce protobuf manifest/resource staging. AGP currently inserts a synthetic empty DEX even for this code-less NativeActivity app, so `build_aab.sh` reconstructs the final base module without that DEX using pinned `bundletool 1.18.3`, validates the bundle, and signs it with `jarsigner` when the upload-key environment is present.
 
 See `docs/google-play-release.md`.
 
