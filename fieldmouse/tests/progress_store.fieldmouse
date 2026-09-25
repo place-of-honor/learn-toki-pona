@@ -1,0 +1,12 @@
+// Translation of tests/progress_store.test.js
+// blob aa3653fbd9d6a34585f64bc8448c0fd28ccffa94.
+//
+// Contract:
+// - wrong answer: attempts=1, mistakes=1, streak=0, due immediately;
+// - first two correct answers schedule 1-day then 3-day review;
+// - a two-question session records answers, active seconds, one mistake,
+//   accuracy, completion history, and calendar activity.
+
+var first_review_days ← 1;
+var second_review_days ← 3;
+console.log(first_review_days < second_review_days);

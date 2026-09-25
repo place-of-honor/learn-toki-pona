@@ -3,7 +3,6 @@ build/
 deliverables/
 app/src/main/build/
 app/build/
-node_modules/
 local.properties
 *.apk
 *.aab

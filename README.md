@@ -1,52 +1,58 @@
-# Toki Pona Drills — version 1
+# Toki Pona drills
 
-An offline Android trainer built for quick practice rather than gamification.
+A small corpus of Toki Pona drills with a terminal-first reference
+implementation.
 
-Version one includes:
+## Current structure
 
-- seven lessons, from the core sentence pattern through simplifying adult ideas;
-- multiple-choice and matching drills only—no keyboard entry;
-- actual UCSUR sitelen pona characters beside every displayed Latin-script Toki Pona word;
-- a daily queue that puts due mistakes and weak material first;
-- local mistake counts, spaced-review dates, practice history, time, and a 35-day calendar;
-- no account, ads, scores, streak pressure, network permission, or analytics.
+- `quizzes.txt` — the seven lessons and 56 exercises as ordinary text.
+- `tokipona/` — one newline-terminated definition file per current Linku word.
+- `dictionaries/` — attributed dictionary snapshots and source registry.
+- `grease/toki-pona.ysh` — current executable reference, written from scratch
+  in Grease/YSH.
+- `fieldmouse/` — complete semantic translation/accounting of the retired
+  browser source. It is migration material, not the reference implementation.
+- `TokiPonaQuizTypes.idric` — today's Idriç type sketch for the quiz domain.
 
-## Install
+There is no JavaScript or Node package surface in the working tree.
 
-Copy `Toki-Pona-Drills-v1.0.1.apk` to an Android device and open it. Android may ask for permission to install an app from the file-opening app. Progress is stored inside the app and survives ordinary restarts. Clearing app storage or uninstalling it removes that progress.
+## Run the terminal quiz
 
-## Work on the lesson data
+With the current Grease/YSH runtime:
 
-The lessons are ordinary data in `app/src/main/assets/www/data/lessons.js`. The Unicode mapping is in `app/src/main/assets/www/data/lexicon.js`. Application logic is split into small files under `core/` and `ui/`.
-
-Run the dependency-free test suite with:
-
-```sh
-npm test
+```text
+grease/toki-pona.ysh daily
+grease/toki-pona.ysh lesson 2
+grease/toki-pona.ysh all
+grease/toki-pona.ysh list
+grease/toki-pona.ysh word pona
 ```
 
-## Rebuild the APK
+The first Grease reference intentionally stays close to the original request:
+drill the material in a terminal. It does not copy the abandoned browser
+application's localStorage, calendar, streak, or spaced-review design.
 
-The application is local HTML, CSS, and JavaScript in a WebView, with a minimal Android wrapper in Smali. It contains no Java or Kotlin application source.
+## Fieldmouse migration
 
-The included build script uses Apktool 2.x and Android's `zipalign` and `apksigner`. Alignment must happen before signing; modern Android rejects an APK whose uncompressed resource table is not aligned on a four-byte boundary.
+Every removed browser source and test file has an exact blob ID and a
+Fieldmouse translation path in `fieldmouse/README.txt`. The current Fieldmouse
+interpreter does not yet provide all of the collection/function/browser host
+surfaces required to execute that old UI, so the translation is preserved as a
+language-development target rather than treated as a runtime dependency.
 
-```sh
-./scripts/build_apk.sh \
-  /path/to/apktool.jar \
-  /path/to/zipalign \
-  /path/to/apksigner.jar
-```
+## Android / Google Play
 
-The script creates a local development signing key under `build/` when one does not exist. For a release, set `TOKI_PONA_SIGNING_KEY_PATH` and `TOKI_PONA_SIGNING_KEY_PASSWORD` to the retained private release key. Android accepts a later APK as an update only when it uses that same signing identity and a larger version code.
+The Android wrapper, signing continuity, and manual Google Play workflow remain
+in the repository because that deployment work was real. The old WebView
+application logic is no longer the product reference. The bundled HTML page is
+now only a static notice/design placeholder until a native phone UI is chosen.
 
-Google Play receives an Android App Bundle rather than this reconstructed APK.
-The Gradle path builds it with `./gradlew :app:bundleRelease`; see
-[`docs/google-play-release.md`](docs/google-play-release.md) for signing
-continuity and the credential-gated internal-testing workflow.
+See `docs/google-play-release.md` for the existing Play signing notes.
 
 ## Font
 
-The app embeds **sitelen seli kiwen asuki** by KreativeKorp / jan Lepeka under the SIL Open Font License 1.1. Its license is included beside the font in the app assets.
+The Android assets still include **sitelen seli kiwen asuki** by KreativeKorp /
+jan Lepeka under the SIL Open Font License 1.1.
 
-The application source is MIT-licensed; see `LICENSE`.
+The repository's own source is MIT-licensed; vendored dictionary data retains
+the licenses recorded beside each snapshot.

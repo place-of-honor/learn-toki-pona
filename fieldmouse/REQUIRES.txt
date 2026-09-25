@@ -1,0 +1,17 @@
+FIELDMOUSE SURFACES EXPOSED BY THIS MIGRATION
+==============================================
+
+The translation makes the following missing Fieldmouse features concrete:
+
+- user-defined functions;
+- lists/arrays and object/dictionary values;
+- indexed and named property access;
+- iteration over collections;
+- first-class callbacks or an ordinary loop replacement for them;
+- date/time values;
+- persistent key/value storage;
+- a browser/DOM host adapter if the retired browser UI is ever executed again;
+- Unicode code-point construction for sitelen pona rendering.
+
+None of these is silently claimed to exist today.  The Grease rewrite avoids
+making the quiz depend on these unfinished Fieldmouse surfaces.

@@ -1,0 +1,61 @@
+// Translation of progress_store.js blob 06384c25fef2f33d88596f8c445d8fa1d7314a2a.
+//
+// The retired browser stored one JSON object in localStorage.  This translation
+// records the same model without making that browser mechanism canonical.
+//
+// Intended Fieldmouse values:
+//
+// progress_state = {
+//   schema_version,
+//   created_at,
+//   item_progress_by_id,
+//   activity_by_date,
+//   session_history,
+//   active_session
+// }
+//
+// item_progress = {
+//   attempts,
+//   correct_answers,
+//   mistake_count,
+//   correct_streak,
+//   interval_days,
+//   due_at,
+//   first_seen_at,
+//   last_seen_at,
+//   last_was_correct
+// }
+//
+// active_session = {
+//   id, mode, lesson_id, question_ids, current_question_index,
+//   answered_count, correct_count, started_at, last_activity_at,
+//   accumulated_seconds
+// }
+//
+// func create_empty_progress_state(now)
+// func normalized_progress_state(candidate_state, now)
+// func load_progress_state(storage, now)
+// func save_progress_state(storage, progress_state)
+// func local_date_key(timestamp_or_date)
+// func begin_practice_session(progress_state, question_ids, mode, lesson_id, now)
+// func updated_item_progress(previous_item_progress, was_correct, answered_at)
+// func record_answer_in_active_session(progress_state, exercise_id,
+//                                      was_correct, now, elapsed_seconds)
+// func summarize_active_session(progress_state)
+// func complete_active_session(progress_state, now)
+// func abandon_active_session(progress_state)
+// func total_practice_statistics(progress_state)
+//
+// Correct-answer review intervals from the old implementation:
+// 1, 3, 7, 14, 30, 60, 120 days.
+//
+// A wrong answer remains due immediately and increments mistake_count.
+// A correct answer increments correct_streak and advances through the interval
+// table.  Session activity is bounded to at most 300 seconds per answer when
+// inferred from wall-clock timestamps.
+
+var first_interval_days ← 1;
+var second_interval_days ← 3;
+var last_interval_days ← 120;
+console.log(first_interval_days < second_interval_days &&
+            second_interval_days < last_interval_days);

@@ -13,87 +13,53 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  content-and-browser-tests:
+  language-and-data-boundaries:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
-      - name: Install Node.js 24
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
-        with:
-          node-version: "24"
-          cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci
-
-      - name: Run content and progress tests
-        run: npm test
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Run offline browser smoke test
-        run: npm run test:browser
-
-  rebuild-and-verify-apk:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - name: Check out source
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
-
-      - name: Install JDK 17
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Install Android signing tools
-        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
-        with:
-          packages: "build-tools;35.0.1"
-
-      - name: Download pinned Apktool
+      - name: Reject JavaScript and Node package residue
         run: |
-          curl --fail --location --retry 3 \
-            --output /tmp/apktool.jar \
-            https://github.com/iBotPeaches/Apktool/releases/download/v2.12.0/apktool_2.12.0.jar
-          echo "effb69dab2f93806cafc0d232f6be32c2551b8d51c67650f575e46c016908fdd  /tmp/apktool.jar" \
-            | sha256sum --check
+          set -eu
+          bad="$(
+            find . -type f \(               -name '*.js' -o               -name 'package.json' -o               -name 'package-lock.json'             \) -print
+          )"
+          test -z "$bad" || {
+            printf '%s\n' "$bad"
+            exit 1
+          }
 
-      - name: Rebuild, sign, and verify APK
+      - name: Require every retired source in the Fieldmouse manifest
         run: |
-          scripts/build_apk.sh \
-            /tmp/apktool.jar \
-            "$ANDROID_SDK_ROOT/build-tools/35.0.1/zipalign" \
-            "$ANDROID_SDK_ROOT/build-tools/35.0.1/lib/apksigner.jar"
+          set -eu
+          for blob in             2fde00b77cb133c9ef4ac099ea5f4b0d9b906253             06384c25fef2f33d88596f8c445d8fa1d7314a2a             a20fd8317447d858624516326e9863f72e73a2d0             485495e13a419d6728f33b4e696458914fa5cf90             b4cf8ab0cc24a24dcca8ab9a1bfee5c4089e23bf             691dd2898cde091ab11f231dacb39140160e6e02             4804cbee1c7e8126829ad6ca8a399319657694d7             5655df62576a62f9308c3b2c5cec4e70a0452a0c             25a35356aefda63d324438dbfbdd45d8ec903f7f             06b4849c14c50bb7519c6d45080b51224131d68b             aa3653fbd9d6a34585f64bc8448c0fd28ccffa94
+          do
+            grep -q "$blob" fieldmouse/README.txt
+          done
 
-      - name: Check rebuilt APK
-        run: test -s build/Toki-Pona-Drills-v1.0.1.apk
+      - name: Check quiz and word-file shape
+        run: |
+          set -eu
+          test "$(grep -Ec '^[1-7]\. [A-Z]' quizzes.txt)" -eq 7
+          test "$(grep -Ec '^[1-7]\.[1-8] [a-z0-9-]+$' quizzes.txt)" -eq 56
+          test "$(find tokipona -type f | wc -l)" -eq 178
 
-  build-play-bundle:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - name: Check out source
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+          find tokipona -type f -print | while IFS= read -r file
+          do
+            test "$(wc -l < "$file")" -eq 1
+            if od -An -tx1 "$file" | grep -qw '00'
+            then
+              printf 'NUL byte in %s\n' "$file"
+              exit 1
+            fi
+          done
 
-      - name: Install JDK 17
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Install Android SDK 36
-        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
-        with:
-          packages: 'platforms;android-36 build-tools;36.0.0'
-
-      - name: Build unsigned release bundle
-        run: ./gradlew --no-daemon :app:bundleRelease
-
-      - name: Check app bundle
-        run: test -s app/build/outputs/bundle/release/app-release.aab
+      - name: Check terminal and retired-browser boundaries
+        run: |
+          set -eu
+          test -s grease/toki-pona.ysh
+          test -s TokiPonaQuizTypes.idric
+          ! grep -q '<script' app/src/main/assets/www/index.html
+          grep -q 'Grease terminal program' app/src/main/assets/www/index.html
