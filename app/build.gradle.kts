@@ -13,17 +13,6 @@ val appVersionCode = when {
 }
 val appVersionName = System.getenv("PLAY_VERSION_NAME") ?: "1.1.0"
 
-val uploadKeystorePath = System.getenv("ANDROID_UPLOAD_KEYSTORE_PATH")
-val uploadKeystorePassword = System.getenv("ANDROID_UPLOAD_KEYSTORE_PASSWORD")
-val uploadKeyAlias = System.getenv("ANDROID_UPLOAD_KEY_ALIAS")
-val uploadKeyPassword = System.getenv("ANDROID_UPLOAD_KEY_PASSWORD")
-val uploadSigningConfigured = listOf(
-    uploadKeystorePath,
-    uploadKeystorePassword,
-    uploadKeyAlias,
-    uploadKeyPassword,
-).all { !it.isNullOrBlank() }
-
 val generatedQuizAssets = layout.buildDirectory.dir("generated/quiz-assets")
 val syncQuizAssets = tasks.register<Copy>("syncQuizAssets") {
     from(rootProject.file("quizzes.txt"))
@@ -62,23 +51,9 @@ android {
         }
     }
 
-    signingConfigs {
-        if (uploadSigningConfigured) {
-            create("playUpload") {
-                storeFile = file(uploadKeystorePath!!)
-                storePassword = uploadKeystorePassword
-                keyAlias = uploadKeyAlias
-                keyPassword = uploadKeyPassword
-            }
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            signingConfigs.findByName("playUpload")?.let {
-                signingConfig = it
-            }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
         }
     }
 }
