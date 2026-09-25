@@ -16,7 +16,7 @@ platform_jar="$sdk_root/platforms/android-36/android.jar"
 
 for required in \
     "$toolchain/bin/aarch64-linux-android26-clang" \
-    "$toolchain/bin/armv7a-linux-androideabi23-clang" \
+    "$toolchain/bin/armv7a-linux-androideabi26-clang" \
     "$toolchain/bin/x86_64-linux-android26-clang" \
     "$glue_dir/android_native_app_glue.c" \
     "$build_tools/aapt2" \
@@ -83,7 +83,7 @@ compile_abi() {
 }
 
 compile_abi arm64-v8a aarch64-linux-android26-clang
-compile_abi armeabi-v7a armv7a-linux-androideabi23-clang
+compile_abi armeabi-v7a armv7a-linux-androideabi26-clang
 compile_abi x86_64 x86_64-linux-android26-clang
 
 base_apk="$work_dir/base.apk"
