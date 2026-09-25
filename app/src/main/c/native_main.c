@@ -603,6 +603,9 @@ static void advance_question(AppContext *context) {
     }
 
     ++context->current_question;
+    LOG_INFO("advanced to question %zu/%zu",
+             context->current_question + 1u,
+             context->session_count);
     reset_question_state(context);
     context->redraw = true;
 }
@@ -1046,10 +1049,15 @@ static int32_t handle_input(
                     y)) {
                 context->selected_choice = (int)index;
                 context->answered = true;
-                if (index ==
-                    exercise->correct_choice_index) {
+                const bool was_correct =
+                    index == exercise->correct_choice_index;
+                if (was_correct) {
                     ++context->correct_count;
                 }
+                LOG_INFO("answered %s choice=%c correct=%s",
+                         exercise->id,
+                         (char)('A' + (int)index),
+                         was_correct ? "true" : "false");
                 context->redraw = true;
                 break;
             }
