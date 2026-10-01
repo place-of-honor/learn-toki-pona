@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.tokipona.drills"
-    android:versionCode="2"
-    android:versionName="1.0.1">
+    package="org.tokipona.drills">
 
     <uses-sdk
-        android:minSdkVersion="23"
-        android:targetSdkVersion="35" />
+        android:minSdkVersion="26"
+        android:targetSdkVersion="36" />
 
     <application
         android:allowBackup="false"
+        android:extractNativeLibs="false"
+        android:hasCode="false"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
         android:label="Toki Pona Drills"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false">
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name="android.app.NativeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|density|uiMode"
+            android:exported="true"
+            android:screenOrientation="unspecified">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="tokipona_drills" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

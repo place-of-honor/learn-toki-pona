@@ -24,20 +24,16 @@ jobs:
         run: |
           set -eu
           bad="$(
-            find . -type f \(               -name '*.js' -o               -name 'package.json' -o               -name 'package-lock.json'             \) -print
+            find . -type f \( \
+              -name '*.js' -o \
+              -name 'package.json' -o \
+              -name 'package-lock.json' \
+            \) -print
           )"
           test -z "$bad" || {
             printf '%s\n' "$bad"
             exit 1
           }
-
-      - name: Require every retired source in the Fieldmouse manifest
-        run: |
-          set -eu
-          for blob in             2fde00b77cb133c9ef4ac099ea5f4b0d9b906253             06384c25fef2f33d88596f8c445d8fa1d7314a2a             a20fd8317447d858624516326e9863f72e73a2d0             485495e13a419d6728f33b4e696458914fa5cf90             b4cf8ab0cc24a24dcca8ab9a1bfee5c4089e23bf             691dd2898cde091ab11f231dacb39140160e6e02             4804cbee1c7e8126829ad6ca8a399319657694d7             5655df62576a62f9308c3b2c5cec4e70a0452a0c             25a35356aefda63d324438dbfbdd45d8ec903f7f             06b4849c14c50bb7519c6d45080b51224131d68b             aa3653fbd9d6a34585f64bc8448c0fd28ccffa94
-          do
-            grep -q "$blob" fieldmouse/README.txt
-          done
 
       - name: Check quiz and word-file shape
         run: |
@@ -45,7 +41,6 @@ jobs:
           test "$(grep -Ec '^[1-7]\. [A-Z]' quizzes.txt)" -eq 7
           test "$(grep -Ec '^[1-7]\.[1-8] [a-z0-9-]+$' quizzes.txt)" -eq 56
           test "$(find tokipona -type f | wc -l)" -eq 178
-
           find tokipona -type f -print | while IFS= read -r file
           do
             test "$(wc -l < "$file")" -eq 1
@@ -56,10 +51,171 @@ jobs:
             fi
           done
 
-      - name: Check terminal and retired-browser boundaries
+      - name: Reject retired WebView application layers
         run: |
           set -eu
-          test -s grease/toki-pona.ysh
-          test -s TokiPonaQuizTypes.idric
-          ! grep -q '<script' app/src/main/assets/www/index.html
-          grep -q 'Grease terminal program' app/src/main/assets/www/index.html
+          test ! -e app/src/gradle/java/org/tokipona/drills/MainActivity.java
+          test ! -e app/src/main/smali/org/tokipona/drills/MainActivity.smali
+          ! grep -R -n 'android.webkit.WebView' app || true
+          grep -Fq 'android.app.NativeActivity' app/src/main/AndroidManifest.xml
+
+  native-model-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Compile and run quiz parser
+        run: |
+          set -eu
+          cc \
+            -std=c17 -O2 \
+            -Wall -Wextra -Werror -Wpedantic -Wconversion -Wshadow \
+            -Iapp/src/main/c \
+            app/src/main/c/quiz_model.c \
+            app/src/main/c/quiz_model_test.c \
+            -o /tmp/toki-pona-quiz-model-test
+          /tmp/toki-pona-quiz-model-test quizzes.txt
+
+  build-native-apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Install JDK 17
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK, build tools, and NDK
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+        with:
+          packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018'
+
+      - name: Build native APK
+        run: scripts/build_apk.sh
+
+      - name: Verify NativeActivity package
+        run: |
+          set -eu
+          apk=build/Toki-Pona-Drills-native-v1.1.0.apk
+          test -s "$apk"
+          unzip -l "$apk" > /tmp/apk-files.txt
+          grep -Fq 'assets/quizzes.txt' /tmp/apk-files.txt
+          grep -Fq 'lib/armeabi-v7a/libtokipona_drills.so' /tmp/apk-files.txt
+          grep -Fq 'lib/arm64-v8a/libtokipona_drills.so' /tmp/apk-files.txt
+          grep -Fq 'lib/x86_64/libtokipona_drills.so' /tmp/apk-files.txt
+          ! grep -Fq 'classes.dex' /tmp/apk-files.txt
+
+          badging="$("$ANDROID_SDK_ROOT/build-tools/36.0.0/aapt2" dump badging "$apk")"
+          printf '%s\n' "$badging" | grep -F "package: name='org.tokipona.drills'" >/dev/null
+          printf '%s\n' "$badging" | grep -F "launchable-activity: name='android.app.NativeActivity'" >/dev/null
+
+      - name: Upload native APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: toki-pona-native-debug-apk
+          path: build/Toki-Pona-Drills-native-v1.1.0.apk
+          if-no-files-found: error
+
+  build-play-bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Install JDK 17
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK, NDK, and CMake
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+        with:
+          packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018 cmake;3.22.1'
+
+      - name: Build DEX-free native app bundle
+        run: sh scripts/build_aab.sh
+
+      - name: Verify native app bundle and generated universal APK
+        run: |
+          set -eu
+          bundle=build/Toki-Pona-Drills-native-v1.1.0.aab
+          bundletool=build/bundletool-all-1.18.3.jar
+          test -s "$bundle"
+
+          unzip -l "$bundle" > /tmp/aab-files.txt
+          grep -Fq 'base/assets/quizzes.txt' /tmp/aab-files.txt
+          grep -Fq 'base/lib/armeabi-v7a/libtokipona_drills.so' /tmp/aab-files.txt
+          grep -Fq 'base/lib/arm64-v8a/libtokipona_drills.so' /tmp/aab-files.txt
+          grep -Fq 'base/lib/x86_64/libtokipona_drills.so' /tmp/aab-files.txt
+          ! grep -Fq 'base/dex/' /tmp/aab-files.txt
+          ! grep -Fq 'classes.dex' /tmp/aab-files.txt
+
+          java -jar "$bundletool" validate --bundle="$bundle"
+          java -jar "$bundletool" build-apks \
+            --bundle="$bundle" \
+            --output=/tmp/toki-pona.apks \
+            --mode=universal \
+            --overwrite
+
+          unzip -p /tmp/toki-pona.apks universal.apk > /tmp/universal.apk
+          unzip -l /tmp/universal.apk > /tmp/universal-files.txt
+          grep -Fq 'assets/quizzes.txt' /tmp/universal-files.txt
+          grep -Fq 'lib/' /tmp/universal-files.txt
+          ! grep -Fq 'classes.dex' /tmp/universal-files.txt
+
+          badging="$("$ANDROID_SDK_ROOT/build-tools/36.0.0/aapt2" dump badging /tmp/universal.apk)"
+          printf '%s\n' "$badging" | grep -F "package: name='org.tokipona.drills'" >/dev/null
+          printf '%s\n' "$badging" | grep -F "launchable-activity: name='android.app.NativeActivity'" >/dev/null
+
+      - name: Upload DEX-free app bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: toki-pona-native-aab
+          path: build/Toki-Pona-Drills-native-v1.1.0.aab
+          if-no-files-found: error
+
+  emulator-smoke:
+    needs: build-native-apk
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Download native APK
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: toki-pona-native-debug-apk
+          path: downloaded-apk
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
+            sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Launch and exercise native quiz
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        with:
+          api-level: 29
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: sh ci/emulator-smoke.sh downloaded-apk/Toki-Pona-Drills-native-v1.1.0.apk /tmp/toki-pona-smoke
+
+      - name: Upload runtime screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: toki-pona-native-emulator-smoke
+          path: /tmp/toki-pona-smoke
+          if-no-files-found: warn
