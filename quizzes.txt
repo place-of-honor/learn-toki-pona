@@ -1,8 +1,7 @@
 TOKI PONA DRILLS
 ================
 
-Plain-text copy of the drill corpus already used by this repository.
-The JavaScript lesson data remains the executable copy.
+Canonical plain-text drill corpus for the terminal reference and native application work.
 
 1. Core sentence pattern
 ------------------------

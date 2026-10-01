@@ -40,14 +40,39 @@ interpreter does not yet provide all of the collection/function/browser host
 surfaces required to execute that old UI, so the translation is preserved as a
 language-development target rather than treated as a runtime dependency.
 
+## Native Android exercise UI
+
+The Gradle path now contains the first NDK replacement UI. It is an exercise
+renderer rather than a flash-card renderer, and it currently implements three
+touch interactions:
+
+- choose one answer;
+- choose a word or grammar particle from a word bank;
+- match pairs.
+
+The lesson-2 native probe asks for the missing particle in
+`mi moku [ ] kili.`, with `e`, `li`, `la`, and `pi` as choices. The
+exercise state machine is plain C; the Android layer only draws it and converts
+touch coordinates into exercise actions.
+
+`quizzes.txt` remains the course-content source. The three C exercises are a
+temporary executable slice used to bring up the native UI, not a second
+canonical lesson database. `TokiPonaQuizTypes.idric` records the quiz-domain
+types, including the new word-bank interaction.
+
+See `docs/native-ui.md` for the current native boundary and evidence.
+
 ## Android / Google Play
 
-The Android wrapper, signing continuity, and manual Google Play workflow remain
-in the repository because that deployment work was real. The old WebView
-application logic is no longer the product reference. The bundled HTML page is
-now only a static notice/design placeholder until a native phone UI is chosen.
+The package identity, signing continuity, and manual Google Play workflow remain
+unchanged. The Gradle application now uses Android's framework
+`NativeActivity` to load an NDK library; it has no application Java/Kotlin
+activity and does not package the retired browser payload.
 
-See `docs/google-play-release.md` for the existing Play signing notes.
+The old Apktool/Smali tree remains under `app/src/main` as historical release
+material. It is not the product reference.
+
+See `docs/google-play-release.md` for the Play signing notes.
 
 ## Font
 
