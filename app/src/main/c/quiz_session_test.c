@@ -1,6 +1,7 @@
 #include "quiz_session.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "../../../../qualification/c-session/original-policy.inc"
 
@@ -96,7 +97,24 @@ static void completed_matching(bool miss_first, bool right_first) {
     assert(session.answered && session.matching_mask == 0x0Fu);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+#ifdef SESSION_LUA_POLICY_TEST_INPUT
+    /* Test-only semantic mutation input; the native app uses embedded bytes. */
+    if (argc == 2) {
+        FILE *input = fopen(argv[1], "rb");
+        assert(input != NULL && fseek(input, 0, SEEK_END) == 0);
+        const long length = ftell(input);
+        assert(length > 0 && length <= 131072 && fseek(input, 0, SEEK_SET) == 0);
+        char *source = malloc((size_t)length);
+        assert(source != NULL && fread(source, 1u, (size_t)length, input) == (size_t)length);
+        assert(fclose(input) == 0);
+        assert(quiz_session_policy_load(source, (size_t)length));
+        free(source);
+    } else assert(argc == 1);
+#else
+    (void)argv;
+    assert(argc == 1);
+#endif
     puts("sequence\tevent\tindex\tcorrect\taccepted\tlength\tquestion\tscore\tscreen\tanswered\tchoice\tmask\tleft\tright\tmiss");
     step(SESSION_START, QUIZ_MULTIPLE_CHOICE, 0u, 0u);
     step(SESSION_START, QUIZ_MULTIPLE_CHOICE, QUIZ_MAX_EXERCISES + 1u, 0u);

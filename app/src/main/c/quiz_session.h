@@ -29,4 +29,11 @@ bool quiz_session_apply(QuizSession *session, QuizSessionEvent event,
                         QuizExerciseKind kind, size_t index,
                         size_t correct_choice);
 
+/* Explicit close/reinitialization is the only reset after a policy fault. */
+bool quiz_session_policy_load(const void *source, size_t length);
+void quiz_session_policy_close(void);
+bool quiz_session_policy_faulted(void);
+size_t quiz_session_policy_memory_peak(void);
+size_t quiz_session_policy_memory_denials(void);
+
 #endif
