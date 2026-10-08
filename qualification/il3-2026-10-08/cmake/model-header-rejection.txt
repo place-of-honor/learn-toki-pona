@@ -1,0 +1,9 @@
+Exit code: 1 (expected rejection before linking)
+Fixture: change QUIZ_MAX_EXERCISES from 64u to 63u only.
+CMake Error at CMakeLists.txt:54 (message):
+  Stale or substituted ICK session object receipt for armeabi-v7a:
+  model_header_sha256	2ac58cf90cae257252984d3d1c936b19810e6a442f2f4e792c364de44c5a6a7f
+
+
+-- Configuring incomplete, errors occurred!
+See also "/workspace/scratch/4cbbf3939bb5/il3/qualification/toki-cmake-stale-model-header/CMakeFiles/CMakeOutput.log".

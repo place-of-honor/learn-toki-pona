@@ -1,0 +1,2 @@
+lua-session: /workspace/scratch/4cbbf3939bb5/il3/learn-toki-pona/app/src/main/c/quiz_session_test.c:56: same_state: Assertion `session.matching_mask == original.matching_mask' failed.
+Aborted (core dumped)

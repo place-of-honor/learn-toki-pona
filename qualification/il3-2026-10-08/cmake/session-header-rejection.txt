@@ -1,0 +1,9 @@
+Exit code: 1 (expected rejection before linking)
+Fixture: add unsigned deliberately_changed_layout to QuizSession.
+CMake Error at CMakeLists.txt:54 (message):
+  Stale or substituted ICK session object receipt for armeabi-v7a:
+  session_header_sha256	0ad5d02c1f4b88f53ae59b05aa7bee8bcfd26b54362d768fc27f22d87efab974
+
+
+-- Configuring incomplete, errors occurred!
+See also "/workspace/scratch/4cbbf3939bb5/il3/qualification/toki-cmake-stale-session-header/CMakeFiles/CMakeOutput.log".

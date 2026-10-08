@@ -1,0 +1,1043 @@
+Warning: truncated output (original token count: 45112)
+Total output lines: 3067
+
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           ARM
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          424040 (bytes into file)
+  Flags:                             0x5000200
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         10
+  Size of section headers:           40 (bytes)
+  Number of section headers:         33
+  Section header string table index: 31
+Dynamic section at offset 0x4041c contains 26 entries:
+  Tag        Type           Name/Value
+  0x00000001 (NEEDED)       Shared library: [libandroid.so]
+  0x00000001 (NEEDED)       Shared library: [liblog.so]
+  0x00000001 (NEEDED)       Shared library: [libm.so]
+  0x00000001 (NEEDED)       Shared library: [libdl.so]
+  0x00000001 (NEEDED)       Shared library: [libc.so]
+  0x0000001e (FLAGS)        BIND_NOW 
+  0x6ffffffb (FLAGS_1)      NOW 
+  0x00000011 (REL)          0x2e2c
+  0x00000012 (RELSZ)        4336 (bytes)
+  0x00000013 (RELENT)       8 (bytes)
+  0x6ffffffa (RELCOUNT)     527
+  0x00000017 (JMPREL)       0x3f54
+  0x00000002 (PLTRELSZ)     2256 (bytes)
+  0x00000003 (PLTGOT)       0x42508
+  0x00000014 (PLTREL)       REL
+  0x00000006 (SYMTAB)       0x20c
+  0x0000000b (SYMENT)       16 (bytes)
+  0x00000005 (STRTAB)       0x1ce4
+  0x0000000a (STRSZ)        4424 (bytes)
+  0x6ffffef5 (GNU_HASH)     0x1884
+  0x0000001a (FINI_ARRAY)   0x42414
+  0x0000001c (FINI_ARRAYSZ) 8 (bytes)
+  0x6ffffff0 (VERSYM)       0x15bc
+  0x6ffffffe (VERNEED)      0x1834
+  0x6fffffff (VERNEEDNUM)   2
+  0x00000000 (NULL)         0x0
+
+Symbol table '.dynsym' contains 315 entries:
+   Num:    Value  Size Type    Bind   Vis       Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT   UND 
+     1: 00000000     0 FUNC    GLOBAL DEFAULT   UND __cxa_finalize@LIBC
+     2: 00000000     0 FUNC    GLOBAL DEFAULT   UND __cxa_atexit@LIBC
+     3: 00000000     0 FUNC    GLOBAL DEFAULT   UND __register_atfork@LIBC
+     4: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAssetManager_open
+     5: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_getLength
+     6: 00000000     0 FUNC    GLOBAL DEFAULT   UND malloc@LIBC
+     7: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_read
+     8: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_close
+     9: 00000000     0 FUNC    GLOBAL DEFAULT   UND __android_log_print
+    10: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeActivity_finish
+    11: 00000000     0 FUNC    GLOBAL DEFAULT   UND free@LIBC
+    12: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_pollOnce
+    13: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_toSurface
+    14: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_getWidth
+    15: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_getHeight
+    16: 00000000     0 OBJECT  GLOBAL DEFAULT   UND __stack_chk_guard@LIBC
+    17: 00000000     0 FUNC    GLOBAL DEFAULT   UND __stack_chk_fail@LIBC
+    18: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputEvent_getType
+    19: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getAction
+    20: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getX
+    21: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getY
+    22: 00000000     0 FUNC    GLOBAL DEFAULT   UND __vsnprintf_chk@LIBC
+    23: 00000000     0 FUNC    GLOBAL DEFAULT   UND strchr@LIBC
+    24: 00000000     0 FUNC    GLOBAL DEFAULT   UND strlen@LIBC
+    25: 00000000     0 FUNC    GLOBAL DEFAULT   UND strncmp@LIBC
+    26: 00000000     0 FUNC    GLOBAL DEFAULT   UND strstr@LIBC
+    27: 00000000     0 FUNC    GLOBAL DEFAULT   UND realloc@LIBC
+    28: 00000000     0 FUNC    GLOBAL DEFAULT   UND memset@LIBC
+    29: 00000000     0 FUNC    GLOBAL DEFAULT   UND memcpy@LIBC
+    30: 00000000     0 FUNC    GLOBAL DEFAULT   UND strtod@LIBC
+    31: 00000000     0 FUNC    GLOBAL DEFAULT   UND snprintf@LIBC
+    32: 00000000     0 FUNC    GLOBAL DEFAULT   UND strspn@LIBC
+    33: 00000000     0 FUNC    GLOBAL DEFAULT   UND localeconv@LIBC
+    34: 00000000     0 FUNC    GLOBAL DEFAULT   UND strcoll@LIBC
+    35: 00000000     0 FUNC    GLOBAL DEFAULT   UND strpbrk@LIBC
+    36: 00000000     0 FUNC    GLOBAL DEFAULT   UND _setjmp@LIBC
+    37: 00000000     0 FUNC    GLOBAL DEFAULT   UND feof@LIBC
+    38: 00000000     0 FUNC    GLOBAL DEFAULT   UND fread@LIBC
+    39: 00000000     0 FUNC    GLOBAL DEFAULT   UND getc@LIBC
+    40: 00000000     0 FUNC    GLOBAL DEFAULT   UND frexp@LIBC
+    41: 00000000     0 FUNC    GLOBAL DEFAULT   UND getc_unlocked@LIBC
+    42: 00000000     0 FUNC    GLOBAL DEFAULT   UND memcmp@LIBC
+    43: 00000000     0 FUNC    GLOBAL DEFAULT   UND floor@LIBC
+    44: 00000000     0 FUNC    GLOBAL DEFAULT   UND strcmp@LIBC
+    45: 00000000     0 FUNC    GLOBAL DEFAULT   UND fmod@LIBC
+    46: 00000000     0 FUNC    GLOBAL DEFAULT   UND pow@LIBC
+    47: 00000000     0 FUNC    GLOBAL DEFAULT   UND _longjmp@LIBC
+    48: 00000000     0 FUNC    GLOBAL DEFAULT   UND abort@LIBC
+    49: 00000000     0 FUNC    GLOBAL DEFAULT   UND memmove@LIBC
+    50: 00000000     0 FUNC    GLOBAL DEFAULT   UND fprintf@LIBC
+    51: 00000000     0 FUNC    GLOBAL DEFAULT   UND fflush@LIBC
+    52: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stderr@LIBC
+    53: 00000000     0 FUNC    GLOBAL DEFAULT   UND clock@LIBC
+    54: 00000000     0 FUNC    GLOBAL DEFAULT   UND __errno@LIBC
+    55: 00000000     0 FUNC    GLOBAL DEFAULT   UND strerror@LIBC
+    56: 00000000     0 FUNC    GLOBAL DEFAULT   UND fputs@LIBC
+    57: 00000000     0 FUNC    GLOBAL DEFAULT   UND fputc@LIBC
+    58: 00000000     0 FUNC    GLOBAL DEFAULT   UND fwrite@LIBC
+    59: 00000000     0 FUNC    GLOBAL DEFAULT   UND mkstemp@LIBC
+    60: 00000000     0 FUNC    GLOBAL DEFAULT   UND close@LIBC
+    61: 00000000     0 FUNC    GLOBAL DEFAULT   UND tmpfile@LIBC
+    62: 00000000     0 FUNC    GLOBAL DEFAULT   UND fopen@LIBC
+    63: 00000000     0 FUNC    GLOBAL DEFAULT   UND ferror@LIBC
+    64: 00000000     0 FUNC    GLOBAL DEFAULT   UND fclose@LIBC
+    65: 00000000     0 FUNC    GLOBAL DEFAULT   UND freopen@LIBC
+    66: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stdin@LIBC
+    67: 00000000     0 FUNC    GLOBAL DEFAULT   UND pclose@LIBC
+    68: 00000000     0 FUNC    GLOBAL DEFAULT   UND exit@LIBC
+    69: 00000000     0 FUNC    GLOBAL DEFAULT   UND difftime@LIBC
+    70: 00000000     0 FUNC    GLOBAL DEFAULT   UND mktime@LIBC
+    71: 00000000     0 FUNC    GLOBAL DEFAULT   UND time@LIBC
+    72: 00000000     0 FUNC    GLOBAL DEFAULT   UND system@LIBC
+    73: 00000000     0 FUNC    GLOBAL DEFAULT   UND setlocale@LIBC
+    74: 00000000     0 FUNC    GLOBAL DEFAULT   UND setvbuf@LIBC
+    75: 00000000     0 FUNC    GLOBAL DEFAULT   UND fseeko64@LIBC_N
+    76: 00000000     0 FUNC    GLOBAL DEFAULT   UND ftello64@LIBC_N
+    77: 00000000     0 FUNC    GLOBAL DEFAULT   UND popen@LIBC
+    78: 00000000     0 FUNC    GLOBAL DEFAULT   UND rename@LIBC
+    79: 00000000     0 FUNC    GLOBAL DEFAULT   UND remove@LIBC
+    80: 00000000     0 FUNC    GLOBAL DEFAULT   UND getenv@LIBC
+    81: 00000000     0 FUNC    GLOBAL DEFAULT   UND memchr@LIBC
+    82: 00000000     0 FUNC    GLOBAL DEFAULT   UND tan@LIBC
+    83: 00000000     0 FUNC    GLOBAL DEFAULT   UND sqrt@LIBC
+    84: 00000000     0 FUNC    GLOBAL DEFAULT   UND sin@LIBC
+    85: 00000000     0 FUNC    GLOBAL DEFAULT   UND ceil@LIBC
+    86: 00000000     0 FUNC    GLOBAL DEFAULT   UND log10@LIBC
+    87: 00000000     0 FUNC    GLOBAL DEFAULT   UND log@LIBC
+    88: 00000000     0 FUNC    GLOBAL DEFAULT   UND log2@LIBC
+    89: 00000000     0 FUNC    GLOBAL DEFAULT   UND exp@LIBC
+    90: 00000000     0 FUNC    GLOBAL DEFAULT   UND cos@LIBC
+    91: 00000000     0 FUNC    GLOBAL DEFAULT   UND atan2@LIBC
+    92: 00000000     0 FUNC    GLOBAL DEFAULT   UND asin@LIBC
+    93: 00000000     0 FUNC    GLOBAL DEFAULT   UND acos@LIBC
+    94: 00000000     0 FUNC    GLOBAL DEFAULT   UND ldexp@LIBC
+    95: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stdout@LIBC
+    96: 00000000     0 FUNC    GLOBAL DEFAULT   UND fgets@LIBC
+    97: 00000000     0 FUNC    GLOBAL DEFAULT   UND flockfile@LIBC
+    98: 00000000     0 FUNC    GLOBAL DEFAULT   UND funlockfile@LIBC
+    99: 00000000     0 FUNC    GLOBAL DEFAULT   UND clearerr@LIBC
+   100: 00000000     0 FUNC    GLOBAL DEFAULT   UND ungetc@LIBC
+   101: 00000000     0 FUNC    GLOBAL DEFAULT   UND localtime_r@LIBC
+   102: 00000000     0 FUNC    GLOBAL DEFAULT   UND strftime@LIBC
+   103: 00000000     0 FUNC    GLOBAL DEFAULT   UND gmtime_r@LIBC
+   104: 00000000     0 FUNC    GLOBAL DEFAULT   UND read@LIBC
+   105: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_lock@LIBC
+   106: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_unlock@LIBC
+   107: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_broadcast@LIBC
+   108: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_detachLooper
+   109: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_attachLooper
+   110: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_fromAssetManager
+   111: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getLanguage
+   112: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getCountry
+   113: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getMcc
+   114: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getMnc
+   115: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getOrientation
+   116: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getTouchscreen
+   117: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getDensity
+   118: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getKeyboard
+   119: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getNavigation
+   120: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getKeysHidden
+   121: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getNavHidden
+   122: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getSdkVersion
+   123: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getScreenSize
+   124: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getScreenLong
+   125: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getUiModeType
+   126: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getUiModeNight
+   127: 00000000     0 FUNC    GLOBAL DEFAULT   UND calloc@LIBC
+   128: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_init@LIBC
+   129: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_init@LIBC
+   130: 00000000     0 FUNC    GLOBAL DEFAULT   UND pipe@LIBC
+   131: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_attr_init@LIBC
+   132: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_attr_setdetachstate@LIBC
+   133: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_create@LIBC
+   134: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_wait@LIBC
+   135: 00000000     0 FUNC    GLOBAL DEFAULT   UND write@LIBC
+   136: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_destroy@LIBC
+   137: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_destroy@LIBC
+   138: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_new
+   139: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_prepare
+   140: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_addFd
+   141: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_delete
+   142: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_getEvent
+   143: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_finishEvent
+   144: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_preDispatchEvent
+   145: 0002a7b0    12 FUNC    GLOBAL DEFAULT    12 lua_close
+   146: 0002ca28    44 FUNC    GLOBAL DEFAULT    12 lua_pushinteger
+   147: 0002c8bc   232 FUNC    GLOBAL DEFAULT    12 lua_topointer
+   148: 0002f7f4    16 FUNC    GLOBAL DEFAULT    12 lua_setwarnf
+   149: 0002ffa8   208 FUNC    GLOBAL DEFAULT    12 lua_upvaluejoin
+   150: 0000ce48   468 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_load
+   151: 0002b294    84 FUNC    GLOBAL DEFAULT    12 lua_rotate
+   152: 0002b608    24 FUNC    GLOBAL DEFAULT    12 lua_typename
+   153: 0002c9bc    48 FUNC    GLOBAL DEFAULT    12 lua_pushnumber
+   154: 0002ced8   244 FUNC    GLOBAL DEFAULT    12 lua_pushcclosure
+   155: 0002b158    28 FUNC    GLOBAL DEFAULT    12 lua_gettop
+   156: 0002b820   164 FUNC    GLOBAL DEFAULT    12 lua_isstring
+   157: 0002bb50  1224 FUNC    GLOBAL DEFAULT    12 lua_compare
+   158: 0002c9a4    24 FUNC    GLOBAL DEFAULT    12 lua_pushnil
+   159: 0002f7e8    12 FUNC    GLOBAL DEFAULT    12 lua_setallocf
+   160: 0003273c   144 FUNC    GLOBAL DEFAULT    12 luaL_getmetafield
+   161: 00035278   152 FUNC    GLOBAL DEFAULT    12 luaL_checkoption
+   162: 0002cfcc    32 FUNC    GLOBAL DEFAULT    12 lua_pushboolean
+   163: 0002d4a4   168 FUNC    GLOBAL DEFAULT    12 lua_rawget
+   164: 0003a3ec   776 FUNC    GLOBAL DEFAULT    12 luaL_traceback
+   165: 0002f70c    28 FUNC    GLOBAL DEFAULT    12 lua_getallocf
+   166: 0003ca34    44 FUNC    GLOBAL DEFAULT    12 luaL_makeseed
+   167: 0000ce34    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_memory_denials
+   168: 0002e774   428 FUNC    GLOBAL DEFAULT    12 lua_pcallk
+   169: 0002a828     8 FUNC    GLOBAL DEFAULT    12 lua_gethookmask
+   170: 00031558   124 FUNC    GLOBAL DEFAULT    12 luaL_testudata
+   171: 0003da50   136 FUNC    GLOBAL DEFAULT    12 luaopen_utf8
+   172: 000301c4    84 FUNC    GLOBAL DEFAULT    12 luaL_error
+   173: 0002b964   332 FUNC    GLOBAL DEFAULT    12 lua_rawequal
+   174: 0002c754   204 FUNC    GLOBAL DEFAULT    12 lua_touserdata
+   175: 0002cae0   304 FUNC    GLOBAL DEFAULT    12 lua_pushexternalstring
+   176: 0002d054    48 FUNC    GLOBAL DEFAULT    12 lua_pushthread
+   177: 000315d4    80 FUNC    GLOBAL DEFAULT    12 luaL_checkstack
+   178: 00034a54    84 FUNC    GLOBAL DEFAULT    12 luaL_optlstring
+   179: 0003d194    88 FUNC    GLOBAL DEFAULT    12 luaopen_coroutine
+   180: 0002c320   172 FUNC    GLOBAL DEFAULT    12 lua_toboolean
+   181: 0002af98    20 FUNC    GLOBAL DEFAULT    12 lua_isyieldable
+   182: 0003825c    96 FUNC    GLOBAL DEFAULT    12 luaL_callmeta
+   183: 0000ce20    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_memory_peak
+   184: 0002dfcc   168 FUNC    GLOBAL DEFAULT    12 lua_rawset
+   185: 0002ef58   840 FUNC    GLOBAL DEFAULT    12 lua_gc
+   186: 0002f2a0    60 FUNC    GLOBAL DEFAULT    12 lua_error
+   187: 0002d914   220 FUNC    GLOBAL DEFAULT    12 lua_getiuservalue
+   188: 0003c21c   260 FUNC    GLOBAL DEFAULT    12 luaL_requiref
+   189: 0003d108   140 FUNC    GLOBAL DEFAULT    12 luaL_checkversion_
+   190: 0003dad8   200 FUNC    GLOBAL DEFAULT    12 luaL_openselectedlibs
+   191: 0002d764   160 FUNC    GLOBAL DEFAULT    12 lua_createtable
+   192: 0002e920   532 FUNC    GLOBAL DEFAULT    12 lua_load
+   193: 00008108   129 OBJECT  GLOBAL DEFAULT    10 lua_ident
+   194: 0002a604   428 FUNC    GLOBAL DEFAULT    12 lua_newstate
+   195: 0002ad9c   508 FUNC    GLOBAL DEFAULT    12 lua_resume
+   196: 0002cdc8   108 FUNC    GLOBAL DEFAULT    12 lua_pushfstring
+   197: 0002e1f4   352 FUNC    GLOBAL DEFAULT    12 lua_setmetatable
+   198: 000326f8    68 FUNC    GLOBAL DEFAULT    12 luaL_loadstring
+   199: 00037678   104 FUNC    GLOBAL DEFAULT    12 luaL_checknumber
+   200: 0003d9f8    88 FUNC    GLOBAL DEFAULT    12 luaopen_table
+   201: 0002ca54   140 FUNC    GLOBAL DEFAULT    12 lua_pushlstring
+   202: 0002b6c0   156 FUNC    GLOBAL DEFAULT    12 lua_isinteger
+   203: 0002afac   120 FUNC    GLOBAL DEFAULT    12 lua_yieldk
+   204: 0002c120   256 FUNC    GLOBAL DEFAULT    12 lua_tonumberx
+   205: 0002f4d8   116 FUNC    GLOBAL DEFAULT    12 lua_concat
+   206: 0002c220   256 FUNC    GLOBAL DEFAULT    12 lua_tointegerx
+   207: 0002b75c   196 FUNC    GLOBAL DEFAULT    12 lua_isnumber
+   208: 0002e16c   136 FUNC    GLOBAL DEFAULT    12 lua_rawseti
+   209: 0003218c   208 FUNC    GLOBAL DEFAULT    12 luaL_pushresult
+   210: 0002a580   132 FUNC    GLOBAL DEFAULT    12 lua_closethread
+   211: 0002eb38   928 FUNC    GLOBAL DEFAULT    12 lua_dump
+   212: 0003dfe0   208 FUNC    GLOBAL DEFAULT    12 android_app_post_exec_cmd
+   213: 00032878    80 FUNC    GLOBAL DEFAULT    12 luaL_checkudata
+   214: 000382bc   104 FUNC    GLOBAL DEFAULT    12 luaL_len
+   215: 0003e0b0     4 FUNC    GLOBAL DEFAULT    12 app_dummy
+   216: 0002c018   220 FUNC    GLOBAL DEFAULT    12 lua_numbertocstring
+   217: 0002c3cc   236 FUNC    GLOBAL DEFAULT    12 lua_tolstring
+   218: 00032dbc   140 FUNC    GLOBAL DEFAULT    12 luaL_checkinteger
+   219: 0002b078   144 FUNC    GLOBAL DEFAULT    12 lua_xmove
+   220: 0002c820   156 FUNC    GLOBAL DEFAULT    12 lua_tothread
+   221: 0002b55c   172 FUNC    GLOBAL DEFAULT    12 lua_type
+   222: 0003225c    16 FUNC    GLOBAL DEFAULT    12 luaL_pushresultsize
+   223: 0003d480   504 FUNC    GLOBAL DEFAULT    12 luaopen_math
+   224: 0000e4ac    44 FUNC    GLOBAL DEFAULT    12 luaL_alloc
+   225: 0002a880   148 FUNC    GLOBAL DEFAULT    12 lua_getlocal
+   226: 0002ddac   392 FUNC    GLOBAL DEFAULT    12 lua_seti
+   227: 00031424    40 FUNC    GLOBAL DEFAULT    12 luaL_setmetatable
+   228: 0002a964  1080 FUNC    GLOBAL DEFAULT    12 lua_getinfo
+   229: 0002b128    48 FUNC    GLOBAL DEFAULT    12 lua_absindex
+   230: 0002e074   248 FUNC    GLOBAL DEFAULT    12 lua_rawsetp
+   231: 00032414   684 FUNC    GLOBAL DEFAULT    12 luaL_loadfilex
+   232: 0002c5a0   248 FUNC    GLOBAL DEFAULT    12 lua_rawlen
+   233: 0002f664   168 FUNC    GLOBAL DEFAULT    12 lua_len
+   234: 0002fe88   288 FUNC    GLOBAL DEFAULT    12 lua_upvalueid
+   235: 00030078   124 FUNC    GLOBAL DEFAULT    12 luaL_where
+   236: 0003bf20   140 FUNC    GLOBAL DEFAULT    12 luaopen_base
+   237: 0003d1ec    88 FUNC    GLOBAL DEFAULT    12 luaopen_debug
+   238: 0002b024    84 FUNC    GLOBAL DEFAULT    12 lua_checkstack
+   239: 00033d3c    80 FUNC    GLOBAL DEFAULT    12 luaL_checktype
+   240: 0002a914    80 FUNC    GLOBAL DEFAULT    12 lua_setlocal
+   241: 00031138   188 FUNC    GLOBAL DEFAULT    12 luaL_fileresult
+   242: 00031388   156 FUNC    GLOBAL DEFAULT    12 luaL_newmetatable
+   243: 0002a830     8 FUNC    GLOBAL DEFAULT    12 lua_gethookcount
+   244: 0002b108    16 FUNC    GLOBAL DEFAULT    12 lua_atpanic
+   245: 0002b260    52 FUNC    GLOBAL DEFAULT    12 lua_closeslot
+   246: 0003d8b8    88 FUNC    GLOBAL DEFAULT    12 luaopen_os
+   247: 0002d54c   284 FUNC    GLOBAL DEFAULT    12 lua_rawgeti
+   248: 0002cc10   140 FUNC    GLOBAL DEFAULT    12 lua_pushstring
+   249: 0000c5b4  1040 FUNC    GLOBAL DEFAULT    12 quiz_course_parse
+   250: 0002d264   156 FUNC    GLOBAL DEFAULT    12 lua_getfield
+   251: 000326c0    56 FUNC    GLOBAL DEFAULT    12 luaL_loadbufferx
+   252: 0002bab0   160 FUNC    GLOBAL DEFAULT    12 lua_arith
+   253: 0002eed8     8 FUNC    GLOBAL DEFAULT    12 lua_status
+   254: 000327cc   172 FUNC    GLOBAL DEFAULT    12 luaL_typeerror
+   255: 0002a7bc   100 FUNC    GLOBAL DEFAULT    12 lua_sethook
+   256: 0002b8c4   160 FUNC    GLOBAL DEFAULT    12 lua_isuserdata
+   257: 0002cd7c    76 FUNC    GLOBAL DEFAULT    12 lua_pushvfstring
+   258: 0002f2dc   412 FUNC    GLOBAL DEFAULT    12 lua_next
+   259: 0002f478    96 FUNC    GLOBAL DEFAULT    12 lua_toclose
+   260: 00032e48    60 FUNC    GLOBAL DEFAULT    12 luaL_optinteger
+   261: 0002a480   256 FUNC    GLOBAL DEFAULT    12 lua_newthread
+   262: 0002c698   188 FUNC    GLOBAL DEFAULT    12 lua_tocfunction
+   263: 0002fa4c    24 FUNC    GLOBAL DEFAULT    12 lua_warning
+   264: 0003a388   100 FUNC    GLOBAL DEFAULT    12 luaL_addvalue
+   265: 0003d678   576 FUNC    GLOBAL DEFAULT    12 luaopen_package
+   266: 0002b2e8   444 FUNC    GLOBAL DEFAULT    12 lua_copy
+   267: 0002e468   440 FUNC    GLOBAL DEFAULT    12 lua_callk
+   268: 00038d74     8 FUNC    GLOBAL DEFAULT    12 luaL_prepbuffsize
+   269: 0002d174   240 FUNC    GLOBAL DEFAULT    12 lua_gettable
+   270: 0002db74   156 FUNC    GLOBAL DEFAULT    12 lua_setfield
+   271: 0002fa64   340 FUNC    GLOBAL DEFAULT    12 lua_newuserdatauv
+   272: 0003129c   236 FUNC    GLOBAL DEFAULT    12 luaL_execresult
+   273: 00039acc    76 FUNC    GLOBAL DEFAULT    12 luaL_addlstring
+   274: 0003c320    96 FUNC    GLOBAL DEFAULT    12 luaL_addgsub
+   275: 00032288   272 FUNC    GLOBAL DEFAULT    12 luaL_ref
+   276: 0002a820     8 FUNC    GLOBAL DEFAULT    12 lua_gethook
+   277: 0002b620   160 FUNC    GLOBAL DEFAULT    12 lua_iscfunction
+   278: 0002c0f4    40 FUNC    GLOBAL DEFAULT    12 lua_stringtonumber
+   279: 0002d3b4   240 FUNC    GLOBAL DEFAULT    12 lua_geti
+   280: 0003226c    28 FUNC    GLOBAL DEFAULT    12 luaL_buffinit
+   281: 00038ad8   180 FUNC    GLOBAL DEFAULT    12 luaL_setfuncs
+   282: 0003d910   232 FUNC    GLOBAL DEFAULT    12 luaopen_string
+   283: 0003dc3c   556 FUNC    GLOBAL DEFAULT    12 android_app_pre_exec_cmd
+   284: 0003e0b4   584 FUNC    GLOBAL DEFAULT    12 ANativeActivity_onCreate
+   285: 00009d1c  6476 FUNC    GLOBAL DEFAULT    12 android_main
+   286: 0000d01c  1496 FUNC    GLOBAL DEFAULT    12 quiz_session_apply
+   287: 0002b118    16 FUNC    GLOBAL DEFAULT    12 lua_version
+   288: 0002d668   252 FUNC    GLOBAL DEFAULT    12 lua_rawgetp
+   289: 00038688   500 FUNC    GLOBAL DEFAULT    12 luaL_tolstring
+   290: 00039b18    48 FUNC    GLOBAL DEFAULT    12 luaL_addstring
+   291: 0003d244   572 FUNC    GLOBAL DEFAULT    12 luaopen_io
+   292: 0000cdc4    72 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_close
+   293: 0002b4a4   160 FUNC    GLOBAL DEFAULT    12 lua_pushvalue
+   294: 0002d038    28 FUNC    GLOBAL DEFAULT    12 lua_pushlightuserdata
+   295: 0002e354   276 FUNC    GLOBAL DEFAULT    12 lua_setiuservalue
+   296: 0003c380    84 FUNC    GLOBAL DEFAULT    12 luaL_gsub
+   297: 0003d090   120 FUNC    GLOBAL DEFAULT    12 luaL_newstate
+   298: 0002dac0   180 FUNC    GLOBAL DEFAULT    12 lua_settable
+   299: 0002fbb8   344 FUNC    GLOBAL DEFAULT    12 lua_getupvalue
+   300: 0002fd10   272 FUNC    GLOBAL DEFAULT    12 lua_setupvalue
+   301: 00032398   124 FUNC    GLOBAL DEFAULT    12 luaL_unref
+   302: 0003bb7c    36 FUNC    GLOBAL DEFAULT    12 luaL_buffinitsize
+   303: 0002b1a8   184 FUNC    GLOBAL DEFAULT    12 lua_settop
+   304: 0002d804   272 FUNC    GLOBAL DEFAULT    12 lua_getmetatable
+   305: 0002d9f0   208 FUNC    GLOBAL DEFAULT    12 lua_setglobal
+   306: 000349fc    88 FUNC    GLOBAL DEFAULT    12 luaL_checklstring
+   307: 0000ce0c    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_faulted
+   308: 0002a838    72 FUNC    GLOBAL DEFAULT    12 lua_getstack
+   309: 00031738   352 FUNC    GLOBAL DEFAULT    12 luaL_argerror
+   310: 00031ea4    52 FUNC    GLOBAL DEFAULT    12 luaL_checkany
+   311: 000376e0    60 FUNC    GLOBAL DEFAULT    12 luaL_optnumber
+   312: 0003bfac   116 FUNC    GLOBAL DEFAULT    12 luaL_getsubtable
+   313: 0003dba0   156 FUNC    GLOBAL DEFAULT    12 android_app_read_cmd
+   314: 0002d0a4   208 FUNC    GLOBAL DEFAULT    12 lua_getglobal
+
+Symbol table '.symtab' contains 2568 entries:
+   Num:    Value  Size Type    Bind   Vis       Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT   UND 
+     1: 00000000     0 FILE    LOCAL  DEFAULT   ABS crtbegin_so.c
+     2: 00009cc8    16 FUNC    LOCAL  DEFAULT    12 __on_dlclose
+     3: 00009cc8     0 NOTYPE  LOCAL  DEFAULT    12 $a.0
+     4: 00009cd4     0 NOTYPE  LOCAL  DEFAULT    12 $d.1
+     5: 00009cd8     0 NOTYPE  LOCAL  DEFAULT    12 $a.2
+     6: 00009cdc     4 FUNC    LOCAL  DEFAULT    12 __on_dlclose_late
+     7: 00009d04     0 NOTYPE  LOCAL  DEFAULT    12 $d.3
+     8: 00009d0c     0 NOTYPE  LOCAL  DEFAULT    12 $a.4
+     9: 00009d18     0 NOTYPE  LOCAL  DEFAULT    12 $d.5
+    10: 00000174   152 OBJECT  LOCAL  DEFAULT     1 note_android_ident
+    11: 00000188     0 NOTYPE  LOCAL  DEFAULT     1 note_data
+    12: 00000180     0 NOTYPE  LOCAL  DEFAULT     1 note_name
+    13: 0000020c     0 NOTYPE  LOCAL  DEFAULT     1 note_end
+    14: 0000018c     0 NOTYPE  LOCAL  DEFAULT     1 ndk_version
+    15: 000001cc     0 NOTYPE  LOCAL  DEFAULT     1 ndk_build_number
+    16: 00041ae0     4 OBJECT  LOCAL  HIDDEN     14 __dso_handle
+    17: 00009cd8     4 FUNC    LOCAL  HIDDEN     12 __emutls_unregister_key
+    18: 00009ce0    12 FUNC    LOCAL  HIDDEN     12 __atexit_handler_wrapper
+    19: 00009cec    32 FUNC    LOCAL  HIDDEN     12 atexit
+    20: 00009d0c    16 FUNC    LOCAL  HIDDEN     12 pthread_atfork
+    21: 00000000     0 FILE    LOCAL  DEFAULT   ABS native_main.c
+    22: 00009d1c     0 NOTYPE  LOCAL  DEFAULT    12 $a.0
+    23: 0000be40   408 FUNC    LOCAL  DEFAULT    12 end_canvas
+    24: 0000a1c0     0 NOTYPE  LOCAL  DEFAULT    12 $d.1
+    25: 0000a1d0     0 NOTYPE  LOCAL  DEFAULT    12 $a.2
+    26: 0000c534   128 FUNC    LOCAL  DEFAULT    12 clear_exception
+    27: 0000c2e8   588 FUNC    LOCAL  DEFAULT    12 draw_wrapped
+    28: 0000c27c   108 FUNC    LOCAL  DEFAULT    12 _ZL8snprintfPcU17pass_object_size1jPKcz
+    29: 0000bfd8   676 FUNC    LOCAL  DEFAULT    12 draw_centered_line
+    30: 0000a93c     0 NOTYPE  LOCAL  DEFAULT    12 $d.3
+    31: 0000a950     0 NOTYPE  LOCAL  DEFAULT    12 $a.4
+    32: 0000ab00     0 NOTYPE  LOCAL  DEFAULT    12 $d.5
+    33: 0000b694  1748 FUNC    LOCAL  DEFAULT    12 handle_input
+    34: 0000ab1c     0 NOTYPE  LOCAL  DEFAULT    12 $a.6
+    35: 0000ad74     0 NOTYPE  LOCAL  DEFAULT    12 $d.7
+    36: 0000b668    44 FUNC    LOCAL  DEFAULT    12 handle_app_command
+    37: 0000ae48     0 NOTYPE  LOCAL  DEFAULT    12 $a.8
+    38: 0000b62c     0 NOTYPE  LOCAL  DEFAULT    12 $d.9
+    39: 0000b668     0 NOTYPE  LOCAL  DEFAULT    12 $a.10
+    40: 0000b694     0 NOTYPE  LOCAL  DEFAULT    12 $a.11
+    41: 0000bd68   216 FUNC    LOCAL  DEFAULT    12 apply_session_event
+    42: 0000ba78     0 NOTYPE  LOCAL  DEFAULT    12 $d.12
+    43: 0000ba80     0 NOTYPE  LOCAL  DEFAULT    12 $a.13
+    44: 0000bce0     0 NOTYPE  LOCAL  DEFAULT    12 $d.14
+    45: 0000bce8     0 NOTYPE  LOCAL  DEFAULT    12 $a.15
+    46: 0000bd44     0 NOTYPE  LOCAL  DEFAULT    12 $d.16
+    47: 0000bd68     0 NOTYPE  LOCAL  DEFAULT    12 $a.17
+    48: 0000be30     0 NOTYPE  LOCAL  DEFAULT    12 $d.18
+    49: 0000be40     0 NOTYPE  LOCAL  DEFAULT    12 $a.19
+    50: 0000bfcc     0 NOTYPE  LOCAL  DEFAULT    12 $d.20
+    51: 0000bfd8     0 NOTYPE  LOCAL  DEFAULT    12 $a.21
+    52: 0000c26c     0 NOTYPE  LOCAL  DEFAULT    12 $d.22
+    53: 0000c27c     0 NOTYPE  LOCAL  DEFAULT    12 $a.23
+    54: 0000c2e0     0 NOTYPE  LOCAL  DEFAULT    12 $d.24
+    55: 0000c2e8     0 NOTYPE  LOCAL  DEFAULT    12 $a.25
+    56: 0000c52c     0 NOTYPE  LOCAL  DEFAULT    12 $d.26
+    57: 0000c534     0 NOTYPE  LOCAL  DEFAULT    12 $a.27
+    58: 0000c5ac     0 NOTYPE  LOCAL  DEFAULT    12 $d.28
+    59: 00000000     0 FILE    LOCAL  DEFAULT   ABS quiz_model.c
+    60: 0000c5b4     0 NOTYPE  LOCAL  DEFAULT    12 $a.0
+    61: 0000c9c4   240 FUNC    LOCAL  DEFAULT    12 validate_exercise
+    62: 0000cab4   116 FUNC    LOCAL  DEFAULT    12 _ZL8snprintfPcU17pass_object_size1jPKcz
+    63: 0000c9a8     0 NOTYPE  LOCAL  DEFAULT    12 $d.1
+    64: 0000c9c4     0 NOTYPE  LOCAL  DEFAULT    12 $a.2
+    65: 0000caa8     0 NOTYPE  LOCAL  DEFAULT    12 $d.3
+    66: 0000cab4     0 NOTYPE  LOCAL  DEFAULT    12 $a.4
+    67: 0000cb1c     0 NOTYPE  LOCAL  DEFAULT    12 $d.5
+    68: 00000000     0 FILE    LOCAL  DEFAULT   ABS quiz_session.c
+    69: 0000cb28   244 FUNC    LOCAL  DEFAULT    12 valid_snapshot
+    70: 0000cb28     0 NOTYPE  LOCAL  DEFAULT    12 $a.0
+    71: 0000cc1c    16 FUNC    LOCAL  DEFAULT    12 instruction_limit
+    72: 0000cc1c     0 NOTYPE  LOCAL  DEFAULT    12 $a.1
+    73: 0000cc28     0 NOTYPE  LOCAL  DEFAULT    12 $d.2
+    74: 0000cc2c   232 FUNC    LOCAL  DEFAULT    12 install_transition
+    75: 0000cc2c     0 NOTYPE  LOCAL  DEFAULT    12 $a.3
+    76: 0000cd00     0 NOTYPE  LOCAL  DEFAULT    12 $d.4
+    77: 00043980    24 OBJECT  LOCAL  DEFAULT    20 policy
+    78: 0000cd14   176 FUNC    LOCAL  DEFAULT    12 allocate_policy
+    79: 0000cd14     0 NOTYPE  LOCAL  DEFAULT    12 $a.5
+    80: 0000cdc4     0 NOTYPE  LOCAL  DEFAULT    12 $a.6
+    81: 0000ce04     0 NOTYPE  LOCAL  DEFAULT    12 $d.7
+    82: 0000ce0c     0 NOTYPE  LOCAL  DEFAULT    12 $a.8
+    83: 0000ce1c     0 NOTYPE  LOCAL  DEFAULT    12 $d.9
+    84: 0000ce20     0 NOTYPE  LOCAL  DEFAULT    12 $a.10
+    85: 0000ce30     0 NOTYPE  LOCAL  DEFAULT    12 $d.11
+    86: 0000ce34     0 NOTYPE  LOCAL  DEFAULT    12 $a.12
+    87: 0000ce44     0 NOTYPE  LOCAL  DEFAULT    12 $d.13
+    88: 0000ce48     0 NOTYPE  LOCAL  DEFAULT    12 $a.14
+    89: 0000cffc     0 NOTYPE  LOCAL  DEFAULT    12 $d.15
+    90: 0000d01c     0 NOTYPE  LOCAL  DEFAULT    12 $a.16
+    91: 0000d5cc     0 NOTYPE  LOCAL  DEFAULT    12 $d.17
+    92: 0000836c     0 NOTYPE  LOCAL  HIDDEN     11 toki_session_begin
+    93: 00008cc4     0 NOTYPE  LOCAL  HIDDEN     11 toki_session_end
+    94: 00000000     0 FILE    LOCAL  DEFAULT   ABS onelua.c
+    95: 0000d5f4    88 FUNC    LOCAL  DEFAULT    12 luaZ_fill
+    96: 0000d5f4     0 NOTYPE  LOCAL  DEFAULT    12 $a.0
+    97: 0000d64c   140 FUNC    LOCAL  DEFAULT    12 separatetobefnz
+    98: 0000d64c     0 NOTYPE  LOCAL  DEFAULT    12 $a.1
+    99: 0000d6d8    88 FUNC    LOCAL  DEFAULT    12 swapexps
+   100: 0000d6d8     0 NOTYPE  LOCAL  DEFAULT    12 $a.2
+   101: 0000d730   188 FUNC    LOCAL  DEFAULT    12 luaG_getfuncline
+   102: 0000d730     0 NOTYPE  LOCAL  DEFAULT    12 $a.3
+   103: 0000d7ec   108 FUNC    LOCAL  DEFAULT    12 luaF_getlocalname
+   104: 0000d7ec     0 NOTYPE  LOCAL  DEFAULT    12 $a.4
+   105: 0…30112 tokens truncated…    0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2133: 0004072c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2134: 00040730     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2135: 0004073c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2136: 00040740     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2137: 0004074c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2138: 00040750     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2139: 0004075c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2140: 00040760     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2141: 0004076c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2142: 00040770     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2143: 0004077c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2144: 00040780     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2145: 0004078c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2146: 00040790     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2147: 0004079c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2148: 000407a0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2149: 000407ac     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2150: 000407b0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2151: 000407bc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2152: 000407c0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2153: 000407cc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2154: 000407d0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2155: 000407dc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2156: 000407e0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2157: 000407ec     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2158: 000407f0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2159: 000407fc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2160: 00040800     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2161: 0004080c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2162: 00040810     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2163: 0004081c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2164: 00040820     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2165: 0004082c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2166: 00040830     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2167: 0004083c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2168: 00040840     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2169: 0004084c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2170: 00040850     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2171: 0004085c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2172: 00040860     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2173: 0004086c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2174: 00040870     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2175: 0004087c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2176: 00040880     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2177: 0004088c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2178: 00040890     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2179: 0004089c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2180: 000408a0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2181: 000408ac     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2182: 000408b0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2183: 000408bc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2184: 000408c0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2185: 000408cc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2186: 000408d0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2187: 000408dc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2188: 000408e0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2189: 000408ec     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2190: 000408f0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2191: 000408fc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2192: 00040900     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2193: 0004090c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2194: 00040910     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2195: 0004091c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2196: 00040920     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2197: 0004092c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2198: 00040930     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2199: 0004093c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2200: 00040940     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2201: 0004094c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2202: 00040950     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2203: 0004095c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2204: 00040960     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2205: 0004096c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2206: 00040970     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2207: 0004097c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2208: 00040980     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2209: 0004098c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2210: 00040990     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2211: 0004099c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2212: 000409a0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2213: 000409ac     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2214: 000409b0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2215: 000409bc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2216: 000409c0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2217: 000409cc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2218: 000409d0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2219: 000409dc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2220: 000409e0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2221: 000409ec     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2222: 000409f0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2223: 000409fc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2224: 00040a00     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2225: 00040a0c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2226: 00040a10     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2227: 00040a1c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2228: 00040a20     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2229: 00040a2c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2230: 00040a30     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2231: 00040a3c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2232: 00040a40     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2233: 00040a4c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2234: 00040a50     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2235: 00040a5c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2236: 00040a60     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2237: 00040a6c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2238: 00040a70     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2239: 00040a7c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2240: 00040a80     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2241: 00040a8c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2242: 00040a90     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2243: 00040a9c     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2244: 00040aa0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2245: 00040aac     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2246: 00040ab0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2247: 00040abc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2248: 00040ac0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2249: 00040acc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2250: 00040ad0     0 NOTYPE  LOCAL  DEFAULT    13 $a
+  2251: 00040adc     0 NOTYPE  LOCAL  DEFAULT    13 $d
+  2252: 000424ec     0 NOTYPE  LOCAL  HIDDEN     17 _GLOBAL_OFFSET_TABLE_
+  2253: 0004241c     0 NOTYPE  LOCAL  HIDDEN     16 _DYNAMIC
+  2254: 0003e0b4   584 FUNC    GLOBAL DEFAULT    12 ANativeActivity_onCreate
+  2255: 00000000     0 FUNC    GLOBAL DEFAULT   UND __cxa_finalize
+  2256: 00000000     0 FUNC    GLOBAL DEFAULT   UND __cxa_atexit
+  2257: 00000000     0 FUNC    GLOBAL DEFAULT   UND __register_atfork
+  2258: 00009d1c  6476 FUNC    GLOBAL DEFAULT    12 android_main
+  2259: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAssetManager_open
+  2260: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_getLength
+  2261: 00000000     0 FUNC    GLOBAL DEFAULT   UND malloc
+  2262: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_read
+  2263: 00000000     0 FUNC    GLOBAL DEFAULT   UND AAsset_close
+  2264: 0000c5b4  1040 FUNC    GLOBAL DEFAULT    12 quiz_course_parse
+  2265: 0000d01c  1496 FUNC    GLOBAL DEFAULT    12 quiz_session_apply
+  2266: 0000ce0c    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_faulted
+  2267: 00000000     0 FUNC    GLOBAL DEFAULT   UND __android_log_print
+  2268: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeActivity_finish
+  2269: 00000000     0 FUNC    GLOBAL DEFAULT   UND free
+  2270: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_pollOnce
+  2271: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_toSurface
+  2272: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_getWidth
+  2273: 00000000     0 FUNC    GLOBAL DEFAULT   UND ANativeWindow_getHeight
+  2274: 00000000     0 OBJECT  GLOBAL DEFAULT   UND __stack_chk_guard
+  2275: 0000cdc4    72 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_close
+  2276: 00000000     0 FUNC    GLOBAL DEFAULT   UND __stack_chk_fail
+  2277: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputEvent_getType
+  2278: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getAction
+  2279: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getX
+  2280: 00000000     0 FUNC    GLOBAL DEFAULT   UND AMotionEvent_getY
+  2281: 00000000     0 FUNC    GLOBAL DEFAULT   UND __vsnprintf_chk
+  2282: 00000000     0 FUNC    GLOBAL DEFAULT   UND strchr
+  2283: 00000000     0 FUNC    GLOBAL DEFAULT   UND strlen
+  2284: 00000000     0 FUNC    GLOBAL DEFAULT   UND strncmp
+  2285: 00000000     0 FUNC    GLOBAL DEFAULT   UND strstr
+  2286: 000301c4    84 FUNC    GLOBAL DEFAULT    12 luaL_error
+  2287: 0002d264   156 FUNC    GLOBAL DEFAULT    12 lua_getfield
+  2288: 0002b6c0   156 FUNC    GLOBAL DEFAULT    12 lua_isinteger
+  2289: 0002b1a8   184 FUNC    GLOBAL DEFAULT    12 lua_settop
+  2290: 0002c220   256 FUNC    GLOBAL DEFAULT    12 lua_tointegerx
+  2291: 0002b55c   172 FUNC    GLOBAL DEFAULT    12 lua_type
+  2292: 00032288   272 FUNC    GLOBAL DEFAULT    12 luaL_ref
+  2293: 00000000     0 FUNC    GLOBAL DEFAULT   UND realloc
+  2294: 0002a7b0    12 FUNC    GLOBAL DEFAULT    12 lua_close
+  2295: 0000ce20    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_memory_peak
+  2296: 0000ce34    20 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_memory_denials
+  2297: 0000ce48   468 FUNC    GLOBAL DEFAULT    12 quiz_session_policy_load
+  2298: 0002a604   428 FUNC    GLOBAL DEFAULT    12 lua_newstate
+  2299: 0002a7bc   100 FUNC    GLOBAL DEFAULT    12 lua_sethook
+  2300: 000326c0    56 FUNC    GLOBAL DEFAULT    12 luaL_loadbufferx
+  2301: 0002e774   428 FUNC    GLOBAL DEFAULT    12 lua_pcallk
+  2302: 0002ced8   244 FUNC    GLOBAL DEFAULT    12 lua_pushcclosure
+  2303: 0002b294    84 FUNC    GLOBAL DEFAULT    12 lua_rotate
+  2304: 0002b024    84 FUNC    GLOBAL DEFAULT    12 lua_checkstack
+  2305: 0002d54c   284 FUNC    GLOBAL DEFAULT    12 lua_rawgeti
+  2306: 0002ca28    44 FUNC    GLOBAL DEFAULT    12 lua_pushinteger
+  2307: 0002cfcc    32 FUNC    GLOBAL DEFAULT    12 lua_pushboolean
+  2308: 0002c320   172 FUNC    GLOBAL DEFAULT    12 lua_toboolean
+  2309: 00000000     0 FUNC    GLOBAL DEFAULT   UND memset
+  2310: 00000000     0 FUNC    GLOBAL DEFAULT   UND memcpy
+  2311: 00000000     0 FUNC    GLOBAL DEFAULT   UND strtod
+  2312: 00000000     0 FUNC    GLOBAL DEFAULT   UND snprintf
+  2313: 00000000     0 FUNC    GLOBAL DEFAULT   UND strspn
+  2314: 00000000     0 FUNC    GLOBAL DEFAULT   UND localeconv
+  2315: 00000000     0 FUNC    GLOBAL DEFAULT   UND strcoll
+  2316: 00000000     0 FUNC    GLOBAL DEFAULT   UND strpbrk
+  2317: 00000000     0 FUNC    GLOBAL DEFAULT   UND _setjmp
+  2318: 00000000     0 FUNC    GLOBAL DEFAULT   UND feof
+  2319: 00000000     0 FUNC    GLOBAL DEFAULT   UND fread
+  2320: 0000e4ac    44 FUNC    GLOBAL DEFAULT    12 luaL_alloc
+  2321: 00000000     0 FUNC    GLOBAL DEFAULT   UND getc
+  2322: 00000000     0 FUNC    GLOBAL DEFAULT   UND frexp
+  2323: 00000000     0 FUNC    GLOBAL DEFAULT   UND getc_unlocked
+  2324: 00000000     0 FUNC    GLOBAL DEFAULT   UND memcmp
+  2325: 00000000     0 FUNC    GLOBAL DEFAULT   UND floor
+  2326: 00000000     0 FUNC    GLOBAL DEFAULT   UND strcmp
+  2327: 00000000     0 FUNC    GLOBAL DEFAULT   UND fmod
+  2328: 00000000     0 FUNC    GLOBAL DEFAULT   UND pow
+  2329: 00000000     0 FUNC    GLOBAL DEFAULT   UND _longjmp
+  2330: 00000000     0 FUNC    GLOBAL DEFAULT   UND abort
+  2331: 00000000     0 FUNC    GLOBAL DEFAULT   UND memmove
+  2332: 0002a480   256 FUNC    GLOBAL DEFAULT    12 lua_newthread
+  2333: 0002a580   132 FUNC    GLOBAL DEFAULT    12 lua_closethread
+  2334: 0002a820     8 FUNC    GLOBAL DEFAULT    12 lua_gethook
+  2335: 0002a828     8 FUNC    GLOBAL DEFAULT    12 lua_gethookmask
+  2336: 0002a830     8 FUNC    GLOBAL DEFAULT    12 lua_gethookcount
+  2337: 0002a838    72 FUNC    GLOBAL DEFAULT    12 lua_getstack
+  2338: 0002a880   148 FUNC    GLOBAL DEFAULT    12 lua_getlocal
+  2339: 0002a914    80 FUNC    GLOBAL DEFAULT    12 lua_setlocal
+  2340: 0002a964  1080 FUNC    GLOBAL DEFAULT    12 lua_getinfo
+  2341: 0002ad9c   508 FUNC    GLOBAL DEFAULT    12 lua_resume
+  2342: 0002af98    20 FUNC    GLOBAL DEFAULT    12 lua_isyieldable
+  2343: 0002afac   120 FUNC    GLOBAL DEFAULT    12 lua_yieldk
+  2344: 0002b078   144 FUNC    GLOBAL DEFAULT    12 lua_xmove
+  2345: 0002b108    16 FUNC    GLOBAL DEFAULT    12 lua_atpanic
+  2346: 0002b118    16 FUNC    GLOBAL DEFAULT    12 lua_version
+  2347: 0002b128    48 FUNC    GLOBAL DEFAULT    12 lua_absindex
+  2348: 0002b158    28 FUNC    GLOBAL DEFAULT    12 lua_gettop
+  2349: 0002b260    52 FUNC    GLOBAL DEFAULT    12 lua_closeslot
+  2350: 0002b2e8   444 FUNC    GLOBAL DEFAULT    12 lua_copy
+  2351: 0002b4a4   160 FUNC    GLOBAL DEFAULT    12 lua_pushvalue
+  2352: 0002b608    24 FUNC    GLOBAL DEFAULT    12 lua_typename
+  2353: 0002b620   160 FUNC    GLOBAL DEFAULT    12 lua_iscfunction
+  2354: 0002b75c   196 FUNC    GLOBAL DEFAULT    12 lua_isnumber
+  2355: 0002b820   164 FUNC    GLOBAL DEFAULT    12 lua_isstring
+  2356: 0002b8c4   160 FUNC    GLOBAL DEFAULT    12 lua_isuserdata
+  2357: 0002b964   332 FUNC    GLOBAL DEFAULT    12 lua_rawequal
+  2358: 0002bab0   160 FUNC    GLOBAL DEFAULT    12 lua_arith
+  2359: 0002bb50  1224 FUNC    GLOBAL DEFAULT    12 lua_compare
+  2360: 0002c018   220 FUNC    GLOBAL DEFAULT    12 lua_numbertocstring
+  2361: 0002c0f4    40 FUNC    GLOBAL DEFAULT    12 lua_stringtonumber
+  2362: 0002c120   256 FUNC    GLOBAL DEFAULT    12 lua_tonumberx
+  2363: 0002c3cc   236 FUNC    GLOBAL DEFAULT    12 lua_tolstring
+  2364: 00000000     0 FUNC    GLOBAL DEFAULT   UND fprintf
+  2365: 00000000     0 FUNC    GLOBAL DEFAULT   UND fflush
+  2366: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stderr
+  2367: 0002c5a0   248 FUNC    GLOBAL DEFAULT    12 lua_rawlen
+  2368: 0002c698   188 FUNC    GLOBAL DEFAULT    12 lua_tocfunction
+  2369: 0002c754   204 FUNC    GLOBAL DEFAULT    12 lua_touserdata
+  2370: 0002c820   156 FUNC    GLOBAL DEFAULT    12 lua_tothread
+  2371: 0002c8bc   232 FUNC    GLOBAL DEFAULT    12 lua_topointer
+  2372: 0002c9a4    24 FUNC    GLOBAL DEFAULT    12 lua_pushnil
+  2373: 0002c9bc    48 FUNC    GLOBAL DEFAULT    12 lua_pushnumber
+  2374: 00000000     0 FUNC    GLOBAL DEFAULT   UND clock
+  2375: 0002ca54   140 FUNC    GLOBAL DEFAULT    12 lua_pushlstring
+  2376: 0002cae0   304 FUNC    GLOBAL DEFAULT    12 lua_pushexternalstring
+  2377: 0002cc10   140 FUNC    GLOBAL DEFAULT    12 lua_pushstring
+  2378: 0002cd7c    76 FUNC    GLOBAL DEFAULT    12 lua_pushvfstring
+  2379: 0002cdc8   108 FUNC    GLOBAL DEFAULT    12 lua_pushfstring
+  2380: 00000000     0 FUNC    GLOBAL DEFAULT   UND __errno
+  2381: 00000000     0 FUNC    GLOBAL DEFAULT   UND strerror
+  2382: 0002d038    28 FUNC    GLOBAL DEFAULT    12 lua_pushlightuserdata
+  2383: 0002d054    48 FUNC    GLOBAL DEFAULT    12 lua_pushthread
+  2384: 0002d0a4   208 FUNC    GLOBAL DEFAULT    12 lua_getglobal
+  2385: 0002d174   240 FUNC    GLOBAL DEFAULT    12 lua_gettable
+  2386: 0002d3b4   240 FUNC    GLOBAL DEFAULT    12 lua_geti
+  2387: 0002d4a4   168 FUNC    GLOBAL DEFAULT    12 lua_rawget
+  2388: 0002d668   252 FUNC    GLOBAL DEFAULT    12 lua_rawgetp
+  2389: 0002d764   160 FUNC    GLOBAL DEFAULT    12 lua_createtable
+  2390: 0002d804   272 FUNC    GLOBAL DEFAULT    12 lua_getmetatable
+  2391: 0002d914   220 FUNC    GLOBAL DEFAULT    12 lua_getiuservalue
+  2392: 0002d9f0   208 FUNC    GLOBAL DEFAULT    12 lua_setglobal
+  2393: 0002dac0   180 FUNC    GLOBAL DEFAULT    12 lua_settable
+  2394: 0002db74   156 FUNC    GLOBAL DEFAULT    12 lua_setfield
+  2395: 0002ddac   392 FUNC    GLOBAL DEFAULT    12 lua_seti
+  2396: 0002dfcc   168 FUNC    GLOBAL DEFAULT    12 lua_rawset
+  2397: 0002e074   248 FUNC    GLOBAL DEFAULT    12 lua_rawsetp
+  2398: 0002e16c   136 FUNC    GLOBAL DEFAULT    12 lua_rawseti
+  2399: 0002e1f4   352 FUNC    GLOBAL DEFAULT    12 lua_setmetatable
+  2400: 0002e354   276 FUNC    GLOBAL DEFAULT    12 lua_setiuservalue
+  2401: 0002e468   440 FUNC    GLOBAL DEFAULT    12 lua_callk
+  2402: 0002e920   532 FUNC    GLOBAL DEFAULT    12 lua_load
+  2403: 0002eb38   928 FUNC    GLOBAL DEFAULT    12 lua_dump
+  2404: 0002eed8     8 FUNC    GLOBAL DEFAULT    12 lua_status
+  2405: 0002ef58   840 FUNC    GLOBAL DEFAULT    12 lua_gc
+  2406: 0002f2a0    60 FUNC    GLOBAL DEFAULT    12 lua_error
+  2407: 0002f2dc   412 FUNC    GLOBAL DEFAULT    12 lua_next
+  2408: 0002f478    96 FUNC    GLOBAL DEFAULT    12 lua_toclose
+  2409: 0002f4d8   116 FUNC    GLOBAL DEFAULT    12 lua_concat
+  2410: 0002f664   168 FUNC    GLOBAL DEFAULT    12 lua_len
+  2411: 0002f70c    28 FUNC    GLOBAL DEFAULT    12 lua_getallocf
+  2412: 0002f7e8    12 FUNC    GLOBAL DEFAULT    12 lua_setallocf
+  2413: 0002f7f4    16 FUNC    GLOBAL DEFAULT    12 lua_setwarnf
+  2414: 00000000     0 FUNC    GLOBAL DEFAULT   UND fputs
+  2415: 00000000     0 FUNC    GLOBAL DEFAULT   UND fputc
+  2416: 00000000     0 FUNC    GLOBAL DEFAULT   UND fwrite
+  2417: 0002fa4c    24 FUNC    GLOBAL DEFAULT    12 lua_warning
+  2418: 0002fa64   340 FUNC    GLOBAL DEFAULT    12 lua_newuserdatauv
+  2419: 0002fbb8   344 FUNC    GLOBAL DEFAULT    12 lua_getupvalue
+  2420: 0002fd10   272 FUNC    GLOBAL DEFAULT    12 lua_setupvalue
+  2421: 0002fe88   288 FUNC    GLOBAL DEFAULT    12 lua_upvalueid
+  2422: 0002ffa8   208 FUNC    GLOBAL DEFAULT    12 lua_upvaluejoin
+  2423: 00030078   124 FUNC    GLOBAL DEFAULT    12 luaL_where
+  2424: 00000000     0 FUNC    GLOBAL DEFAULT   UND mkstemp
+  2425: 00000000     0 FUNC    GLOBAL DEFAULT   UND close
+  2426: 00031138   188 FUNC    GLOBAL DEFAULT    12 luaL_fileresult
+  2427: 0003129c   236 FUNC    GLOBAL DEFAULT    12 luaL_execresult
+  2428: 00031388   156 FUNC    GLOBAL DEFAULT    12 luaL_newmetatable
+  2429: 00031424    40 FUNC    GLOBAL DEFAULT    12 luaL_setmetatable
+  2430: 00000000     0 FUNC    GLOBAL DEFAULT   UND tmpfile
+  2431: 00000000     0 FUNC    GLOBAL DEFAULT   UND fopen
+  2432: 00031558   124 FUNC    GLOBAL DEFAULT    12 luaL_testudata
+  2433: 000315d4    80 FUNC    GLOBAL DEFAULT    12 luaL_checkstack
+  2434: 00031738   352 FUNC    GLOBAL DEFAULT    12 luaL_argerror
+  2435: 00031ea4    52 FUNC    GLOBAL DEFAULT    12 luaL_checkany
+  2436: 0003218c   208 FUNC    GLOBAL DEFAULT    12 luaL_pushresult
+  2437: 0003225c    16 FUNC    GLOBAL DEFAULT    12 luaL_pushresultsize
+  2438: 0003226c    28 FUNC    GLOBAL DEFAULT    12 luaL_buffinit
+  2439: 00032398   124 FUNC    GLOBAL DEFAULT    12 luaL_unref
+  2440: 00032414   684 FUNC    GLOBAL DEFAULT    12 luaL_loadfilex
+  2441: 00000000     0 FUNC    GLOBAL DEFAULT   UND ferror
+  2442: 00000000     0 FUNC    GLOBAL DEFAULT   UND fclose
+  2443: 00000000     0 FUNC    GLOBAL DEFAULT   UND freopen
+  2444: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stdin
+  2445: 000326f8    68 FUNC    GLOBAL DEFAULT    12 luaL_loadstring
+  2446: 0003273c   144 FUNC    GLOBAL DEFAULT    12 luaL_getmetafield
+  2447: 000327cc   172 FUNC    GLOBAL DEFAULT    12 luaL_typeerror
+  2448: 00032878    80 FUNC    GLOBAL DEFAULT    12 luaL_checkudata
+  2449: 00000000     0 FUNC    GLOBAL DEFAULT   UND pclose
+  2450: 00032dbc   140 FUNC    GLOBAL DEFAULT    12 luaL_checkinteger
+  2451: 00032e48    60 FUNC    GLOBAL DEFAULT    12 luaL_optinteger
+  2452: 00000000     0 FUNC    GLOBAL DEFAULT   UND exit
+  2453: 00000000     0 FUNC    GLOBAL DEFAULT   UND difftime
+  2454: 00033d3c    80 FUNC    GLOBAL DEFAULT    12 luaL_checktype
+  2455: 00000000     0 FUNC    GLOBAL DEFAULT   UND mktime
+  2456: 00000000     0 FUNC    GLOBAL DEFAULT   UND time
+  2457: 000349fc    88 FUNC    GLOBAL DEFAULT    12 luaL_checklstring
+  2458: 00034a54    84 FUNC    GLOBAL DEFAULT    12 luaL_optlstring
+  2459: 00000000     0 FUNC    GLOBAL DEFAULT   UND system
+  2460: 00035278   152 FUNC    GLOBAL DEFAULT    12 luaL_checkoption
+  2461: 00000000     0 FUNC    GLOBAL DEFAULT   UND setlocale
+  2462: 00000000     0 FUNC    GLOBAL DEFAULT   UND setvbuf
+  2463: 00000000     0 FUNC    GLOBAL DEFAULT   UND fseeko64
+  2464: 00000000     0 FUNC    GLOBAL DEFAULT   UND ftello64
+  2465: 00000000     0 FUNC    GLOBAL DEFAULT   UND popen
+  2466: 00000000     0 FUNC    GLOBAL DEFAULT   UND rename
+  2467: 00000000     0 FUNC    GLOBAL DEFAULT   UND remove
+  2468: 00000000     0 FUNC    GLOBAL DEFAULT   UND getenv
+  2469: 00000000     0 FUNC    GLOBAL DEFAULT   UND memchr
+  2470: 00037678   104 FUNC    GLOBAL DEFAULT    12 luaL_checknumber
+  2471: 000376e0    60 FUNC    GLOBAL DEFAULT    12 luaL_optnumber
+  2472: 00000000     0 FUNC    GLOBAL DEFAULT   UND tan
+  2473: 00000000     0 FUNC    GLOBAL DEFAULT   UND sqrt
+  2474: 00000000     0 FUNC    GLOBAL DEFAULT   UND sin
+  2475: 00000000     0 FUNC    GLOBAL DEFAULT   UND ceil
+  2476: 00000000     0 FUNC    GLOBAL DEFAULT   UND log10
+  2477: 00000000     0 FUNC    GLOBAL DEFAULT   UND log
+  2478: 00000000     0 FUNC    GLOBAL DEFAULT   UND log2
+  2479: 00000000     0 FUNC    GLOBAL DEFAULT   UND exp
+  2480: 00000000     0 FUNC    GLOBAL DEFAULT   UND cos
+  2481: 00000000     0 FUNC    GLOBAL DEFAULT   UND atan2
+  2482: 00000000     0 FUNC    GLOBAL DEFAULT   UND asin
+  2483: 00000000     0 FUNC    GLOBAL DEFAULT   UND acos
+  2484: 00000000     0 FUNC    GLOBAL DEFAULT   UND ldexp
+  2485: 0003825c    96 FUNC    GLOBAL DEFAULT    12 luaL_callmeta
+  2486: 000382bc   104 FUNC    GLOBAL DEFAULT    12 luaL_len
+  2487: 00038688   500 FUNC    GLOBAL DEFAULT    12 luaL_tolstring
+  2488: 00000000     0 OBJECT  GLOBAL DEFAULT   UND stdout
+  2489: 00000000     0 FUNC    GLOBAL DEFAULT   UND fgets
+  2490: 00038ad8   180 FUNC    GLOBAL DEFAULT    12 luaL_setfuncs
+  2491: 00038d74     8 FUNC    GLOBAL DEFAULT    12 luaL_prepbuffsize
+  2492: 00000000     0 FUNC    GLOBAL DEFAULT   UND flockfile
+  2493: 00000000     0 FUNC    GLOBAL DEFAULT   UND funlockfile
+  2494: 00000000     0 FUNC    GLOBAL DEFAULT   UND clearerr
+  2495: 00000000     0 FUNC    GLOBAL DEFAULT   UND ungetc
+  2496: 00000000     0 FUNC    GLOBAL DEFAULT   UND localtime_r
+  2497: 00000000     0 FUNC    GLOBAL DEFAULT   UND strftime
+  2498: 00000000     0 FUNC    GLOBAL DEFAULT   UND gmtime_r
+  2499: 00039acc    76 FUNC    GLOBAL DEFAULT    12 luaL_addlstring
+  2500: 00039b18    48 FUNC    GLOBAL DEFAULT    12 luaL_addstring
+  2501: 0003a388   100 FUNC    GLOBAL DEFAULT    12 luaL_addvalue
+  2502: 0003a3ec   776 FUNC    GLOBAL DEFAULT    12 luaL_traceback
+  2503: 0003bb7c    36 FUNC    GLOBAL DEFAULT    12 luaL_buffinitsize
+  2504: 0003bf20   140 FUNC    GLOBAL DEFAULT    12 luaopen_base
+  2505: 0003bfac   116 FUNC    GLOBAL DEFAULT    12 luaL_getsubtable
+  2506: 0003c21c   260 FUNC    GLOBAL DEFAULT    12 luaL_requiref
+  2507: 0003c320    96 FUNC    GLOBAL DEFAULT    12 luaL_addgsub
+  2508: 0003c380    84 FUNC    GLOBAL DEFAULT    12 luaL_gsub
+  2509: 0003ca34    44 FUNC    GLOBAL DEFAULT    12 luaL_makeseed
+  2510: 0003d090   120 FUNC    GLOBAL DEFAULT    12 luaL_newstate
+  2511: 0003d108   140 FUNC    GLOBAL DEFAULT    12 luaL_checkversion_
+  2512: 0003d194    88 FUNC    GLOBAL DEFAULT    12 luaopen_coroutine
+  2513: 0003d1ec    88 FUNC    GLOBAL DEFAULT    12 luaopen_debug
+  2514: 0003d244   572 FUNC    GLOBAL DEFAULT    12 luaopen_io
+  2515: 0003d480   504 FUNC    GLOBAL DEFAULT    12 luaopen_math
+  2516: 0003d678   576 FUNC    GLOBAL DEFAULT    12 luaopen_package
+  2517: 0003d8b8    88 FUNC    GLOBAL DEFAULT    12 luaopen_os
+  2518: 0003d910   232 FUNC    GLOBAL DEFAULT    12 luaopen_string
+  2519: 0003d9f8    88 FUNC    GLOBAL DEFAULT    12 luaopen_table
+  2520: 0003da50   136 FUNC    GLOBAL DEFAULT    12 luaopen_utf8
+  2521: 0003dad8   200 FUNC    GLOBAL DEFAULT    12 luaL_openselectedlibs
+  2522: 00008108   129 OBJECT  GLOBAL DEFAULT    10 lua_ident
+  2523: 0003dba0   156 FUNC    GLOBAL DEFAULT    12 android_app_read_cmd
+  2524: 00000000     0 FUNC    GLOBAL DEFAULT   UND read
+  2525: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_lock
+  2526: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_unlock
+  2527: 0003dc3c   556 FUNC    GLOBAL DEFAULT    12 android_app_pre_exec_cmd
+  2528: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_broadcast
+  2529: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_detachLooper
+  2530: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_attachLooper
+  2531: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_fromAssetManager
+  2532: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getLanguage
+  2533: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getCountry
+  2534: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getMcc
+  2535: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getMnc
+  2536: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getOrientation
+  2537: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getTouchscreen
+  2538: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getDensity
+  2539: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getKeyboard
+  2540: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getNavigation
+  2541: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getKeysHidden
+  2542: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getNavHidden
+  2543: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getSdkVersion
+  2544: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getScreenSize
+  2545: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getScreenLong
+  2546: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getUiModeType
+  2547: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_getUiModeNight
+  2548: 0003dfe0   208 FUNC    GLOBAL DEFAULT    12 android_app_post_exec_cmd
+  2549: 0003e0b0     4 FUNC    GLOBAL DEFAULT    12 app_dummy
+  2550: 00000000     0 FUNC    GLOBAL DEFAULT   UND calloc
+  2551: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_init
+  2552: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_init
+  2553: 00000000     0 FUNC    GLOBAL DEFAULT   UND pipe
+  2554: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_attr_init
+  2555: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_attr_setdetachstate
+  2556: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_create
+  2557: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_wait
+  2558: 00000000     0 FUNC    GLOBAL DEFAULT   UND write
+  2559: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_cond_destroy
+  2560: 00000000     0 FUNC    GLOBAL DEFAULT   UND pthread_mutex_destroy
+  2561: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_new
+  2562: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_prepare
+  2563: 00000000     0 FUNC    GLOBAL DEFAULT   UND ALooper_addFd
+  2564: 00000000     0 FUNC    GLOBAL DEFAULT   UND AConfiguration_delete
+  2565: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_getEvent
+  2566: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_finishEvent
+  2567: 00000000     0 FUNC    GLOBAL DEFAULT   UND AInputQueue_preDispatchEvent
+BuildAttributes {
+  FormatVersion: 0x41
+  Section 1 {
+    SectionLength: 59
+    Vendor: aeabi
+    Tag: Tag_File (0x1)
+    Size: 49
+    FileAttributes {
+      Attribute {
+        Tag: 67
+        TagName: conformance
+        Value: 2.09
+      }
+      Attribute {
+        Tag: 6
+        Value: 10
+        TagName: CPU_arch
+        Description: ARM v7
+      }
+      Attribute {
+        Tag: 7
+        Value: 65
+        TagName: CPU_arch_profile
+        Description: Application
+      }
+      Attribute {
+        Tag: 8
+        Value: 1
+        TagName: ARM_ISA_use
+        Description: Permitted
+      }
+      Attribute {
+        Tag: 9
+        Value: 2
+        TagName: THUMB_ISA_use
+        Description: Thumb-2
+      }
+      Attribute {
+        Tag: 10
+        Value: 3
+        TagName: FP_arch
+        Description: VFPv3
+      }
+      Attribute {
+        Tag: 12
+        Value: 1
+        TagName: Advanced_SIMD_arch
+        Description: NEONv1
+      }
+      Attribute {
+        Tag: 14
+        Value: 0
+        TagName: ABI_PCS_R9_use
+        Description: v6
+      }
+      Attribute {
+        Tag: 15
+        Value: 1
+        TagName: ABI_PCS_RW_data
+        Description: PC-relative
+      }
+      Attribute {
+        Tag: 16
+        Value: 1
+        TagName: ABI_PCS_RO_data
+        Description: PC-relative
+      }
+      Attribute {
+        Tag: 17
+        Value: 2
+        TagName: ABI_PCS_GOT_use
+        Description: GOT-Indirect
+      }
+      Attribute {
+        Tag: 18
+        Value: 4
+        TagName: ABI_PCS_wchar_t
+        Description: 4-byte
+      }
+      Attribute {
+        Tag: 20
+        Value: 1
+        TagName: ABI_FP_denormal
+        Description: IEEE-754
+      }
+      Attribute {
+        Tag: 21
+        Value: 0
+        TagName: ABI_FP_exceptions
+        Description: Not Permitted
+      }
+      Attribute {
+        Tag: 23
+        Value: 3
+        TagName: ABI_FP_number_model
+        Description: IEEE-754
+      }
+      Attribute {
+        Tag: 24
+        Value: 1
+        TagName: ABI_align_needed
+        Description: 8-byte alignment
+      }
+      Attribute {
+        Tag: 25
+        Value: 1
+        TagName: ABI_align_preserved
+        Description: 8-byte data alignment
+      }
+      Attribute {
+        Tag: 26
+        Value: 2
+        TagName: ABI_enum_size
+        Description: Int32
+      }
+      Attribute {
+        Tag: 34
+        Value: 1
+        TagName: CPU_unaligned_access
+        Description: v6-style
+      }
+      Attribute {
+        Tag: 38
+        Value: 1
+        TagName: ABI_FP_16bit_format
+        Description: IEEE-754
+      }
+    }
+  }
+}
