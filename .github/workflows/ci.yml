@@ -59,24 +59,8 @@ jobs:
           ! grep -R -n 'android.webkit.WebView' app || true
           grep -Fq 'android.app.NativeActivity' app/src/main/AndroidManifest.xml
 
-  native-model-tests:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Check out source
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
-
-      - name: Compile and run quiz parser
-        run: |
-          set -eu
-          cc \
-            -std=c17 -O2 \
-            -Wall -Wextra -Werror -Wpedantic -Wconversion -Wshadow \
-            -Iapp/src/main/c \
-            app/src/main/c/quiz_model.c \
-            app/src/main/c/quiz_model_test.c \
-            -o /tmp/toki-pona-quiz-model-test
-          /tmp/toki-pona-quiz-model-test quizzes.txt
+  # Corpus/model verification is owned by the Qualified Icky quiz session host
+  # workflow, which compiles the same parser tests through exact ICK.
 
   build-native-apk:
     runs-on: ubuntu-24.04

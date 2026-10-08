@@ -32,6 +32,8 @@ foreach(required quiz_session.o icky-lua.o source.receipt.tsv)
     endif()
 endforeach()
 file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/quiz_session.c" bridge_sha)
+file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/quiz_session.h" session_header_sha)
+file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/quiz_model.h" model_header_sha)
 file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/../../../../policy/quiz-session.lua" policy_sha)
 file(SHA256 "${session_object_dir}/quiz_session.o" bridge_object_sha)
 file(SHA256 "${session_object_dir}/icky-lua.o" runtime_object_sha)
@@ -42,6 +44,8 @@ foreach(required
     "ick_revision\t515c0f29fe6e2e96e10495fbaf25da93532e7722"
     "lua_revision\t87306483cec50f8c750a22dda1d0742246fad756"
     "bridge_source_sha256\t${bridge_sha}"
+    "session_header_sha256\t${session_header_sha}"
+    "model_header_sha256\t${model_header_sha}"
     "policy_source_sha256\t${policy_sha}"
     "bridge_object_sha256\t${bridge_object_sha}"
     "runtime_object_sha256\t${runtime_object_sha}")

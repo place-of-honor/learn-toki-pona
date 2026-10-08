@@ -43,6 +43,13 @@ object into this consumer. It also executes the unchanged 56-exercise corpus
 test and reproduces the original C checkpoint. The host workflow restores the
 existing qualified ICK and exact Grease artifacts; it does not create a new
 compiler or orchestrator.
+The maintained host parser job is superseded by this exact ICK stage; no stock
+host `cc` parser job remains. The shared build-toolchain manifest covers the
+actual C-generation, assembly, platform C and link stages and is checked by the
+qualified ICK-built verifier from ai-ci
+`01608a2493fa409463f70e8fbfd8a123ef59ee85`.
+Both producer output directories retain `third_party/lua-LICENSE`. Any later
+packaging of a statically linked library/APK must retain that same notice.
 
 ## Android stage and current blocker
 
@@ -59,7 +66,8 @@ library's literal policy bytes compare with source. Target execution is NOT_RUN.
 All three original Android ABI requests remain: armeabi-v7a, arm64-v8a and
 x86_64. `TOKI_PONA_SESSION_OBJECT_ROOT` must contain source-bound ICK session
 and actual runtime objects plus `source.receipt.tsv` for each requested ABI.
-CMake rejects missing or stale source/object receipts. Native direct builds
+CMake rejects missing or stale source/object receipts, including both headers
+that define state layout, event enums and course bounds. Native direct builds
 also require the explicit qualified-object linkage macro; Clang is never asked
 to parse the new arrow module. The legacy direct APK script does not yet supply
 this closure and is BLOCKED. ARM64 and Android x86_64 ICK object producers are

@@ -51,6 +51,8 @@ jobs:
           path: flexible-pipes
           persist-credentials: false
       - name: Restore executable file modes
+        # Pinned shared owner contract; its verifier is compiled by exact ICK.
+        # No generic compiler is selected for the maintained host test stage.
         run: chmod +x qualified-ick/compiler/build/gcc/xgcc qualified-ick/compiler/build/gcc/cc1 qualified-ick/compiler/build/gcc/collect2 grease/_bin/cxx-asan/ysh
       - name: Producer ASAN address mapping
         run: sudo sysctl vm.mmap_rnd_bits=28
@@ -63,6 +65,21 @@ jobs:
           grease/_bin/cxx-asan/ysh scripts/test-session.grease
           qualified-ick/compiler/build/gcc/xgcc qualified-ick/compiler/build/gcc
           icky-lua flexible-pipes grease/_bin/cxx-asan/ysh host-session
+      - name: Pinned shared build-toolchain contract
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: isomorphisms/ai-ci
+          ref: 01608a2493fa409463f70e8fbfd8a123ef59ee85
+          path: contract
+          persist-credentials: false
+      - name: Compile shared verifier through qualified ICK
+        run: >
+          qualified-ick/compiler/build/gcc/xgcc
+          -Bqualified-ick/compiler/build/gcc/ -B/usr/lib/gcc/x86_64-linux-gnu/13/
+          -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -fno-use-linker-plugin
+          -std=c11 -O2 contract/src/aici.c -o host-session/contract-check
+      - name: Required shared actual-stage contract
+        run: host-session/contract-check verify contract/contracts/build-toolchain-v0.contract.tsv .
       - name: Retain source-bound host evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

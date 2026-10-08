@@ -50,6 +50,7 @@ verify_digest "$support/include/stdarg.h" 173a81bfbe88a2da5ed5d238e14e0eaca61b09
 verify_digest "$support/include/stdatomic.h" 7e359ce3ebff2f69dd863cf73637e3d70a20486509eba285d659574805c17885
 mkdir -p "$output/armeabi-v7a"
 var objects = "$output/armeabi-v7a"
+cp "$repository/third_party/lua-LICENSE" "$objects/LUA-LICENSE"
 var flags = ["-B$support/", "-isystem", "$support/include", '-isystem', "$support/include-fixed", "--sysroot=$sysroot", '-isystem', "$sysroot/usr/include", '-isystem', "$sysroot/usr/include/arm-linux-androideabi", "-I$source", "-I$lua", '-std=c17', '-O2', '-Wall', '-Wextra', '-Werror', '-fPIC', '-ffunction-sections', '-fdata-sections', '-D__ANDROID__', '-D__ANDROID_API__=26', '-D__ANDROID_MIN_SDK_VERSION__=26', '-DBIONIC_IOCTL_NO_SIGNEDNESS_OVERLOAD', '-marm', '-march=armv7-a', '-mfloat-abi=softfp', '-mfpu=vfpv3-d16', '-masm-syntax-unified']
 "$compiler" @flags -Wpedantic -Wconversion -Wshadow "-DTOKI_SESSION_SOURCE=\"$repository/policy/quiz-session.lua\"" -S "$source/quiz_session.c" -o "$objects/quiz_session.s"
 "$compiler" @flags -DMAKE_LIB -DLUA_USE_POSIX -S "$lua/onelua.c" -o "$objects/icky-lua.s"
@@ -71,10 +72,12 @@ if rg -iq 'NEEDED.*lua' "$objects/abi.txt" { exit 1 }
 "$host/bin/llvm-objcopy" --dump-section ".toki_session_source=$objects/embedded-policy.lua" "$objects/libtokipona_drills.so"
 cmp "$repository/policy/quiz-session.lua" "$objects/embedded-policy.lua"
 var bridge_source = $(sha256sum "$source/quiz_session.c")
+var session_header = $(sha256sum "$source/quiz_session.h")
+var model_header = $(sha256sum "$source/quiz_model.h")
 var policy_source = $(sha256sum "$repository/policy/quiz-session.lua")
 var bridge_object = $(sha256sum "$objects/quiz_session.o")
 var runtime_object = $(sha256sum "$objects/icky-lua.o")
-printf 'key\tvalue\nabi\tarmeabi-v7a\ncompiler_stage\tick\nick_revision\t515c0f29fe6e2e96e10495fbaf25da93532e7722\nlua_revision\t87306483cec50f8c750a22dda1d0742246fad756\nbridge_source_sha256\t%s\npolicy_source_sha256\t%s\nbridge_object_sha256\t%s\nruntime_object_sha256\t%s\n' "${bridge_source%% *}" "${policy_source%% *}" "${bridge_object%% *}" "${runtime_object%% *}" > "$objects/source.receipt.tsv"
+printf 'key\tvalue\nabi\tarmeabi-v7a\ncompiler_stage\tick\nick_revision\t515c0f29fe6e2e96e10495fbaf25da93532e7722\nlua_revision\t87306483cec50f8c750a22dda1d0742246fad756\nbridge_source_sha256\t%s\nsession_header_sha256\t%s\nmodel_header_sha256\t%s\npolicy_source_sha256\t%s\nbridge_object_sha256\t%s\nruntime_object_sha256\t%s\n' "${bridge_source%% *}" "${session_header%% *}" "${model_header%% *}" "${policy_source%% *}" "${bridge_object%% *}" "${runtime_object%% *}" > "$objects/source.receipt.tsv"
 sha256sum "$compiler" "$support/cc1" "$support/include/stdbool.h" "$support/include/stddef.h" "$support/include/stdarg.h" "$support/include/stdatomic.h" "$host/bin/clang" "$host/bin/ld.lld" "$objects/libtokipona_drills.so" "$objects/embedded-policy.lua" > "$objects/digests.txt"
 printf 'PASS ARMv7/API26 ICK C+actual modified Lua, declared NDK assembly/platform link and literal source cmp; target runtime NOT_RUN; ARM64/x86_64 closures remain BLOCKED\n' > "$objects/comparison.txt"
 cat "$objects/comparison.txt"
