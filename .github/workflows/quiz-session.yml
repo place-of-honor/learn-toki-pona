@@ -1,0 +1,88 @@
+name: Qualified Icky quiz session host
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  session-host:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      ASAN_OPTIONS: detect_leaks=0
+    steps:
+      - name: Exact consumer head
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Existing qualified ICK producer artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          repository: isomorphisms/fastchat
+          run-id: 37589849631
+          artifact-ids: 11468256648
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: qualified-ick
+      - name: Existing exact Grease producer runtime
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          repository: dilapidated-shed/grease
+          run-id: 37478624499
+          artifact-ids: 11419719229
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: grease
+      - name: Pinned actual modified Lua source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: isomorphisms/lua
+          ref: 87306483cec50f8c750a22dda1d0742246fad756
+          path: icky-lua
+          persist-credentials: false
+      - name: Pinned canonical producer gate
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: isomorphisms/flexible-pipes
+          ref: 5caaba31256bfb424638f8a3d4d554c56fa9a970
+          path: flexible-pipes
+          persist-credentials: false
+      - name: Restore executable file modes
+        # Pinned shared owner contract; its verifier is compiled by exact ICK.
+        # No generic compiler is selected for the maintained host test stage.
+        run: chmod +x qualified-ick/compiler/build/gcc/xgcc qualified-ick/compiler/build/gcc/cc1 qualified-ick/compiler/build/gcc/collect2 grease/_bin/cxx-asan/ysh
+      - name: Producer ASAN address mapping
+        run: sudo sysctl vm.mmap_rnd_bits=28
+      - name: Runtime library index
+        run: sudo apt-get update
+      - name: Declared host compiler runtime dependencies
+        run: sudo apt-get install -y libgmp10 libmpfr6 libmpc3 libisl23 libzstd1 ripgrep
+      - name: Exact gate, C checkpoint, consumer trace and negative controls
+        run: >
+          grease/_bin/cxx-asan/ysh scripts/test-session.grease
+          qualified-ick/compiler/build/gcc/xgcc qualified-ick/compiler/build/gcc
+          icky-lua flexible-pipes grease/_bin/cxx-asan/ysh host-session
+      - name: Pinned shared build-toolchain contract
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: isomorphisms/ai-ci
+          ref: 01608a2493fa409463f70e8fbfd8a123ef59ee85
+          path: contract
+          persist-credentials: false
+      - name: Compile shared verifier through qualified ICK
+        run: >
+          qualified-ick/compiler/build/gcc/xgcc
+          -Bqualified-ick/compiler/build/gcc/ -B/usr/lib/gcc/x86_64-linux-gnu/13/
+          -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -fno-use-linker-plugin
+          -std=c11 -O2 contract/src/aici.c -o host-session/contract-check
+      - name: Required shared actual-stage contract
+        run: host-session/contract-check verify contract/contracts/build-toolchain-v0.contract.tsv .
+      - name: Retain source-bound host evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quiz-session-host-${{ github.event.pull_request.head.sha || github.sha }}
+          if-no-files-found: error
+          path: host-session

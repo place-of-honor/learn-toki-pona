@@ -1,0 +1,88 @@
+#!/usr/bin/env grease
+# Bounded producer: ICK C parsing/code generation, NDK assembly/platform link.
+set -eu -o pipefail
+if (len(ARGV) !== 8) {
+  echo 'usage: build-session-armv7.grease ICK_ARM_DRIVER ICK_LIBEXEC NDK27C LUA_CHECKOUT HOST_RUNTIME_GATE NEW_OUTPUT AICI_CHECKOUT CURRENT_ARM_ICK_STAGE'
+  exit 2
+}
+var compiler = ARGV[0]
+var support = ARGV[1]
+var ndk = ARGV[2]
+var lua = ARGV[3]
+var gate = ARGV[4]
+var output = ARGV[5]
+var aici = ARGV[6]
+var platform_stage = ARGV[7]
+var script_directory = $(dirname "$0")
+var repository = $(realpath "$script_directory/..")
+var source = "$repository/app/src/main/c"
+var host = "$ndk/toolchains/llvm/prebuilt/linux-x86_64"
+var sysroot = "$host/sysroot"
+var driver = "$host/bin/armv7a-linux-androideabi26-clang"
+test ! -e "$output"
+rg -Fx 'status	PASS' "$gate/receipt.tsv"
+rg -Fx 'lua_revision	87306483cec50f8c750a22dda1d0742246fad756' "$gate/receipt.tsv"
+rg -Fx 'embedded_semantics	PASS' "$gate/receipt.tsv"
+var runtime_digest = $(sha256sum "$gate/icky-lua.o")
+test "${runtime_digest%% *}" = 72d3e53ebfae00e83c6ac12a80b769c8c6273464dd1bfe52343dabca652fb34f
+var lua_revision = $(git -C "$lua" rev-parse HEAD)
+test "$lua_revision" = 87306483cec50f8c750a22dda1d0742246fad756
+var lua_status = $(git -C "$lua" status --porcelain)
+test -z "$lua_status"
+var compiler_digest = $(sha256sum "$compiler")
+test "${compiler_digest%% *}" = c78697d096ffe8ba10fbcc3bae9b35d0c934bee11a3626813656ac84e126f9ad
+var frontend_digest = $(sha256sum "$support/cc1")
+if ! test "${frontend_digest%% *}" = 289dee590a515e6426a6ab74d7dc8c143e428836a3a79036a75444f0622fba73 {
+  test "${frontend_digest%% *}" = cad6d4947b92666ae848a69eab893699ed0bc2af158ac7fa55a5629a681feceb
+}
+var machine = $("$compiler" -dumpmachine)
+test "$machine" = arm-linux-gnueabi
+rg -q '^Pkg.Revision = 27[.]2[.]12479018$' "$ndk/source.properties"
+var assembler_digest = $(sha256sum "$host/bin/clang")
+test "${assembler_digest%% *}" = a871130d810536f7bb924c8aeaff57c66de27bed9b13d0ccafba25fdcc8bd02d
+var linker_digest = $(sha256sum "$host/bin/ld.lld")
+test "${linker_digest%% *}" = c4a7473d3b8a99a32335616838af2aa85c6333091abeab423be2a905ff5f288c
+proc verify_digest (path, expected) {
+  var actual = $(sha256sum "$path")
+  test "${actual%% *}" = "$expected"
+}
+verify_digest "$support/include/stdbool.h" f2a112e8b2128fb1d76e7c0b625cec8760955ebeae5cdf6b419ccf0c6d62768f
+verify_digest "$support/include/stddef.h" 868352506950054491b9c76a4e2814f4f3601d227d3dea62a3e75875f327f2c1
+verify_digest "$support/include/stdarg.h" 173a81bfbe88a2da5ed5d238e14e0eaca61b090ee6d7b12b5f9614daeea21600
+verify_digest "$support/include/stdatomic.h" 7e359ce3ebff2f69dd863cf73637e3d70a20486509eba285d659574805c17885
+mkdir -p "$output/armeabi-v7a"
+var objects = "$output/armeabi-v7a"
+cp "$repository/third_party/lua-LICENSE" "$objects/LUA-LICENSE"
+var flags = ["-B$support/", "-isystem", "$support/include", '-isystem', "$support/include-fixed", "--sysroot=$sysroot", '-isystem', "$sysroot/usr/include", '-isystem', "$sysroot/usr/include/arm-linux-androideabi", "-I$source", "-I$lua", '-std=c17', '-O2', '-Wall', '-Wextra', '-Werror', '-fPIC', '-ffunction-sections', '-fdata-sections', '-D__ANDROID__', '-D__ANDROID_API__=26', '-D__ANDROID_MIN_SDK_VERSION__=26', '-DBIONIC_IOCTL_NO_SIGNEDNESS_OVERLOAD', '-marm', '-march=armv7-a', '-mfloat-abi=softfp', '-mfpu=vfpv3-d16', '-masm-syntax-unified']
+"$compiler" @flags -Wpedantic -Wconversion -Wshadow "-DTOKI_SESSION_SOURCE=\"$repository/policy/quiz-session.lua\"" -S "$source/quiz_session.c" -o "$objects/quiz_session.s"
+"$compiler" @flags -DMAKE_LIB -DLUA_USE_POSIX -S "$lua/onelua.c" -o "$objects/icky-lua.s"
+# This compiler invocation parses ICK-produced assembly only.
+"$driver" -x assembler -c "$objects/quiz_session.s" -o "$objects/quiz_session.o"
+"$driver" -x assembler -c "$objects/icky-lua.s" -o "$objects/icky-lua.o"
+# Current platform C uses the same hardened CMake producer as packaged builds;
+# the exact old session/Lua object gate above remains independently unchanged.
+cmake -S "$source" -B "$output/platform-build" -G Ninja "-DCMAKE_TOOLCHAIN_FILE=$ndk/build/cmake/android.toolchain.cmake" -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=android-26 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOKI_PONA_PLATFORM_ONLY=ON "-DTOKI_PONA_AICI_ROOT=$aici" "-DTOKI_PONA_ICK_STAGE=$platform_stage"
+cmake --build "$output/platform-build"
+cp "$output/platform-build/native_main.o" "$objects/native_main.o"
+cp "$output/platform-build/quiz_model.o" "$objects/quiz_model.o"
+"$driver" -std=c17 -O2 -g -fPIC -ffunction-sections -fdata-sections -isystem "$ndk/sources/android/native_app_glue" -c "$ndk/sources/android/native_app_glue/android_native_app_glue.c" -o "$objects/native_app_glue.o"
+"$driver" -shared -Wl,--no-undefined -Wl,--gc-sections -Wl,-z,relro,-z,now -Wl,-u,ANativeActivity_onCreate "$objects/native_main.o" "$objects/quiz_model.o" "$objects/quiz_session.o" "$objects/icky-lua.o" "$objects/native_app_glue.o" -landroid -llog -lm -ldl -o "$objects/libtokipona_drills.so"
+"$host/bin/llvm-readelf" -h -A -d -s "$objects/libtokipona_drills.so" > "$objects/abi.txt"
+rg -q 'Class:.*ELF32' "$objects/abi.txt"
+rg -q 'Machine:.*ARM' "$objects/abi.txt"
+rg -q 'ANativeActivity_onCreate' "$objects/abi.txt"
+if rg -Uq 'TagName: ABI_VFP_args\s+Description: VFP registers' "$objects/abi.txt" { exit 1 }
+if rg -iq 'NEEDED.*lua' "$objects/abi.txt" { exit 1 }
+"$host/bin/llvm-objcopy" --dump-section ".toki_session_source=$objects/embedded-policy.lua" "$objects/libtokipona_drills.so"
+cmp "$repository/policy/quiz-session.lua" "$objects/embedded-policy.lua"
+var bridge_source = $(sha256sum "$source/quiz_session.c")
+var session_header = $(sha256sum "$source/quiz_session.h")
+var model_header = $(sha256sum "$source/quiz_model.h")
+var policy_source = $(sha256sum "$repository/policy/quiz-session.lua")
+var bridge_object = $(sha256sum "$objects/quiz_session.o")
+var runtime_object = $(sha256sum "$objects/icky-lua.o")
+printf 'key\tvalue\nabi\tarmeabi-v7a\ncompiler_stage\tick\nick_revision\t515c0f29fe6e2e96e10495fbaf25da93532e7722\nlua_revision\t87306483cec50f8c750a22dda1d0742246fad756\nbridge_source_sha256\t%s\nsession_header_sha256\t%s\nmodel_header_sha256\t%s\npolicy_source_sha256\t%s\nbridge_object_sha256\t%s\nruntime_object_sha256\t%s\n' "${bridge_source%% *}" "${session_header%% *}" "${model_header%% *}" "${policy_source%% *}" "${bridge_object%% *}" "${runtime_object%% *}" > "$objects/source.receipt.tsv"
+sha256sum "$compiler" "$support/cc1" "$support/include/stdbool.h" "$support/include/stddef.h" "$support/include/stdarg.h" "$support/include/stdatomic.h" "$host/bin/clang" "$host/bin/ld.lld" "$objects/libtokipona_drills.so" "$objects/embedded-policy.lua" > "$objects/digests.txt"
+printf 'PASS ARMv7/API26 ICK C+actual modified Lua, declared NDK assembly/platform link and literal source cmp; target runtime NOT_RUN; ARM64/x86_64 closures remain BLOCKED\n' > "$objects/comparison.txt"
+printf 'platform_ick_revision\tc61e448251744a2f40ad743ebef1a027bdcd2f9d\nplatform_aici_revision\t015cc7901ae0b3ad262b476f24e129b53c56db95\n' >> "$objects/source.receipt.tsv"
+cat "$objects/comparison.txt"

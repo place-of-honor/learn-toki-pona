@@ -1,0 +1,6 @@
+Clean ARMv7/API26 configure and build exit code: 0.
+Declared CMake: 3.22.1-g37088a8; declared NDK: 27.2.12479018.
+Both canonical header hashes matched imported source.receipt.tsv before linking.
+8ea3be90aaab54828f328a4ce52b2abd1597cd4243b1a557849bf7befd5a4be8  /workspace/scratch/4cbbf3939bb5/il3/qualification/toki-cmake-good/libtokipona_drills.so
+8077799a817d100398f271097b2c583250655bf0adbe767c12cdeafd2d333da8  /workspace/scratch/4cbbf3939bb5/il3/qualification/toki-contract-check
+c8c39aee0443330e9b1866e1d85cc2405a4eec5dfbb468c5017c3eaecb4964f5  /workspace/scratch/4cbbf3939bb5/target-build-tools/cmake-3.22.1/bin/cmake

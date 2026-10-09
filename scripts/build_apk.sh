@@ -46,45 +46,21 @@ fi
 
 compile_abi() {
     abi=$1
-    compiler_name=$2
-    compiler="$toolchain/bin/$compiler_name"
     objects="$work_dir/objects/$abi"
     library_dir="$staging/lib/$abi"
     mkdir -p "$objects" "$library_dir"
 
-    flags="-std=c17 -O2 -g -fPIC -ffunction-sections -fdata-sections"
-    warnings="-Wall -Wextra -Werror -Wpedantic -Wconversion -Wshadow"
-    includes="-I$project_root/app/src/main/c -isystem $glue_dir"
-
-    "$compiler" $flags $warnings -fstack-protector-strong -D_FORTIFY_SOURCE=2 \
-        $includes \
-        -c "$project_root/app/src/main/c/native_main.c" \
-        -o "$objects/native_main.o"
-
-    "$compiler" $flags $warnings -fstack-protector-strong -D_FORTIFY_SOURCE=2 \
-        $includes \
-        -c "$project_root/app/src/main/c/quiz_model.c" \
-        -o "$objects/quiz_model.o"
-
-    "$compiler" $flags -isystem "$glue_dir" \
-        -c "$glue_dir/android_native_app_glue.c" \
-        -o "$objects/native_app_glue.o"
-
-    "$compiler" -shared \
-        -Wl,--no-undefined \
-        -Wl,--gc-sections \
-        -Wl,-z,relro,-z,now \
-        -Wl,-u,ANativeActivity_onCreate \
-        "$objects/native_main.o" \
-        "$objects/quiz_model.o" \
-        "$objects/native_app_glue.o" \
-        -landroid -llog -lm \
-        -o "$library_dir/libtokipona_drills.so"
+    cmake -S "$project_root/app/src/main/c" -B "$objects" -G Ninja \
+        -DCMAKE_TOOLCHAIN_FILE="$ndk_root/build/cmake/android.toolchain.cmake" \
+        -DANDROID_ABI="$abi" -DANDROID_PLATFORM=android-26 \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    cmake --build "$objects"
+    cp "$objects/libtokipona_drills.so" "$library_dir/libtokipona_drills.so"
 }
 
-compile_abi arm64-v8a aarch64-linux-android26-clang
-compile_abi armeabi-v7a armv7a-linux-androideabi26-clang
-compile_abi x86_64 x86_64-linux-android26-clang
+compile_abi arm64-v8a
+compile_abi armeabi-v7a
+compile_abi x86_64
 
 base_apk="$work_dir/base.apk"
 unsigned_apk="$work_dir/unsigned.apk"

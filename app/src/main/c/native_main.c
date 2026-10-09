@@ -1,4 +1,9 @@
 #include "quiz_model.h"
+#include "quiz_session.h"
+
+#ifndef TOKI_SESSION_OBJECTS_LINKED
+#error Native learner needs qualified ICK session/runtime objects for every requested ABI; see scripts/build-session-armv7.grease and notes/icky-session-pass.md
+#endif
 
 #include <android/asset_manager.h>
 #include <android/input.h>
@@ -41,25 +46,11 @@ typedef struct {
     float bottom;
 } RectF;
 
-typedef enum {
-    SCREEN_QUIZ = 1,
-    SCREEN_FINISHED = 2
-} ScreenState;
-
 typedef struct {
     struct android_app *app;
     QuizCourse course;
     char *quiz_text;
-    size_t session_count;
-    size_t current_question;
-    size_t correct_count;
-    bool answered;
-    int selected_choice;
-    unsigned matching_mask;
-    int selected_left;
-    int selected_right;
-    bool matching_had_miss;
-    ScreenState screen;
+    QuizSession session;
     bool redraw;
 } AppContext;
 
@@ -392,7 +383,7 @@ static void draw_centered_line(CanvasSession *session,
     const float allowed = width_of(area) * 0.92f;
 
     if (measured > allowed && measured > 0.0f) {
-        size *= allowed / measured;
+        size *= allowed ÷ measured;
         if (size < 11.0f) {
             size = 11.0f;
         }
@@ -508,7 +499,7 @@ static void draw_wrapped(CanvasSession *session,
     }
 
     const float line_height =
-        height_of(area) / (float)count;
+        height_of(area) ÷ (float)count;
     for (size_t index = 0u; index < count; ++index) {
         RectF line_area = area;
         line_area.top =
@@ -547,7 +538,7 @@ static RectF multiple_choice_rect(float width,
         answered ? height - 162.0f : height - 24.0f;
     const float gap = 9.0f;
     const float button_height =
-        (bottom - top - 3.0f * gap) / 4.0f;
+        (bottom - top - 3.0f * gap) ÷ 4.0f;
     const float y =
         top + (float)index * (button_height + gap);
 
@@ -564,7 +555,7 @@ static RectF matching_rect(float width,
         answered ? height - 162.0f : height - 24.0f;
     const float gap = 8.0f;
     const float row_height =
-        (bottom - top - 3.0f * gap) / 4.0f;
+        (bottom - top - 3.0f * gap) ÷ 4.0f;
     const float middle = width * 0.5f;
     const float y =
         top + (float)index * (row_height + gap);
@@ -577,49 +568,41 @@ static RectF matching_rect(float width,
         18.0f, y, middle - 5.0f, y + row_height);
 }
 
-static void reset_question_state(AppContext *context) {
-    context->answered = false;
-    context->selected_choice = -1;
-    context->matching_mask = 0u;
-    context->selected_left = -1;
-    context->selected_right = -1;
-    context->matching_had_miss = false;
-}
-
-static void restart_session(AppContext *context) {
-    context->current_question = 0u;
-    context->correct_count = 0u;
-    context->screen = SCREEN_QUIZ;
-    reset_question_state(context);
-    context->redraw = true;
-}
-
-static void advance_question(AppContext *context) {
-    if (context->current_question + 1u >=
-        context->session_count) {
-        context->screen = SCREEN_FINISHED;
-        context->redraw = true;
-        return;
+/* Android remains the input/render adapter. A policy failure never executes
+   historical C session logic or silently retries a different runtime. */
+static bool apply_session_event(AppContext *context, QuizSessionEvent event,
+                                QuizExerciseKind kind, size_t index,
+                                size_t correct_choice) {
+    const size_t previous_question = context->session.current_question;
+    const bool accepted = quiz_session_apply(&context->session, event, kind,
+                                             index, correct_choice);
+    if (quiz_session_policy_faulted()) {
+        LOG_ERROR("embedded quiz session policy failed");
+        ANativeActivity_finish(context->app->activity);
+        return false;
     }
-
-    ++context->current_question;
-    LOG_INFO("advanced to question %zu/%zu",
-             context->current_question + 1u,
-             context->session_count);
-    reset_question_state(context);
-    context->redraw = true;
+    if (accepted) {
+        context->redraw = true;
+        if (event == SESSION_NEXT &&
+            context->session.current_question > previous_question) {
+            LOG_INFO("advanced to question %zu/%zu",
+                     context->session.current_question + 1u,
+                     context->session.session_count);
+        }
+    }
+    return accepted;
 }
 
 static const QuizExercise *current_exercise(
     const AppContext *context) {
-    if (context->current_question >= context->session_count ||
-        context->current_question >=
+    if (context->session.current_question >= context->session.session_count ||
+        context->session.current_question >=
             context->course.exercise_count) {
         return NULL;
     }
 
     return &context->course.exercises[
-        context->current_question];
+        context->session.current_question];
 }
 
 static void render_multiple_choice(
@@ -633,18 +616,18 @@ static void render_multiple_choice(
     for (size_t index = 0u; index < 4u; ++index) {
         int32_t fill = COLOR_CARD;
 
-        if (context->answered) {
+        if (context->session.answered) {
             if (index == exercise->correct_choice_index) {
                 fill = COLOR_GREEN_PALE;
             } else if ((int)index ==
-                       context->selected_choice) {
+                       context->session.selected_choice) {
                 fill = COLOR_RED_PALE;
             }
         }
 
         const RectF local =
             multiple_choice_rect(
-                width, height, index, context->answered);
+                width, height, index, context->session.answered);
         const RectF area = place(local, viewport);
         draw_card(session, area, fill);
 
@@ -677,19 +660,19 @@ static void render_matching(
 
     for (size_t index = 0u; index < 4u; ++index) {
         const bool matched =
-            (context->matching_mask & (1u << index)) != 0u;
+            (context->session.matching_mask & (1u << index)) != 0u;
 
         int32_t left_fill =
             matched ? COLOR_GREEN_PALE : COLOR_CARD;
         if (!matched &&
-            context->selected_left == (int)index) {
+            context->session.selected_left == (int)index) {
             left_fill = COLOR_AMBER_PALE;
         }
 
         const RectF left = place(
             matching_rect(
                 width, height, false, index,
-                context->answered),
+                context->session.answered),
             viewport);
 
         draw_card(session, left, left_fill);
@@ -704,20 +687,20 @@ static void render_matching(
 
         const size_t pair_index = 3u - index;
         const bool right_matched =
-            (context->matching_mask &
+            (context->session.matching_mask &
              (1u << pair_index)) != 0u;
 
         int32_t right_fill =
             right_matched ? COLOR_GREEN_PALE : COLOR_CARD;
         if (!right_matched &&
-            context->selected_right == (int)index) {
+            context->session.selected_right == (int)index) {
             right_fill = COLOR_AMBER_PALE;
         }
 
         const RectF right = place(
             matching_rect(
                 width, height, true, index,
-                context->answered),
+                context->session.answered),
             viewport);
 
         draw_card(session, right, right_fill);
@@ -759,8 +742,8 @@ static void render_finished(
         score,
         sizeof(score),
         "Score: %zu / %zu",
-        context->correct_count,
-        context->session_count);
+        context->session.correct_count,
+        context->session.session_count);
 
     draw_wrapped(
         session,
@@ -814,7 +797,7 @@ static void render(AppContext *context) {
         session.draw_color,
         (jint)COLOR_PAPER);
 
-    if (context->screen == SCREEN_FINISHED) {
+    if (context->session.screen == SCREEN_FINISHED) {
         render_finished(context, &session, viewport);
         end_canvas(context, &session);
         context->redraw = false;
@@ -846,8 +829,8 @@ static void render(AppContext *context) {
         header,
         sizeof(header),
         "Daily drill  %zu / %zu",
-        context->current_question + 1u,
-        context->session_count);
+        context->session.current_question + 1u,
+        context->session.session_count);
 
     draw_centered_line(
         &session,
@@ -873,7 +856,7 @@ static void render(AppContext *context) {
             context, &session, viewport, exercise);
     }
 
-    if (context->answered) {
+    if (context->session.answered) {
         draw_wrapped(
             &session,
             place(note_rect(width, height), viewport),
@@ -950,49 +933,20 @@ static bool load_quiz_asset(AppContext *context) {
     }
 
     context->quiz_text = buffer;
-    context->session_count =
+    const size_t session_count =
         context->course.exercise_count <
                 DAILY_QUESTION_COUNT
             ? context->course.exercise_count
             : DAILY_QUESTION_COUNT;
+    if (!apply_session_event(context, SESSION_START, QUIZ_MULTIPLE_CHOICE,
+                             session_count, 0u)) return false;
 
     LOG_INFO(
         "loaded %zu exercises; daily session=%zu",
         context->course.exercise_count,
-        context->session_count);
+        context->session.session_count);
 
     return true;
-}
-
-static void resolve_matching_selection(
-    AppContext *context) {
-    if (context->selected_left < 0 ||
-        context->selected_right < 0) {
-        return;
-    }
-
-    const size_t left =
-        (size_t)context->selected_left;
-    const size_t visible_right =
-        (size_t)context->selected_right;
-    const size_t right_pair =
-        3u - visible_right;
-
-    if (left == right_pair) {
-        context->matching_mask |= 1u << left;
-    } else {
-        context->matching_had_miss = true;
-    }
-
-    context->selected_left = -1;
-    context->selected_right = -1;
-
-    if (context->matching_mask == 0x0Fu) {
-        context->answered = true;
-        if (!context->matching_had_miss) {
-            ++context->correct_count;
-        }
-    }
 }
 
 static int32_t handle_input(
@@ -1022,8 +976,9 @@ static int32_t handle_input(
     const float width = width_of(viewport);
     const float height = height_of(viewport);
 
-    if (context->screen == SCREEN_FINISHED) {
-        restart_session(context);
+    if (context->session.screen == SCREEN_FINISHED) {
+        (void)apply_session_event(context, SESSION_RESTART,
+                                  QUIZ_MULTIPLE_CHOICE, 0u, 0u);
         return 1;
     }
 
@@ -1033,9 +988,10 @@ static int32_t handle_input(
         return 1;
     }
 
-    if (context->answered) {
+    if (context->session.answered) {
         if (contains(next_rect(width, height), x, y)) {
-            advance_question(context);
+            (void)apply_session_event(context, SESSION_NEXT,
+                                      exercise->kind, 0u, 0u);
         }
         return 1;
     }
@@ -1047,13 +1003,11 @@ static int32_t handle_input(
                         width, height, index, false),
                     x,
                     y)) {
-                context->selected_choice = (int)index;
-                context->answered = true;
+                if (!apply_session_event(context, SESSION_CHOICE,
+                                         exercise->kind, index,
+                                         exercise->correct_choice_index)) return 1;
                 const bool was_correct =
                     index == exercise->correct_choice_index;
-                if (was_correct) {
-                    ++context->correct_count;
-                }
                 LOG_INFO("answered %s choice=%c correct=%s",
                          exercise->id,
                          (char)('A' + (int)index),
@@ -1066,29 +1020,29 @@ static int32_t handle_input(
     }
 
     for (size_t index = 0u; index < 4u; ++index) {
-        if ((context->matching_mask &
+        if ((context->session.matching_mask &
              (1u << index)) == 0u &&
             contains(
                 matching_rect(
                     width, height, false, index, false),
                 x,
                 y)) {
-            context->selected_left = (int)index;
-            resolve_matching_selection(context);
+            (void)apply_session_event(context, SESSION_LEFT,
+                                      exercise->kind, index, 0u);
             context->redraw = true;
             return 1;
         }
 
         const size_t pair_index = 3u - index;
-        if ((context->matching_mask &
+        if ((context->session.matching_mask &
              (1u << pair_index)) == 0u &&
             contains(
                 matching_rect(
                     width, height, true, index, false),
                 x,
                 y)) {
-            context->selected_right = (int)index;
-            resolve_matching_selection(context);
+            (void)apply_session_event(context, SESSION_RIGHT,
+                                      exercise->kind, index, 0u);
             context->redraw = true;
             return 1;
         }
@@ -1123,10 +1077,6 @@ void android_main(struct android_app *app) {
     memset(&context, 0, sizeof(context));
 
     context.app = app;
-    context.screen = SCREEN_QUIZ;
-    context.selected_choice = -1;
-    context.selected_left = -1;
-    context.selected_right = -1;
     context.redraw = true;
 
     app->userData = &context;
@@ -1134,7 +1084,7 @@ void android_main(struct android_app *app) {
     app->onInputEvent = handle_input;
 
     if (!load_quiz_asset(&context)) {
-        context.session_count = 0u;
+        context.session.session_count = 0u;
     }
 
     while (true) {
@@ -1154,6 +1104,7 @@ void android_main(struct android_app *app) {
         }
 
         if (app->destroyRequested != 0) {
+            quiz_session_policy_close();
             free(context.quiz_text);
             context.quiz_text = NULL;
             return;

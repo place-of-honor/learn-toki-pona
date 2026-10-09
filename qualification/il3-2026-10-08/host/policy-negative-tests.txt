@@ -1,0 +1,1 @@
+PASS actual policy parser, text-only load, instruction/heap bounds, result domains, no host libraries, unchanged snapshot and explicit recovery; heap_peak=12541

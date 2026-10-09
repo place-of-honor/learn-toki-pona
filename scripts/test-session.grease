@@ -1,0 +1,57 @@
+#!/usr/bin/env grease
+# Host producer only. Exact modified runtime gate precedes consumer compilation.
+set -eu -o pipefail
+if (len(ARGV) !== 6) {
+  echo 'usage: test-session.grease ICK_DRIVER ICK_LIBEXEC LUA_CHECKOUT FP_CHECKOUT GREASE_RUNTIME NEW_OUTPUT'
+  exit 2
+}
+var compiler = ARGV[0]
+var support = ARGV[1]
+var lua = ARGV[2]
+var fp = ARGV[3]
+var grease = ARGV[4]
+var output = ARGV[5]
+var script_directory = $(dirname "$0")
+var repository = $(realpath "$script_directory/..")
+var source = "$repository/app/src/main/c"
+test ! -e "$output"
+var fp_revision = $(git -C "$fp" rev-parse HEAD)
+test "$fp_revision" = 5caaba31256bfb424638f8a3d4d554c56fa9a970
+git -C "$fp" diff --quiet HEAD -- scripts/qualify-icky-lua.grease tests/modified-lua
+var grease_identity = $(sha256sum "$grease")
+test "${grease_identity%% *}" = 7e31cd05b7a9d8fb2a4a9e003a7f3fcb0159138506d17f0fb28da8cbe22aa85c
+mkdir -p "$output"
+cp "$repository/third_party/lua-LICENSE" "$output/LUA-LICENSE"
+"$grease" "$fp/scripts/qualify-icky-lua.grease" "$lua" "$compiler" "$support" "$output/runtime-gate"
+var checked_runtime_before = $(sha256sum "$output/runtime-gate/icky-lua.o")
+test "${checked_runtime_before%% *}" = 72d3e53ebfae00e83c6ac12a80b769c8c6273464dd1bfe52343dabca652fb34f
+var flags = ["-B$support/", '-B/usr/lib/gcc/x86_64-linux-gnu/13/', '-isystem', '/usr/lib/gcc/x86_64-linux-gnu/13/include', '-fno-use-linker-plugin', '-std=c17', '-O2', '-Wall', '-Wextra', '-Werror', '-Wpedantic', '-Wconversion', '-Wshadow', "-I$source"]
+"$compiler" @flags "$source/quiz_model.c" "$source/quiz_model_test.c" -o "$output/parser-test"
+"$output/parser-test" "$repository/quizzes.txt" > "$output/parser-tests.txt"
+"$compiler" @flags "$repository/qualification/c-session/checkpoint.c" "$source/quiz_session_test.c" -o "$output/c-checkpoint"
+"$output/c-checkpoint" > "$output/c-trace.tsv"
+cmp "$repository/qualification/c-session/pre-lua-trace.tsv" "$output/c-trace.tsv"
+var policy_flags = ["-I$lua", "-DTOKI_SESSION_SOURCE=\"$repository/policy/quiz-session.lua\""]
+"$compiler" @flags @policy_flags -DSESSION_LUA_POLICY_TEST_INPUT "$source/quiz_session.c" "$source/quiz_session_test.c" "$output/runtime-gate/icky-lua.o" -lm -ldl -o "$output/lua-session"
+"$output/lua-session" > "$output/lua-trace.tsv"
+cmp "$output/c-trace.tsv" "$output/lua-trace.tsv"
+objcopy --dump-section ".toki_session_source=$output/embedded-policy.lua" "$output/lua-session"
+cmp "$repository/policy/quiz-session.lua" "$output/embedded-policy.lua"
+readelf -d "$output/lua-session" > "$output/linked-runtime.txt"
+if rg -iq 'NEEDED.*lua' "$output/linked-runtime.txt" {
+  echo 'FAIL unexpected dynamic Lua runtime'
+  exit 1
+}
+"$compiler" @flags @policy_flags "$source/quiz_session.c" "$source/quiz_session_policy_test.c" "$output/runtime-gate/icky-lua.o" -lm -ldl -o "$output/policy-negative-test"
+"$output/policy-negative-test" > "$output/policy-negative-tests.txt"
+if "$output/lua-session" "$repository/qualification/c-session/matching-mask-mutant.lua" > "$output/mutant.stdout" 2> "$output/mutant.stderr" {
+  echo 'FAIL source-dependent oracle admitted matching-mask mutant'
+  exit 1
+}
+rg -q 'session.matching_mask == original.matching_mask' "$output/mutant.stderr"
+var checked_runtime_after = $(sha256sum "$output/runtime-gate/icky-lua.o")
+test "$checked_runtime_before" = "$checked_runtime_after"
+printf 'key\tvalue\nchecked_runtime_before_sha256\t%s\nchecked_runtime_after_sha256\t%s\nconsumer_static_checked_runtime\tPASS\n' "${checked_runtime_before%% *}" "${checked_runtime_after%% *}" > "$output/consumer-runtime.receipt.tsv"
+sha256sum "$output/parser-test" "$output/c-checkpoint" "$output/lua-session" "$output/policy-negative-test" "$output/c-trace.tsv" "$output/lua-trace.tsv" "$output/embedded-policy.lua" > "$output/digests.txt"
+printf 'PASS qualified ICK C checkpoint and actual modified Lua: 180-event original-source trace, unchanged corpus, literal-source cmp, policy fault controls and semantic mutant rejection\n' > "$output/comparison.txt"
+cat "$output/comparison.txt"
