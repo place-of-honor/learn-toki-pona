@@ -20,6 +20,9 @@ jobs:
       - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699
         with:
           packages: 'ndk;27.2.12479018 cmake;3.22.1'
+      - name: Resolve the installed NDK
+        id: android-inputs
+        run: printf 'ndk=%s/ndk/27.2.12479018\n' "$ANDROID_SDK_ROOT" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: isomorphisms/ai-ci
@@ -30,7 +33,7 @@ jobs:
         id: ick
         with:
           abi: ${{ matrix.abi }}
-          ndk: ${{ env.ANDROID_SDK_ROOT }}/ndk/27.2.12479018
+          ndk: ${{ steps.android-inputs.outputs.ndk }}
           fortify-source: '2'
       - name: Compile actual hardened platform C and assemble with the declared NDK
         run: >

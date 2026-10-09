@@ -71,7 +71,7 @@ jobs:
     timeout-minutes: 25
     env:
       TOKI_PONA_AICI_ROOT: ${{ github.workspace }}/.aici-platform
-      TOKI_PONA_ICK_STAGE_ROOT: ${{ runner.temp }}/toki-ick
+      TOKI_PONA_ICK_STAGE_ROOT: ${{ github.workspace }}/.toki-ick
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -123,7 +123,7 @@ jobs:
     timeout-minutes: 30
     env:
       TOKI_PONA_AICI_ROOT: ${{ github.workspace }}/.aici-platform
-      TOKI_PONA_ICK_STAGE_ROOT: ${{ runner.temp }}/toki-ick
+      TOKI_PONA_ICK_STAGE_ROOT: ${{ github.workspace }}/.toki-ick
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0

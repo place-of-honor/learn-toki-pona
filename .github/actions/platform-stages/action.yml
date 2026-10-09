@@ -14,4 +14,4 @@ runs:
         pattern: toki-platform-*
         path: .toki-platform-stages
     - shell: bash
-      run: make -f ci/platform.mk restore STAGES="$RUNNER_TEMP/toki-ick"
+      run: make -f ci/platform.mk restore STAGES="$TOKI_PONA_ICK_STAGE_ROOT"
