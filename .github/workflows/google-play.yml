@@ -36,10 +36,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  platform-producers:
+    uses: ./.github/workflows/platform-c.yml
+
   publish:
+    needs: platform-producers
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     environment: google-play
+    env:
+      TOKI_PONA_AICI_ROOT: ${{ github.workspace }}/.aici-platform
+      TOKI_PONA_ICK_STAGE_ROOT: ${{ runner.temp }}/toki-ick
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -51,6 +58,9 @@ jobs:
       - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
         with:
           packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018 cmake;3.22.1'
+
+      - name: Restore the qualified platform C stages
+        uses: ./.github/actions/platform-stages
 
       - name: Restore private upload key
         env:

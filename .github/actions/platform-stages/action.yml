@@ -1,0 +1,17 @@
+name: Restore qualified platform C producers
+description: Preserve installed ICK stages for every declared Android ABI.
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        repository: isomorphisms/ai-ci
+        ref: 015cc7901ae0b3ad262b476f24e129b53c56db95
+        path: .aici-platform
+        persist-credentials: false
+    - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      with:
+        pattern: toki-platform-*
+        path: .toki-platform-stages
+    - shell: bash
+      run: make -f ci/platform.mk restore STAGES="$RUNNER_TEMP/toki-ick"

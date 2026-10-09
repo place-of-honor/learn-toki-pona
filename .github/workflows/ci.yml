@@ -13,6 +13,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  platform-producers:
+    uses: ./.github/workflows/platform-c.yml
+
   language-and-data-boundaries:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -63,8 +66,12 @@ jobs:
   # workflow, which compiles the same parser tests through exact ICK.
 
   build-native-apk:
+    needs: platform-producers
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    env:
+      TOKI_PONA_AICI_ROOT: ${{ github.workspace }}/.aici-platform
+      TOKI_PONA_ICK_STAGE_ROOT: ${{ runner.temp }}/toki-ick
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -78,10 +85,14 @@ jobs:
       - name: Install Android SDK, build tools, and NDK
         uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
         with:
-          packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018'
+          packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018 cmake;3.22.1'
+
+      - uses: ./.github/actions/platform-stages
 
       - name: Build native APK
-        run: scripts/build_apk.sh
+        run: |
+          export PATH="$ANDROID_SDK_ROOT/cmake/3.22.1/bin:$PATH"
+          ANDROID_NDK_ROOT="$ANDROID_SDK_ROOT/ndk/27.2.12479018" scripts/build_apk.sh
 
       - name: Verify NativeActivity package
         run: |
@@ -107,8 +118,12 @@ jobs:
           if-no-files-found: error
 
   build-play-bundle:
+    needs: platform-producers
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    env:
+      TOKI_PONA_AICI_ROOT: ${{ github.workspace }}/.aici-platform
+      TOKI_PONA_ICK_STAGE_ROOT: ${{ runner.temp }}/toki-ick
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -123,6 +138,9 @@ jobs:
         uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
         with:
           packages: 'platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018 cmake;3.22.1'
+
+      - name: Restore the qualified platform C stages
+        uses: ./.github/actions/platform-stages
 
       - name: Build DEX-free native app bundle
         run: sh scripts/build_aab.sh

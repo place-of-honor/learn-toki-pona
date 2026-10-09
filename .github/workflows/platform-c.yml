@@ -1,7 +1,6 @@
 name: Qualified owned Android platform C
 on:
-  pull_request:
-  push:
+  workflow_call:
   workflow_dispatch:
 permissions:
   contents: read
@@ -44,9 +43,15 @@ jobs:
           ICK_TARGET_FLAGS="${{ steps.ick.outputs.target_flags }}"
           ICK_HEADER_TARGET="${{ steps.ick.outputs.header_target }}"
           ICK_HEADER_OVERLAY="${{ steps.ick.outputs.header_overlay }}"
+      - name: Preserve the qualified compiler modes for application producers
+        run: >
+          make -f .aici-platform/ick-android/Makefile archive-stage
+          ABI=${{ matrix.abi }}
+          ICK_STAGE="$RUNNER_TEMP/ick-android-${{ matrix.abi }}-stage"
+          ICK_ARCHIVE="build/platform-${{ matrix.abi }}/ick-stage.tar.gz"
       - name: Retain object evidence without claiming a complete Lua application
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: toki-platform-${{ matrix.abi }}-${{ github.event.pull_request.head.sha || github.sha }}
+          name: toki-platform-${{ matrix.abi }}
           if-no-files-found: error
           path: build/platform-${{ matrix.abi }}

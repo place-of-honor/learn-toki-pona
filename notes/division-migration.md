@@ -12,6 +12,9 @@ The shared producer and checked Fortify adapter are pinned at ai-ci
 `015cc7901ae0b3ad262b476f24e129b53c56db95`. `ci/platform.mk` and the three-ABI
 `platform-c.yml` job compile the actual owned platform sources through this
 producer. Their output is object qualification, not an APK or Lua runtime claim.
+The reusable workflow archives the installed compiler stages with executable
+modes intact. APK/AAB and manual Play producers restore all three stages and
+the pinned helper before reaching the separate session-object closure gate.
 
 Normal CMake/Gradle and the direct APK recipe use the same CMake source path.
 Set `TOKI_PONA_AICI_ROOT` to that pinned shared checkout and
