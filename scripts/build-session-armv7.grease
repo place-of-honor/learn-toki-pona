@@ -1,8 +1,8 @@
 #!/usr/bin/env grease
 # Bounded producer: ICK C parsing/code generation, NDK assembly/platform link.
 set -eu -o pipefail
-if (len(ARGV) !== 6) {
-  echo 'usage: build-session-armv7.grease ICK_ARM_DRIVER ICK_LIBEXEC NDK27C LUA_CHECKOUT HOST_RUNTIME_GATE NEW_OUTPUT'
+if (len(ARGV) !== 8) {
+  echo 'usage: build-session-armv7.grease ICK_ARM_DRIVER ICK_LIBEXEC NDK27C LUA_CHECKOUT HOST_RUNTIME_GATE NEW_OUTPUT AICI_CHECKOUT CURRENT_ARM_ICK_STAGE'
   exit 2
 }
 var compiler = ARGV[0]
@@ -11,6 +11,8 @@ var ndk = ARGV[2]
 var lua = ARGV[3]
 var gate = ARGV[4]
 var output = ARGV[5]
+var aici = ARGV[6]
+var platform_stage = ARGV[7]
 var script_directory = $(dirname "$0")
 var repository = $(realpath "$script_directory/..")
 var source = "$repository/app/src/main/c"
@@ -57,10 +59,12 @@ var flags = ["-B$support/", "-isystem", "$support/include", '-isystem', "$suppor
 # This compiler invocation parses ICK-produced assembly only.
 "$driver" -x assembler -c "$objects/quiz_session.s" -o "$objects/quiz_session.o"
 "$driver" -x assembler -c "$objects/icky-lua.s" -o "$objects/icky-lua.o"
-var platform_flags = ['-std=c17', '-O2', '-g', '-fPIC', '-ffunction-sections', '-fdata-sections', '-Wall', '-Wextra', '-Werror', '-Wpedantic', '-Wconversion', '-Wshadow', '-fstack-protector-strong', '-D_FORTIFY_SOURCE=2', '-DTOKI_SESSION_OBJECTS_LINKED=1', "-I$source", '-isystem', "$ndk/sources/android/native_app_glue"]
-# Existing ordinary C parser/Android adapter retain their declared NDK stage.
-"$driver" @platform_flags -c "$source/native_main.c" -o "$objects/native_main.o"
-"$driver" @platform_flags -c "$source/quiz_model.c" -o "$objects/quiz_model.o"
+# Current platform C uses the same hardened CMake producer as packaged builds;
+# the exact old session/Lua object gate above remains independently unchanged.
+cmake -S "$source" -B "$output/platform-build" -G Ninja "-DCMAKE_TOOLCHAIN_FILE=$ndk/build/cmake/android.toolchain.cmake" -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=android-26 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOKI_PONA_PLATFORM_ONLY=ON "-DTOKI_PONA_AICI_ROOT=$aici" "-DTOKI_PONA_ICK_STAGE=$platform_stage"
+cmake --build "$output/platform-build"
+cp "$output/platform-build/native_main.o" "$objects/native_main.o"
+cp "$output/platform-build/quiz_model.o" "$objects/quiz_model.o"
 "$driver" -std=c17 -O2 -g -fPIC -ffunction-sections -fdata-sections -isystem "$ndk/sources/android/native_app_glue" -c "$ndk/sources/android/native_app_glue/android_native_app_glue.c" -o "$objects/native_app_glue.o"
 "$driver" -shared -Wl,--no-undefined -Wl,--gc-sections -Wl,-z,relro,-z,now -Wl,-u,ANativeActivity_onCreate "$objects/native_main.o" "$objects/quiz_model.o" "$objects/quiz_session.o" "$objects/icky-lua.o" "$objects/native_app_glue.o" -landroid -llog -lm -ldl -o "$objects/libtokipona_drills.so"
 "$host/bin/llvm-readelf" -h -A -d -s "$objects/libtokipona_drills.so" > "$objects/abi.txt"
@@ -80,4 +84,5 @@ var runtime_object = $(sha256sum "$objects/icky-lua.o")
 printf 'key\tvalue\nabi\tarmeabi-v7a\ncompiler_stage\tick\nick_revision\t515c0f29fe6e2e96e10495fbaf25da93532e7722\nlua_revision\t87306483cec50f8c750a22dda1d0742246fad756\nbridge_source_sha256\t%s\nsession_header_sha256\t%s\nmodel_header_sha256\t%s\npolicy_source_sha256\t%s\nbridge_object_sha256\t%s\nruntime_object_sha256\t%s\n' "${bridge_source%% *}" "${session_header%% *}" "${model_header%% *}" "${policy_source%% *}" "${bridge_object%% *}" "${runtime_object%% *}" > "$objects/source.receipt.tsv"
 sha256sum "$compiler" "$support/cc1" "$support/include/stdbool.h" "$support/include/stddef.h" "$support/include/stdarg.h" "$support/include/stdatomic.h" "$host/bin/clang" "$host/bin/ld.lld" "$objects/libtokipona_drills.so" "$objects/embedded-policy.lua" > "$objects/digests.txt"
 printf 'PASS ARMv7/API26 ICK C+actual modified Lua, declared NDK assembly/platform link and literal source cmp; target runtime NOT_RUN; ARM64/x86_64 closures remain BLOCKED\n' > "$objects/comparison.txt"
+printf 'platform_ick_revision\tc61e448251744a2f40ad743ebef1a027bdcd2f9d\nplatform_aici_revision\t015cc7901ae0b3ad262b476f24e129b53c56db95\n' >> "$objects/source.receipt.tsv"
 cat "$objects/comparison.txt"

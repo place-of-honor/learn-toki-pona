@@ -6,6 +6,33 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
+set(TOKI_PONA_AICI_ROOT "$ENV{TOKI_PONA_AICI_ROOT}" CACHE PATH "Pinned shared ICK producer checkout")
+include("${TOKI_PONA_AICI_ROOT}/ick-android/OwnedC.cmake")
+if(NOT ICK_COMPILER)
+    set(TOKI_PONA_ICK_STAGE "$ENV{TOKI_PONA_ICK_STAGE_ROOT}/${ANDROID_ABI}" CACHE PATH "Qualified current ICK ABI stage")
+    ick_android_stage(ROOT "${TOKI_PONA_ICK_STAGE}" FORTIFY_SOURCE 2)
+endif()
+set(platform_options -O2 -Wall -Wextra -Werror -Wpedantic -Wconversion -Wshadow -fstack-protector-strong)
+ick_android_objects(platform_objects NAME toki_platform STANDARD 17
+    SOURCES native_main.c quiz_model.c
+    INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}" "${ANDROID_NDK}/sources/android/native_app_glue"
+    OPTIONS ${platform_options}
+    DEFINITIONS TOKI_SESSION_OBJECTS_LINKED=1 _FORTIFY_SOURCE=2)
+
+# This bounded source/assembly target never claims a complete application.
+# The normal library route below still requires every source-bound Lua object.
+option(TOKI_PONA_PLATFORM_ONLY "Qualify owned platform C objects without an application link" OFF)
+if(TOKI_PONA_PLATFORM_ONLY)
+    list(GET platform_objects 0 native_object)
+    list(GET platform_objects 1 model_object)
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/native_main.o" "${CMAKE_CURRENT_BINARY_DIR}/quiz_model.o"
+        COMMAND "${CMAKE_COMMAND}" -E copy "${native_object}" "${CMAKE_CURRENT_BINARY_DIR}/native_main.o"
+        COMMAND "${CMAKE_COMMAND}" -E copy "${model_object}" "${CMAKE_CURRENT_BINARY_DIR}/quiz_model.o"
+        DEPENDS ${platform_objects} VERBATIM)
+    add_custom_target(toki-platform ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/native_main.o" "${CMAKE_CURRENT_BINARY_DIR}/quiz_model.o")
+    return()
+endif()
+
 add_library(native_app_glue STATIC
     ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c
 )
@@ -15,9 +42,9 @@ target_include_directories(native_app_glue SYSTEM PUBLIC
 )
 
 add_library(tokipona_drills SHARED
-    native_main.c
-    quiz_model.c
+    ${platform_objects}
 )
+set_target_properties(tokipona_drills PROPERTIES LINKER_LANGUAGE C)
 
 # The modified-language objects must be produced by qualified ICK, never Clang.
 # Preserve all requested ABIs; a missing closure is a build blocker.
@@ -65,16 +92,7 @@ target_include_directories(tokipona_drills SYSTEM PRIVATE
     ${ANDROID_NDK}/sources/android/native_app_glue
 )
 
-target_compile_options(tokipona_drills PRIVATE
-    -O2
-    -Wall
-    -Wextra
-    -Werror
-    -Wpedantic
-    -Wconversion
-    -Wshadow
-    -fstack-protector-strong
-)
+target_compile_options(tokipona_drills PRIVATE ${platform_options})
 
 target_compile_definitions(tokipona_drills PRIVATE
     _FORTIFY_SOURCE=2

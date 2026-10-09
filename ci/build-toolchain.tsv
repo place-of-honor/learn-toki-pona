@@ -2,6 +2,9 @@ build_id	target	toolchain	ick_revision	ick_status	ick_evidence
 host-corpus-session-and-lua	x86_64-linux-gnu	ick	515c0f29fe6e2e96e10495fbaf25da93532e7722	qualified	notes/icky-session-pass.md
 host-shared-contract-verifier	x86_64-linux-gnu	ick	515c0f29fe6e2e96e10495fbaf25da93532e7722	qualified	notes/icky-session-pass.md
 session-and-lua-c-generation	armeabi-v7a-api26	ick	515c0f29fe6e2e96e10495fbaf25da93532e7722	qualified	notes/icky-session-pass.md
-session-assembly-and-platform-c-link	armeabi-v7a-api26	ndk	515c0f29fe6e2e96e10495fbaf25da93532e7722	gap:ICK-GNU-ARM-assembler-and-legacy-Android-C-platform-profile-not-qualified	notes/icky-session-pass.md
+session-assembly-and-platform-link	armeabi-v7a-api26	ndk	515c0f29fe6e2e96e10495fbaf25da93532e7722	gap:NDK-assembles-ICK-output-and-links-Android-platform-libraries	notes/division-migration.md
+owned-platform-c	armeabi-v7a-api26	ick	c61e448251744a2f40ad743ebef1a027bdcd2f9d	qualified	notes/division-migration.md
+owned-platform-c	arm64-v8a-api26	ick	c61e448251744a2f40ad743ebef1a027bdcd2f9d	qualified	notes/division-migration.md
+owned-platform-c	x86_64-android-api26	ick	c61e448251744a2f40ad743ebef1a027bdcd2f9d	qualified	notes/division-migration.md
 legacy-android-platform	arm64-v8a-api26	ndk	515c0f29fe6e2e96e10495fbaf25da93532e7722	gap:qualified-ICK-ARM64-session-runtime-object-closure-missing	notes/icky-session-pass.md
 legacy-android-platform	x86_64-android-api26	ndk	515c0f29fe6e2e96e10495fbaf25da93532e7722	gap:qualified-ICK-Android-x86_64-session-runtime-object-closure-missing	notes/icky-session-pass.md

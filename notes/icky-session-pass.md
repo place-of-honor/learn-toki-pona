@@ -57,9 +57,9 @@ packaging of a statically linked library/APK must retain that same notice.
 runtime objects with qualified ICK. It uses the exact artifact headers and
 `-masm-syntax-unified`, an actual compiler option required by the NDK integrated
 assembler. NDK 27.2.12479018 (r27c) parses only the ICK-produced assembly for
-those objects. Existing ordinary-C parser/Android adapter and foreign native
-glue retain their declared NDK C stage; that legacy C profile is a stated
-remaining boundary, not a claim that the whole app has completed a glyph pass.
+those objects. The current parser/Android adapter now also uses the separate
+qualified current ICK stage described in [division-migration.md](division-migration.md).
+Foreign native_app_glue retains its declared NDK C stage.
 The exact NDK platform link succeeds with no undefined symbols, and the ARM
 library's literal policy bytes compare with source. Target execution is NOT_RUN.
 
@@ -69,8 +69,9 @@ and actual runtime objects plus `source.receipt.tsv` for each requested ABI.
 CMake rejects missing or stale source/object receipts, including both headers
 that define state layout, event enums and course bounds. Native direct builds
 also require the explicit qualified-object linkage macro; Clang is never asked
-to parse the new arrow module. The legacy direct APK script does not yet supply
-this closure and is BLOCKED. ARM64 and Android x86_64 ICK object producers are
+to parse the new arrow module. The direct APK script now shares CMake's checked
+object boundary and remains BLOCKED when the required closure is missing.
+ARM64 and Android x86_64 session/runtime ICK object producers are
 not qualified by this slice, so full APK/AAB builds remain BLOCKED. The job does
 not shrink the ABI set, hide those checks, reuse an old app policy on another
 ABI or claim a new APK. The existing package, signer and version are preserved.

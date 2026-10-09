@@ -1,0 +1,52 @@
+name: Qualified owned Android platform C
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  platform-c:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [armeabi-v7a, arm64-v8a, x86_64]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699
+        with:
+          packages: 'ndk;27.2.12479018 cmake;3.22.1'
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: isomorphisms/ai-ci
+          ref: 015cc7901ae0b3ad262b476f24e129b53c56db95
+          path: .aici-platform
+          persist-credentials: false
+      - uses: isomorphisms/ai-ci/ick-android@015cc7901ae0b3ad262b476f24e129b53c56db95
+        id: ick
+        with:
+          abi: ${{ matrix.abi }}
+          ndk: ${{ env.ANDROID_SDK_ROOT }}/ndk/27.2.12479018
+          fortify-source: '2'
+      - name: Compile actual hardened platform C and assemble with the declared NDK
+        run: >
+          make -f ci/platform.mk qualify
+          ABI=${{ matrix.abi }}
+          NDK="$ANDROID_SDK_ROOT/ndk/27.2.12479018"
+          CMAKE="$ANDROID_SDK_ROOT/cmake/3.22.1/bin/cmake"
+          NINJA="$ANDROID_SDK_ROOT/cmake/3.22.1/bin/ninja"
+          ICK="${{ steps.ick.outputs.compiler }}"
+          ICK_TARGET_FLAGS="${{ steps.ick.outputs.target_flags }}"
+          ICK_HEADER_TARGET="${{ steps.ick.outputs.header_target }}"
+          ICK_HEADER_OVERLAY="${{ steps.ick.outputs.header_overlay }}"
+      - name: Retain object evidence without claiming a complete Lua application
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: toki-platform-${{ matrix.abi }}-${{ github.event.pull_request.head.sha || github.sha }}
+          if-no-files-found: error
+          path: build/platform-${{ matrix.abi }}

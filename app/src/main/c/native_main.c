@@ -383,7 +383,7 @@ static void draw_centered_line(CanvasSession *session,
     const float allowed = width_of(area) * 0.92f;
 
     if (measured > allowed && measured > 0.0f) {
-        size *= allowed / measured;
+        size *= allowed ÷ measured;
         if (size < 11.0f) {
             size = 11.0f;
         }
@@ -499,7 +499,7 @@ static void draw_wrapped(CanvasSession *session,
     }
 
     const float line_height =
-        height_of(area) / (float)count;
+        height_of(area) ÷ (float)count;
     for (size_t index = 0u; index < count; ++index) {
         RectF line_area = area;
         line_area.top =
@@ -538,7 +538,7 @@ static RectF multiple_choice_rect(float width,
         answered ? height - 162.0f : height - 24.0f;
     const float gap = 9.0f;
     const float button_height =
-        (bottom - top - 3.0f * gap) / 4.0f;
+        (bottom - top - 3.0f * gap) ÷ 4.0f;
     const float y =
         top + (float)index * (button_height + gap);
 
@@ -555,7 +555,7 @@ static RectF matching_rect(float width,
         answered ? height - 162.0f : height - 24.0f;
     const float gap = 8.0f;
     const float row_height =
-        (bottom - top - 3.0f * gap) / 4.0f;
+        (bottom - top - 3.0f * gap) ÷ 4.0f;
     const float middle = width * 0.5f;
     const float y =
         top + (float)index * (row_height + gap);
