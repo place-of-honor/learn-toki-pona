@@ -1,0 +1,25 @@
+#!/usr/bin/env grease
+set -eu
+
+test "$#" -eq 1 || exit 2
+app_directory=$1
+if ! test -d "$app_directory"; then
+    printf 'Missing required app source directory: %s\n' "$app_directory" >&2
+    exit 2
+fi
+
+test ! -e "$app_directory/src/gradle/java/org/tokipona/drills/MainActivity.java"
+test ! -e "$app_directory/src/main/smali/org/tokipona/drills/MainActivity.smali"
+
+if grep -RFn -- 'android.webkit.WebView' "$app_directory"; then
+    printf 'Retired WebView reference in app source\n' >&2
+    exit 1
+else
+    search_status=$?
+    if test "$search_status" -ne 1; then
+        printf 'App source search failed with exit %s\n' "$search_status" >&2
+        exit "$search_status"
+    fi
+fi
+
+grep -Fq 'android.app.NativeActivity' "$app_directory/src/main/AndroidManifest.xml"
