@@ -1,0 +1,61 @@
+#!/usr/bin/env grease
+set -eu
+
+test "$#" -eq 3 || exit 2
+grease=$1
+check=$2
+app_directory=$3
+
+# Exercise the real app before constructing independent negative fixtures.
+"$grease" "$check" "$app_directory"
+
+fixture_directory=$(mktemp -d)
+trap --add EXIT {
+    rm -rf -- "$fixture_directory"
+}
+fixture_app="$fixture_directory/app"
+java_directory="$fixture_app/src/gradle/java/org/tokipona/drills"
+smali_directory="$fixture_app/src/main/smali/org/tokipona/drills"
+mkdir -p "$java_directory" "$smali_directory"
+manifest="$fixture_app/src/main/AndroidManifest.xml"
+cp "$app_directory/src/main/AndroidManifest.xml" "$manifest"
+"$grease" "$check" "$fixture_app"
+printf 'PASS clean NativeActivity source\n'
+
+expect_refusal() {
+    label=$1
+    expected_status=$2
+    status=0
+    if "$grease" "$check" "$fixture_app" > "$fixture_directory/output" 2>&1; then
+        status=0
+    else
+        status=$?
+    fi
+    if test "$status" -ne "$expected_status"; then
+        printf 'FAIL %s returned %s, expected %s\n' "$label" "$status" "$expected_status" >&2
+        cat "$fixture_directory/output" >&2
+        exit 1
+    fi
+    printf 'PASS refused %s with exit %s\n' "$label" "$status"
+}
+
+printf 'android.webkit.WebView\n' > "$fixture_app/renamed.txt"
+expect_refusal 'WebView reference under another filename' 1
+rm "$fixture_app/renamed.txt"
+
+touch "$java_directory/MainActivity.java"
+expect_refusal 'retired Java activity' 1
+rm "$java_directory/MainActivity.java"
+
+touch "$smali_directory/MainActivity.smali"
+expect_refusal 'retired Smali activity' 1
+rm "$smali_directory/MainActivity.smali"
+
+ln -s "$fixture_directory/absent" "$fixture_app/unreadable"
+expect_refusal 'search error from a dangling app-source link' 2
+rm "$fixture_app/unreadable"
+
+: > "$manifest"
+expect_refusal 'manifest without NativeActivity' 1
+mv "$fixture_app" "$fixture_directory/hidden-app"
+expect_refusal 'missing required app-source directory' 2

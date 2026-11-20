@@ -19,6 +19,14 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Verify exact source revision
+        env:
+          EXPECTED_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"
 
       - name: Reject JavaScript and Node package residue
         run: |
@@ -51,13 +59,14 @@ jobs:
             fi
           done
 
-      - name: Reject retired WebView application layers
-        run: |
-          set -eu
-          test ! -e app/src/gradle/java/org/tokipona/drills/MainActivity.java
-          test ! -e app/src/main/smali/org/tokipona/drills/MainActivity.smali
-          ! grep -R -n 'android.webkit.WebView' app || true
-          grep -Fq 'android.app.NativeActivity' app/src/main/AndroidManifest.xml
+      - name: Build the pinned native Grease runtime
+        id: grease
+        uses: isomorphisms/ai-ci/grease-fixtures@e44ea1ade6a3130da35e751c65155c1b274c649c
+
+      - name: Reject retired WebView application layers and exercise negative controls
+        env:
+          GREASE: ${{ steps.grease.outputs.executable }}
+        run: '"$GREASE" ci/test-native-source.grease "$GREASE" ci/check-native-source.grease app'
 
   native-model-tests:
     runs-on: ubuntu-24.04
